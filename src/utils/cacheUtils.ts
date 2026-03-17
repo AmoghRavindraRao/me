@@ -59,7 +59,7 @@ export const cacheUtils = {
             }
 
             return item.data;
-        } catch (e) {
+        } catch (_e) {
             localStorage.removeItem(key);
             return null;
         }
@@ -81,7 +81,7 @@ export const cacheUtils = {
 
             const isStale = age > item.ttl;
             return { data: item.data, isStale };
-        } catch (e) {
+        } catch (_e) {
             localStorage.removeItem(key);
             return { data: null, isStale: false };
         }
