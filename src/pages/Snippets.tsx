@@ -32,7 +32,7 @@ const Snippets = () => {
     return (
         <div className="flex flex-col animate-in fade-in duration-500">
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-dashed border-zinc-800 pb-4">
+            <div className="reveal flex items-center justify-between border-b border-dashed border-zinc-800 pb-4">
                 <h2 className="font-mono text-lg text-zinc-200">Code Snippets</h2>
                 <div className="px-2 py-0.5 bg-zinc-900 border border-zinc-800 rounded text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
                     {snippets.length} active
@@ -42,7 +42,7 @@ const Snippets = () => {
             <PatternDivider />
 
             {/* List */}
-            <div className="flex flex-col gap-12 mb-12">
+            <div className="reveal flex flex-col gap-12 mb-12">
                 {categories.map((category: string) => (
                     <div key={category} className="flex flex-col">
                         <div className="flex items-center gap-2 mb-6">

@@ -29,7 +29,7 @@ Thank you for your interest in contributing!
 
 ```bash
 # Clone and install
-git clone https://github.com/nishant-iith/me.git
+git clone https://github.com/AmoghRavindraRao/me.git
 cd me
 npm install
 

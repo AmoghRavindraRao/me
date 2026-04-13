@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://nishant-sde.pages.dev/sitemap.xml
+Sitemap: https://amogh-portfolio.pages.dev/sitemap.xml
 
 # Crawl delay for polite bots
 Crawl-delay: 1

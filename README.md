@@ -1,6 +1,6 @@
 # Portfolio Website
 
-Personal portfolio of **Nishant Verma** - a Software Engineer and student at IIT Hyderabad.
+Personal portfolio of **Amogh Ravindra Rao** - an ML Engineer and Data Scientist.
 
 ![Portfolio](https://img.shields.io/badge/portfolio-live-brightgreen)
 ![React](https://img.shields.io/badge/React-19-blue)
@@ -31,7 +31,7 @@ Personal portfolio of **Nishant Verma** - a Software Engineer and student at IIT
 
 ```bash
 # Clone the repository
-git clone https://github.com/nishant-iith/me.git
+git clone https://github.com/AmoghRavindraRao/me.git
 cd me
 
 # Install dependencies

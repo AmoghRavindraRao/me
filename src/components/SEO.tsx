@@ -33,12 +33,12 @@ export function BreadcrumbSEO({ items }: { items: BreadcrumbItem[] }) {
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />;
 }
 
-const BASE_URL = import.meta.env.VITE_BASE_URL ?? 'https://nishant-sde.pages.dev';
+const BASE_URL = import.meta.env.VITE_BASE_URL ?? 'https://amogh-portfolio.pages.dev';
 const DEFAULT_IMAGE = `${BASE_URL}/favicon.svg`;
 
 export function SEO({
-  title = 'Nishant Verma - Software Engineer',
-  description = 'Personal portfolio of Nishant Verma - Software Engineer and student at IIT Hyderabad. Showcasing projects, skills, and experience.',
+  title = 'Amogh Ravindra Rao - ML Engineer & Data Scientist',
+  description = 'Personal portfolio of Amogh Ravindra Rao - ML Engineer and Data Scientist. ASU Master\'s student. Showcasing ML projects, skills, and experience.',
   pathname = '',
   image = DEFAULT_IMAGE,
   type = 'website',
@@ -61,7 +61,7 @@ export function SEO({
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={image} />
-      <meta property="og:site_name" content="Nishant Verma Portfolio" />
+      <meta property="og:site_name" content="Amogh Ravindra Rao Portfolio" />
       <meta property="og:locale" content="en_US" />
 
       {/* Twitter Card */}
@@ -70,7 +70,7 @@ export function SEO({
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={image} />
-      <meta name="twitter:creator" content="@nishant_iith" />
+      <meta name="twitter:creator" content="@amoghrrao" />
 
       {/* Article-specific OG tags */}
       {article?.publishedTime && <meta property="article:published_time" content={article.publishedTime} />}
@@ -78,7 +78,7 @@ export function SEO({
       {article?.tags?.map((tag, index) => <meta key={`tag-${index}-${tag}`} property="article:tag" content={tag} />)}
 
       {/* Additional SEO */}
-      <meta name="author" content="Nishant Verma" />
+      <meta name="author" content="Amogh Ravindra Rao" />
       <meta name="robots" content={robots} />
       {!isNoIndex && <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large" />}
     </Helmet>
@@ -89,37 +89,36 @@ export function SEO({
 export const HomeSEO = () => (
   <>
     <SEO
-      title="Nishant Verma - Software Engineer | IIT Hyderabad"
-      description="Software Engineer joining DP World in July 2026. B.Tech at IIT Hyderabad with experience at Goldman Sachs. Building scalable web applications and competitive programming."
+      title="Amogh Ravindra Rao - ML Engineer & Data Scientist | ASU"
+      description="ML Engineer and Data Scientist with ASU Master's degree. Experience with machine learning, data science, and AI projects. Building intelligent systems."
       pathname="/"
     />
     <Helmet>
       <script type="application/ld+json">{JSON.stringify({
         "@context": "https://schema.org",
         "@type": "Person",
-        "name": "Nishant Verma",
-        "url": "https://nishant-sde.pages.dev",
-        "email": "nishant.iith@gmail.com",
-        "image": "https://nishant-sde.pages.dev/og-image.png",
-        "jobTitle": "Software Engineering Student",
+        "name": "Amogh Ravindra Rao",
+        "url": "https://amogh-portfolio.pages.dev",
+        "email": "amoghravindrarao@gmail.com",
+        "image": "https://amogh-portfolio.pages.dev/og-image.png",
+        "jobTitle": "ML Engineer / Data Scientist",
         "worksFor": { "@type": "Organization", "name": "DP World" },
-        "affiliation": { "@type": "EducationalOrganization", "name": "IIT Hyderabad", "sameAs": "https://www.iith.ac.in" },
-        "alumniOf": { "@type": "EducationalOrganization", "name": "IIT Hyderabad", "sameAs": "https://www.iith.ac.in" },
+        "affiliation": { "@type": "EducationalOrganization", "name": "Arizona State University", "sameAs": "https://www.asu.edu" },
+        "alumniOf": { "@type": "EducationalOrganization", "name": "Arizona State University", "sameAs": "https://www.asu.edu" },
         "sameAs": [
-          "https://github.com/nishant-iith",
-          "https://linkedin.com/in/nishant-iith",
-          "https://codeforces.com/profile/so-called-iitian"
+          "https://github.com/AmoghRavindraRao",
+          "https://linkedin.com/in/amoghrrao03"
         ],
-        "knowsAbout": ["Software Engineering", "Competitive Programming", "Web Development", "Machine Learning", "React", "TypeScript", "Node.js", "C++", "Python"],
-        "description": "Software Engineer joining DP World in July 2026. B.Tech at IIT Hyderabad with experience at Goldman Sachs."
+        "knowsAbout": ["Machine Learning", "Data Science", "Python", "PyTorch", "React", "FastAPI", "Data Analysis", "AI", "Deep Learning", "Computer Vision"],
+        "description": "ML Engineer and Data Scientist with ASU Master's degree. Experience in machine learning, predictive modeling, and data-driven solutions."
       })}</script>
       <script type="application/ld+json">{JSON.stringify({
         "@context": "https://schema.org",
         "@type": "WebSite",
-        "name": "Nishant Verma Portfolio",
-        "url": "https://nishant-sde.pages.dev",
-        "description": "Personal portfolio of Nishant Verma - Software Engineer and student at IIT Hyderabad",
-        "author": { "@type": "Person", "name": "Nishant Verma" }
+        "name": "Amogh Ravindra Rao Portfolio",
+        "url": "https://amogh-portfolio.pages.dev",
+        "description": "Personal portfolio of Amogh Ravindra Rao - ML Engineer and Data Scientist",
+        "author": { "@type": "Person", "name": "Amogh Ravindra Rao" }
       })}</script>
     </Helmet>
   </>
@@ -127,16 +126,16 @@ export const HomeSEO = () => (
 
 export const AboutSEO = () => (
   <SEO
-    title="About Nishant Verma — IITH Student | Software Engineer"
-    description="About Nishant Verma, IIT Hyderabad student and Software Engineer. Joining DP World in July 2026 after a Goldman Sachs internship. Passionate about building things that look good and work even better."
+    title="About Amogh Ravindra Rao — ML Engineer & Data Scientist"
+    description="About Amogh Ravindra Rao, ASU Master's student and ML Engineer. Passionate about machine learning, data science, and building intelligent systems."
     pathname="/about"
   />
 );
 
 export const SkillSEO = () => (
   <SEO
-    title="Skills & Tech Stack | Nishant Verma"
-    description="Full-stack developer skilled in React, TypeScript, Node.js, C++, Python, and more. View my complete technical toolkit."
+    title="Skills & Tech Stack | Amogh Ravindra Rao"
+    description="ML Engineer and Data Scientist skilled in Python, PyTorch, FastAPI, React, and more. View my complete technical toolkit."
     pathname="/skill"
   />
 );
@@ -144,8 +143,8 @@ export const SkillSEO = () => (
 export const BlogSEO = () => (
   <>
     <SEO
-      title="Blog | Nishant Verma"
-      description="Technical articles and insights on software engineering, competitive programming, and system design."
+      title="Blog | Amogh Ravindra Rao"
+      description="Technical articles and insights on machine learning, data science, and AI."
       pathname="/blog"
     />
     <BreadcrumbSEO items={[
@@ -167,14 +166,14 @@ export interface BlogPostSEOProps {
 export const BlogPostSEO = ({ title, description, slug, publishedAt, coverImage, tags }: BlogPostSEOProps) => (
   <>
     <SEO
-      title={`${title} | Nishant Verma`}
+      title={`${title} | Amogh Ravindra Rao`}
       description={description}
       pathname={`/blog/${slug}`}
       image={coverImage}
       type="article"
       article={{
         publishedTime: publishedAt,
-        author: 'Nishant Verma',
+        author: 'Amogh Ravindra Rao',
         tags
       }}
     />
@@ -191,11 +190,11 @@ export const BlogPostSEO = ({ title, description, slug, publishedAt, coverImage,
         "description": description,
         "url": `${BASE_URL}/blog/${slug}`,
         "datePublished": publishedAt,
-        "author": { "@type": "Person", "name": "Nishant Verma", "url": BASE_URL },
+        "author": { "@type": "Person", "name": "Amogh Ravindra Rao", "url": BASE_URL },
         ...(coverImage && { "image": coverImage }),
         "publisher": {
           "@type": "Person",
-          "name": "Nishant Verma",
+          "name": "Amogh Ravindra Rao",
           "url": BASE_URL
         }
       })}</script>
@@ -205,40 +204,40 @@ export const BlogPostSEO = ({ title, description, slug, publishedAt, coverImage,
 
 export const ToolboxSEO = () => (
   <SEO
-    title="My Toolbox | Nishant Verma"
-    description="The software, hardware, and tools I use daily for development. From IntelliJ IDEA to MacBook Pro M1."
+    title="My Toolbox | Amogh Ravindra Rao"
+    description="The software, hardware, and tools I use for machine learning and development."
     pathname="/toolbox"
   />
 );
 
 export const TimelineSEO = () => (
   <SEO
-    title="Journey & Timeline | Nishant Verma"
-    description="A chronological log of my journey - from joining IIT Hyderabad to Goldman Sachs internship and upcoming role at DP World."
+    title="Journey & Timeline | Amogh Ravindra Rao"
+    description="A chronological log of my journey - from ASU Master's student to ML Engineer."
     pathname="/timeline"
   />
 );
 
 export const BooksSEO = () => (
   <SEO
-    title="Reading List | Nishant Verma"
-    description="Computer science books that shaped my understanding - from SICP to Designing Data-Intensive Applications."
+    title="Reading List | Amogh Ravindra Rao"
+    description="Books and resources on machine learning, data science, and AI."
     pathname="/books"
   />
 );
 
 export const SnippetsSEO = () => (
   <SEO
-    title="Code Snippets | Nishant Verma"
-    description="Useful code snippets and templates for competitive programming and development."
+    title="Code Snippets | Amogh Ravindra Rao"
+    description="Useful code snippets and templates for machine learning and data science."
     pathname="/snippets"
   />
 );
 
 export const ChatSEO = () => (
   <SEO
-    title="Chat with AI Nishant | Nishant Verma"
-    description="Chat with an AI version of me. Ask about my experience, skills, or just say hi!"
+    title="Chat with AI Amogh | Amogh Ravindra Rao"
+    description="Chat with an AI version of me. Ask about my machine learning projects, skills, or just say hi!"
     pathname="/chat"
     robots="noindex, nofollow"
   />
@@ -246,7 +245,7 @@ export const ChatSEO = () => (
 
 export const NotFoundSEO = () => (
   <SEO
-    title="404 - Page Not Found | Nishant Verma"
+    title="404 - Page Not Found | Amogh Ravindra Rao"
     description="The page you're looking for doesn't exist."
     pathname=""
     robots="noindex, follow"

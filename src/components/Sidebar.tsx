@@ -1,4 +1,4 @@
-import { House, User, Sparkles, BookOpen, NotebookPen, Code2, MessageSquare } from 'lucide-react';
+import { House, User, Sparkles } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 
 export default function Sidebar() {
@@ -9,7 +9,7 @@ export default function Sidebar() {
 
                 {/* Logo */}
                 <div className="w-10 h-10 bg-zinc-900/80 border border-zinc-700/50 rounded-xl flex items-center justify-center shadow-lg group hover:border-zinc-500 transition-colors cursor-default">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 text-zinc-100 group-hover:text-blue-400 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 text-black group-hover:text-blue-400 transition-colors">
                         <path d="M12 14v12" />
                         <path d="M12 20a6 6 0 0 1 6-6h0a6 6 0 0 1 6 6v6" />
                     </svg>
@@ -20,10 +20,6 @@ export default function Sidebar() {
                     <NavItem to="/" icon={<House size={20} />} label="Home" />
                     <NavItem to="/about" icon={<User size={20} />} label="About" />
                     <NavItem to="/skill" icon={<Sparkles size={20} />} label="Skills" />
-                    <NavItem to="/blog" icon={<NotebookPen size={20} />} label="Blog" />
-                    <NavItem to="/books" icon={<BookOpen size={20} />} label="Books" />
-                    <NavItem to="/snippets" icon={<Code2 size={20} />} label="Snippets" />
-                    <NavItem to="/chat" icon={<MessageSquare size={20} />} label="Chat" />
                 </nav>
             </aside>
 
@@ -33,10 +29,6 @@ export default function Sidebar() {
                     <MobileNavItem to="/" icon={<House size={20} />} label="Home" />
                     <MobileNavItem to="/about" icon={<User size={20} />} label="About" />
                     <MobileNavItem to="/skill" icon={<Sparkles size={20} />} label="Skills" />
-                    <MobileNavItem to="/blog" icon={<NotebookPen size={20} />} label="Blog" />
-                    <MobileNavItem to="/books" icon={<BookOpen size={18} />} label="Books" />
-                    <MobileNavItem to="/snippets" icon={<Code2 size={18} />} label="Snippets" />
-                    <MobileNavItem to="/chat" icon={<MessageSquare size={18} />} label="Chat" />
                 </div>
             </nav>
         </>

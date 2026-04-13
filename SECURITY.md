@@ -2,7 +2,7 @@
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability in this project, please report it by emailing nishant.iith@gmail.com.
+If you discover a security vulnerability in this project, please report it by emailing amoghravindrarao@gmail.com.
 
 Please include:
 - A description of the vulnerability

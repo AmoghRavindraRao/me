@@ -3,8 +3,8 @@
 // Uses predefined queries — clients specify an operation + variables, not raw GraphQL
 
 const ALLOWED_ORIGINS = [
-  'https://nishant-sde.pages.dev',
-  'https://nishant-sde.vercel.app',
+  'https://amogh-portfolio.pages.dev',
+  'https://amogh-portfolio.vercel.app',
   'http://localhost:5173',
   'http://localhost:3000'
 ];

@@ -3,12 +3,12 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "Personal portfolio website of Nishant Verma",
-  "author": "Nishant Verma <nishant@example.com>",
+  "description": "Personal portfolio website of Amogh Ravindra Rao",
+  "author": "Amogh Ravindra Rao <amoghravindrarao@gmail.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nishant-iith/me.git"
+    "url": "https://github.com/AmoghRavindraRao/me.git"
   },
   "keywords": [
     "portfolio",
@@ -16,7 +16,7 @@
     "typescript",
     "tailwind"
   ],
-  "homepage": "https://nishant.dev",
+  "homepage": "https://amoghravindrarao.dev",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

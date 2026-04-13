@@ -14,7 +14,7 @@ const BookRibbon = memo(function BookRibbon({ book, onClick }: BookRibbonProps) 
             onClick={() => onClick(book)}
             onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(book); } }}
             className={`
-                group relative cursor-pointer
+                reveal group relative cursor-pointer
                 flex items-center justify-between
                 py-4 px-6 md:px-8
                 bg-[#18181b] border-l-2 border-y border-r border-zinc-800/50

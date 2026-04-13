@@ -1,224 +1,173 @@
 import { Link } from 'react-router-dom';
-import { Mail, Twitter, Calendar, Terminal } from 'lucide-react';
+import { Mail, Calendar, Terminal } from 'lucide-react';
 import me from '../assets/me.jpg';
-import { PatternDivider } from '~components/SharedLayout';
+import { PatternDivider, SectionTitle } from '~components/SharedLayout';
 
 export default function About() {
     return (
-        <section id="about" className="mb-20 space-y-8 animate-in fade-in duration-500">
+        <div className="flex flex-col gap-4 sm:gap-6 md:gap-8 relative z-20 bg-white/[0.02]">
 
             {/* Visually-hidden H1 for SEO */}
-            <h1 className="sr-only">About Nishant Verma — IITH Student</h1>
+            <h1 className="sr-only">About Amogh Ravindra Rao — ML Engineer</h1>
 
-            {/* 1. TOP SECTION: IDENTITY */}
-            <div className="flex flex-col md:flex-row gap-12 items-center">
-
-                {/* IMAGE FRAME */}
-                <div className="relative shrink-0 group/frame">
-                    {/* Corner Markers (outside frame) */}
-                    <div className="absolute -inset-3 transition-all duration-500 group-hover/frame:scale-105">
-                        <div className="absolute h-2 w-2 border-zinc-600 opacity-40 transition-opacity top-0 left-0 border-t border-l group-hover/frame:border-zinc-400"></div>
-                        <div className="absolute h-2 w-2 border-zinc-600 opacity-40 transition-opacity top-0 right-0 border-t border-r group-hover/frame:border-zinc-400"></div>
-                        <div className="absolute h-2 w-2 border-zinc-600 opacity-40 transition-opacity bottom-0 left-0 border-b border-l group-hover/frame:border-zinc-400"></div>
-                        <div className="absolute h-2 w-2 border-zinc-600 opacity-40 transition-opacity bottom-0 right-0 border-b border-r group-hover/frame:border-zinc-400"></div>
-                    </div>
-
-                    {/* Image */}
-                    <div className="relative size-[180px] overflow-hidden transition-all duration-700 border border-zinc-900 group-hover/frame:border-zinc-800">
-                        <img
-                            src={me}
-                            alt="Nishant Verma"
-                            className="absolute inset-0 w-full h-full object-cover grayscale contrast-125 group-hover/frame:grayscale-0 transition-all duration-500"
-                        />
-                    </div>
-
-                    {/* Label below image */}
-                    <div className="absolute -bottom-8 left-0 w-full text-center">
-                        <span className="text-[9px] font-mono text-zinc-600 uppercase tracking-[0.2em] group-hover/frame:text-zinc-400 transition-colors">
-                            Fig.01 // Identity
-                        </span>
-                    </div>
-                </div>
-
-                {/* INFO PANEL */}
-                <div className="flex-1 w-full">
-                    <div className="group/panel relative border border-zinc-900 border-dashed bg-black/10 overflow-hidden transition-all hover:border-zinc-800">
+            {/* IDENTITY SECTION - Hero-like introduction */}
+            <section className="reveal flex flex-col gap-4 sm:gap-6 md:gap-8">
+                <div className="flex flex-col md:flex-row gap-4 sm:gap-6 md:gap-8 items-start">
+                    {/* Image Frame - Responsive */}
+                    <div className="relative shrink-0 group/frame">
                         {/* Corner Markers */}
-                        <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-zinc-600 transition-colors group-hover/panel:border-zinc-400"></div>
-                        <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-zinc-600 transition-colors group-hover/panel:border-zinc-400"></div>
+                        <div className="absolute -inset-2 sm:-inset-3 transition-all duration-500 group-hover/frame:scale-105">
+                            <div className="absolute h-1.5 w-1.5 sm:h-2 sm:w-2 border-zinc-600 opacity-40 transition-opacity top-0 left-0 border-t border-l group-hover/frame:border-zinc-400"></div>
+                            <div className="absolute h-1.5 w-1.5 sm:h-2 sm:w-2 border-zinc-600 opacity-40 transition-opacity top-0 right-0 border-t border-r group-hover/frame:border-zinc-400"></div>
+                            <div className="absolute h-1.5 w-1.5 sm:h-2 sm:w-2 border-zinc-600 opacity-40 transition-opacity bottom-0 left-0 border-b border-l group-hover/frame:border-zinc-400"></div>
+                            <div className="absolute h-1.5 w-1.5 sm:h-2 sm:w-2 border-zinc-600 opacity-40 transition-opacity bottom-0 right-0 border-b border-r group-hover/frame:border-zinc-400"></div>
+                        </div>
 
-                        {/* Header */}
-                        <div className="flex items-center justify-between px-3 py-2 border-b border-zinc-900 bg-zinc-900/30">
-                            <div className="flex gap-1">
-                                <div className="w-1.5 h-0.5 bg-zinc-700"></div>
-                                <div className="w-1.5 h-0.5 bg-zinc-700"></div>
-                                <div className="w-1.5 h-0.5 bg-zinc-800"></div>
+                        {/* Image */}
+                        <div className="relative size-[120px] sm:size-[140px] md:size-[160px] overflow-hidden transition-all duration-700 border border-zinc-300 group-hover/frame:border-zinc-400">
+                            <img
+                                src={me}
+                                alt="Amogh Ravindra Rao"
+                                className="absolute inset-0 w-full h-full object-cover group-hover/frame:grayscale transition-all duration-500"
+                            />
+                        </div>
+
+                        {/* Label */}
+                        <div className="absolute -bottom-6 sm:-bottom-7 left-0 w-full text-center">
+                            <span className="text-[7px] sm:text-[8px] font-mono text-zinc-600 uppercase tracking-[0.15em] group-hover/frame:text-zinc-800 transition-colors">
+                                Figure // Identity
+                            </span>
+                        </div>
+                    </div>
+
+                    {/* Info Panel */}
+                    <div className="flex-1 w-full mt-2 sm:mt-0">
+                        <div className="group/panel relative z-10 border border-dashed border-zinc-300 bg-white/50 transition-all hover:border-zinc-400 overflow-hidden">
+                            {/* Corners */}
+                            <div className="absolute top-0 right-0 w-1.5 h-1.5 sm:w-2 sm:h-2 border-t border-r border-black transition-colors group-hover/panel:border-zinc-400"></div>
+                            <div className="absolute bottom-0 left-0 w-1.5 h-1.5 sm:w-2 sm:h-2 border-b border-l border-black transition-colors group-hover/panel:border-zinc-400"></div>
+
+                            {/* Header */}
+                            <div className="flex items-center justify-between px-2 sm:px-3 py-1.5 sm:py-2 border-b border-dashed border-black bg-zinc-100/20">
+                                <div className="flex gap-1">
+                                    <div className="w-1 h-0.5 sm:w-1.5 sm:h-0.5 bg-zinc-700"></div>
+                                    <div className="w-1 h-0.5 sm:w-1.5 sm:h-0.5 bg-zinc-700"></div>
+                                    <div className="w-1 h-0.5 sm:w-1.5 sm:h-0.5 bg-zinc-800"></div>
+                                </div>
                             </div>
-                        </div>
 
-                        {/* Data Rows */}
-                        <div className="flex flex-col">
-                            <InfoRow index="00" label="Name" value="Nishant Verma" />
-                            <InfoRow index="01" label="Age" value="23" />
-                            <InfoRow index="02" label="Location" value="Hyderabad, IN" />
-                            <InfoRow index="03" label="Role" value="Software Engineer" />
-                            <InfoRow index="04" label="Status" value="Open to Work" isStatus />
-                        </div>
+                            {/* Data */}
+                            <div className="flex flex-col">
+                                <InfoRow index="00" label="Name" value="Amogh Ravindra Rao" />
+                                <InfoRow index="01" label="Age" value="24" />
+                                <InfoRow index="02" label="Location" value="Tempe, AZ" />
+                                <InfoRow index="03" label="Role" value="ML Engineer / Data Scientist" />
+                                <InfoRow index="04" label="Status" value="Open to Work" isStatus />
+                            </div>
 
-                        {/* Grid Pattern Overlay */}
-                        <div className="absolute inset-0 bg-[radial-gradient(#ffffff03_1px,transparent_1px)] [background-size:12px_12px] pointer-events-none"></div>
-                    </div>
-                </div>
-            </div>
-
-
-            {/* 2. BIO & CONTACT SECTION */}
-            <div className="flex flex-col gap-6 w-full max-w-2xl mt-16">
-
-                {/* Bio Panel */}
-                <div className="group relative border border-zinc-900 border-dashed bg-black/10 p-6 transition-all hover:border-zinc-800 overflow-hidden">
-                    {/* Corner Markers */}
-                    <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-zinc-600 transition-colors group-hover:border-zinc-400"></div>
-                    <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-zinc-600 transition-colors group-hover:border-zinc-400"></div>
-
-                    {/* Decorative dashes */}
-                    <div className="absolute top-3 right-3 flex flex-col gap-0.5 opacity-40 group-hover:opacity-70 transition-opacity">
-                        <div className="w-1.5 h-0.5 bg-zinc-600 group-hover:bg-zinc-400 transition-colors"></div>
-                        <div className="w-1.5 h-0.5 bg-zinc-600 group-hover:bg-zinc-400 transition-colors"></div>
-                        <div className="w-1.5 h-0.5 bg-zinc-800"></div>
-                    </div>
-
-                    {/* Heading */}
-                    <h2 className="text-xl font-mono font-medium text-zinc-400 tracking-tight flex items-center gap-3 transition-colors">
-                        <span className="w-2 h-2 bg-zinc-600 motion-safe:animate-pulse transition-colors"></span>
-                        I love what I do.
-                    </h2>
-
-                    {/* Bio Text */}
-                    <p className="text-zinc-400 font-mono text-sm leading-relaxed mt-4 pl-5 border-zinc-800 group-hover:border-zinc-700 transition-colors">
-                        Simple as that. I enjoy building things that look good and work even better. Currently at IIT Hyderabad, love to explore new things and build cool stuff. If you vibe with my work or just want to chat about tech, I'm always open.
-                    </p>
-
-                    {/* Grid Pattern Overlay */}
-                    <div className="absolute inset-0 bg-[radial-gradient(#ffffff05_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                </div>
-
-                {/* Quick Reach Out + Nav Links */}
-                <div className="mt-3">
-                    <div className="flex items-center justify-between mb-2">
-                        <span className="font-mono text-[10px] text-zinc-600 uppercase tracking-widest">Quick reach out</span>
-                    </div>
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                        {/* Left: Contact buttons */}
-                        <div className="flex flex-wrap gap-2">
-                            <a href="mailto:nishant.iith@gmail.com" aria-label="Send email to Nishant" className="group relative flex items-center gap-2 px-3 py-1.5 border-zinc-800 bg-black/10 hover:bg-white/[0.03] hover:border-zinc-600 transition-all overflow-hidden">
-                                <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-zinc-700 opacity-40 group-hover:opacity-100 group-hover:border-white/50 transition-all"></div>
-                                <div className="absolute bottom-0 right-0 w-1.5 h-1.5 border-b border-r border-zinc-700 opacity-40 group-hover:opacity-100 group-hover:border-white/50 transition-all"></div>
-                                <Mail size={14} className="text-zinc-600 group-hover:text-white transition-colors" />
-                                <span className="font-mono text-xs text-zinc-500 group-hover:text-white transition-colors">Email</span>
-                            </a>
-                            <a href="https://twitter.com/nishant_iith" target="_blank" rel="noopener noreferrer" aria-label="Open Twitter profile" className="group relative flex items-center gap-2 px-3 py-1.5 border-zinc-800 bg-black/10 hover:bg-white/[0.03] hover:border-zinc-600 transition-all overflow-hidden">
-                                <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-zinc-700 opacity-40 group-hover:opacity-100 group-hover:border-white/50 transition-all"></div>
-                                <div className="absolute bottom-0 right-0 w-1.5 h-1.5 border-b border-r border-zinc-700 opacity-40 group-hover:opacity-100 group-hover:border-white/50 transition-all"></div>
-                                <Twitter size={14} className="text-zinc-600 group-hover:text-white transition-colors" />
-                                <span className="font-mono text-xs text-zinc-500 group-hover:text-white transition-colors">DM me</span>
-                            </a>
-                        </div>
-
-                        {/* Right: Nav buttons */}
-                        <div className="flex flex-wrap gap-2">
-                            <Link
-                                to="/toolbox"
-                                className="group relative flex items-center gap-2 px-3 py-1.5 border-zinc-800 bg-black/10 hover:bg-white/[0.03] hover:border-zinc-600 transition-all overflow-hidden"
-                            >
-                                <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-zinc-700 opacity-40 group-hover:opacity-100 group-hover:border-white/50 transition-all"></div>
-                                <div className="absolute bottom-0 right-0 w-1.5 h-1.5 border-b border-r border-zinc-700 opacity-40 group-hover:opacity-100 group-hover:border-white/50 transition-all"></div>
-                                <Terminal size={14} className="text-zinc-600 group-hover:text-white transition-colors" />
-                                <span className="font-mono text-xs text-zinc-500 group-hover:text-white transition-colors">Toolbox</span>
-                            </Link>
-                            <Link
-                                to="/timeline"
-                                className="group relative flex items-center gap-2 px-3 py-1.5 border-zinc-800 bg-black/10 hover:bg-white/[0.03] hover:border-zinc-600 transition-all overflow-hidden"
-                            >
-                                <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-zinc-700 opacity-40 group-hover:opacity-100 group-hover:border-white/50 transition-all"></div>
-                                <div className="absolute bottom-0 right-0 w-1.5 h-1.5 border-b border-r border-zinc-700 opacity-40 group-hover:opacity-100 group-hover:border-white/50 transition-all"></div>
-                                <Calendar size={14} className="text-zinc-600 group-hover:text-white transition-colors" />
-                                <span className="font-mono text-xs text-zinc-500 group-hover:text-white transition-colors">Timeline</span>
-                            </Link>
+                            {/* Grid overlay */}
+                            <div className="absolute inset-0 bg-[radial-gradient(#ffffff03_1px,transparent_1px)] [background-size:12px_12px] pointer-events-none -z-10"></div>
                         </div>
                     </div>
                 </div>
+            </section>
 
-                {/* Cards Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-0">
-                    <Link
-                        to="/timeline"
-                        className="relative block p-3 border border-zinc-900 bg-black/10 hover:bg-zinc-900/50 hover:border-zinc-700 transition-all group overflow-hidden"
-                    >
-                        <div className="absolute bottom-0 left-0 w-8 h-8 pointer-events-none">
-                            <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-zinc-600 transition-colors group-hover:border-white"></div>
-                        </div>
-                        <div className="flex flex-col h-full justify-between gap-4">
-                            <div className="flex items-center justify-between">
-                                <span className="font-mono text-[9px] text-zinc-600 group-hover:text-zinc-400 transition-colors">[ 01 ]</span>
-                                <Calendar size={20} className="text-zinc-600 group-hover:text-white transition-colors" />
-                            </div>
-                            <div>
-                                <span className="font-mono text-base text-zinc-300 group-hover:text-white transition-colors block">Timeline</span>
-                                <span className="font-mono text-xs text-zinc-400 group-hover:text-zinc-300">My journey through projects, milestones, and achievements</span>
-                            </div>
-                        </div>
-                    </Link>
-                    <Link
-                        to="/toolbox"
-                        className="relative block p-3 border border-zinc-900 bg-black/10 hover:bg-zinc-900/50 hover:border-zinc-700 transition-all group overflow-hidden"
-                    >
-                        <div className="absolute top-0 right-0 w-8 h-8 pointer-events-none">
-                            <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-zinc-600 transition-colors group-hover:border-white"></div>
-                        </div>
-                        <div className="flex flex-col h-full justify-between gap-4">
-                            <div className="flex items-center justify-between">
-                                <span className="font-mono text-[9px] text-zinc-600 group-hover:text-zinc-400 transition-colors">[ 02 ]</span>
-                                <Terminal size={20} className="text-zinc-600 group-hover:text-white transition-colors" />
-                            </div>
-                            <div>
-                                <span className="font-mono text-base text-zinc-300 group-hover:text-white transition-colors block">My Toolbox</span>
-                                <span className="font-mono text-xs text-zinc-400 group-hover:text-zinc-300">The software and hardware I use daily</span>
-                            </div>
-                        </div>
-                    </Link>
-                </div>
-            </div>
-
-
-            {/* HORIZONTAL DIVIDER */}
+            {/* PATTERN DIVIDER */}
             <PatternDivider />
 
+            {/* ABOUT SECTION */}
+            <section className="reveal flex flex-col gap-4 sm:gap-6 md:gap-8">
+                <SectionTitle title="ABOUT" />
+
+                {/* Bio Panel */}
+                <div className="group relative z-10 border border-dashed border-zinc-300 bg-white/50 p-3 sm:p-4 md:p-5 transition-all hover:border-zinc-400 overflow-hidden">
+                    {/* Corners */}
+                    <div className="absolute top-0 right-0 w-1.5 h-1.5 sm:w-2 sm:h-2 border-t border-r border-zinc-600 transition-colors group-hover:border-zinc-400"></div>
+                    <div className="absolute bottom-0 left-0 w-1.5 h-1.5 sm:w-2 sm:h-2 border-b border-l border-zinc-600 transition-colors group-hover:border-zinc-400"></div>
+
+                    {/* Decorative dashes */}
+                    <div className="absolute top-2 sm:top-3 right-2 sm:right-3 flex flex-col gap-0.5 opacity-40 group-hover:opacity-70 transition-opacity">
+                        <div className="w-1 h-0.5 sm:w-1.5 sm:h-0.5 bg-zinc-600 group-hover:bg-zinc-400 transition-colors"></div>
+                        <div className="w-1 h-0.5 sm:w-1.5 sm:h-0.5 bg-zinc-600 group-hover:bg-zinc-400 transition-colors"></div>
+                        <div className="w-1 h-0.5 sm:w-1.5 sm:h-0.5 bg-zinc-800"></div>
+                    </div>
+
+                    {/* Content */}
+                    <p className="text-xs sm:text-sm text-black leading-relaxed font-mono">
+                        I'm passionate about building intelligent systems that solve real-world problems. Currently pursuing my Master's in Data Science at Arizona State University with a GPA of 3.78. My journey spans from competitive programming to machine learning, with hands-on experience in end-to-end ML pipelines, from F1 race prediction with Monte Carlo uncertainty quantification to multi-LLM council systems with semantic analysis. I love exploring new technologies, contributing to open-source projects, and diving deep into system design. Always learning, always building.
+                    </p>
+
+                    {/* Grid overlay */}
+                    <div className="absolute inset-0 bg-[radial-gradient(#ffffff05_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none -z-10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                </div>
+            </section>
+
+            {/* PATTERN DIVIDER */}
+            <PatternDivider />
+
+            {/* CONNECT SECTION */}
+            <section className="reveal flex flex-col gap-4 sm:gap-6 md:gap-8">
+                <SectionTitle title="CONNECT" />
+
+                {/* Connect Container */}
+                <div className="group relative z-10 border border-dashed border-zinc-300 bg-white/50 overflow-hidden">
+                    {/* Corners */}
+                    <div className="absolute top-0 right-0 w-1.5 h-1.5 sm:w-2 sm:h-2 border-t border-r border-zinc-600 transition-colors group-hover:border-zinc-400"></div>
+                    <div className="absolute bottom-0 left-0 w-1.5 h-1.5 sm:w-2 sm:h-2 border-b border-l border-zinc-600 transition-colors group-hover:border-zinc-400"></div>
+
+                    {/* Quick Links - 3 columns grid */}
+                    <div className="grid grid-cols-3 gap-0 divide-x divide-zinc-300/50">
+                        {/* Email */}
+                        <a href="mailto:amoghravindrarao@gmail.com" className="group/item relative flex flex-col items-center gap-2 px-3 sm:px-4 md:px-5 py-4 sm:py-5 md:py-6 hover:bg-white/[0.04] transition-colors duration-300">
+                            <Mail size={18} className="text-black sm:size-[20px] group-hover/item:scale-110 transition-transform duration-300" />
+                            <div className="text-center">
+                                <p className="font-mono text-xs sm:text-sm text-black group-hover/item:text-black transition-colors font-bold">Email</p>
+                                <p className="text-[8px] sm:text-[9px] text-zinc-600 group-hover/item:text-zinc-800 transition-colors mt-0.5">Get in touch</p>
+                            </div>
+                        </a>
+
+                        {/* Toolbox */}
+                        <Link to="/toolbox" className="group/item relative flex flex-col items-center gap-2 px-3 sm:px-4 md:px-5 py-4 sm:py-5 md:py-6 hover:bg-white/[0.04] transition-colors duration-300">
+                            <Terminal size={18} className="text-black sm:size-[20px] group-hover/item:scale-110 transition-transform duration-300" />
+                            <div className="text-center">
+                                <p className="font-mono text-xs sm:text-sm text-black group-hover/item:text-black transition-colors font-bold">Toolbox</p>
+                                <p className="text-[8px] sm:text-[9px] text-zinc-600 group-hover/item:text-zinc-800 transition-colors mt-0.5">Tech & tools</p>
+                            </div>
+                        </Link>
+
+                        {/* Timeline */}
+                        <Link to="/timeline" className="group/item relative flex flex-col items-center gap-2 px-3 sm:px-4 md:px-5 py-4 sm:py-5 md:py-6 hover:bg-white/[0.04] transition-colors duration-300">
+                            <Calendar size={18} className="text-black sm:size-[20px] group-hover/item:scale-110 transition-transform duration-300" />
+                            <div className="text-center">
+                                <p className="font-mono text-xs sm:text-sm text-black group-hover/item:text-black transition-colors font-bold">Timeline</p>
+                                <p className="text-[8px] sm:text-[9px] text-zinc-600 group-hover/item:text-zinc-800 transition-colors mt-0.5">My journey</p>
+                            </div>
+                        </Link>
+                    </div>
+
+                    {/* Grid overlay */}
+                    <div className="absolute inset-0 bg-[radial-gradient(#ffffff03_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none -z-10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                </div>
+            </section>
+
+            {/* PATTERN DIVIDER */}
+            <PatternDivider />
 
             {/* HOBBIES & INTERESTS SECTION */}
-            <div className="max-w-2xl mt-8 border border-zinc-900 border-dashed bg-black/10 overflow-hidden">
-                {/* Header */}
-                <div className="flex items-center justify-between px-4 py-3 border-b border-dashed border-zinc-900">
-                    <div className="flex items-center gap-3">
-                        <div className="flex items-center gap-1.5">
-                            <div className="w-1.5 h-0.5 bg-zinc-700"></div>
-                            <div className="w-1.5 h-0.5 bg-zinc-700"></div>
-                            <div className="w-1.5 h-0.5 bg-zinc-800"></div>
-                        </div>
-                        <span className="font-mono text-xs text-zinc-500">Hobbies & Interests</span>
+            <section className="reveal flex flex-col gap-4 sm:gap-6 md:gap-8">
+                <SectionTitle title="HOBBIES & INTERESTS" />
+
+                <div className="relative z-10 border border-dashed border-zinc-300 bg-white/50 overflow-hidden">
+                    <div className="flex flex-col divide-y divide-zinc-300/50">
+                        <HobbyItem index="01" title="Competitive Programming" desc="Solving algorithmic challenges on Codeforces and LeetCode." />
+                        <HobbyItem index="02" title="Open Source" desc="Contributing to tools and frameworks that power the web." />
+                        <HobbyItem index="03" title="System Design" desc="Designing scalable architectures and distributed systems." />
+                        <HobbyItem index="04" title="Reading Tech Blogs" desc="Staying updated with the latest in software engineering." />
                     </div>
                 </div>
+            </section>
 
-                {/* Items */}
-                <div className="divide-y divide-zinc-900/50">
-                    <HobbyItem index="01" title="Competitive Programming" desc="Solving algorithmic challenges on Codeforces and LeetCode." />
-                    <HobbyItem index="02" title="Open Source" desc="Contributing to tools and frameworks that power the web." />
-                    <HobbyItem index="03" title="System Design" desc="Designing scalable architectures and distributed systems." />
-                    <HobbyItem index="04" title="Reading Tech Blogs" desc="Staying updated with the latest in software engineering." />
-                </div>
-            </div>
-
-        </section >
+        </div>
     );
 }
 
@@ -233,30 +182,30 @@ interface InfoRowProps {
 
 function InfoRow({ index, label, value, isStatus }: InfoRowProps) {
     return (
-        <div className={`group flex items-center py-2.5 px-3 ${isStatus ? '' : 'border-b border-zinc-900/50'} hover:bg-white/[0.02] transition-colors relative`}>
+        <div className={`group flex items-center justify-between py-2 sm:py-2.5 md:py-3 px-3 sm:px-4 md:px-5 ${isStatus ? '' : 'border-b border-zinc-200/30'} hover:bg-white/[0.04] transition-all duration-300 relative`}>
             {/* Left accent bar on hover */}
-            <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-white/50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-zinc-400/80 to-zinc-500/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
-            {/* Index */}
-            <span className="font-mono text-[8px] text-zinc-700 group-hover:text-zinc-500 mr-3 transition-colors">{index}</span>
+            {/* Label Section */}
+            <div className="flex items-center gap-2 sm:gap-3">
+                {/* Index */}
+                <span className="font-mono text-[10px] sm:text-[11px] text-zinc-700 group-hover:text-black transition-colors duration-300 tracking-widest opacity-70 group-hover:opacity-100 font-semibold">{index}</span>
 
-            {/* Label */}
-            <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest min-w-[70px] shrink-0 group-hover:text-zinc-300 transition-colors">{label}</span>
+                {/* Label */}
+                <span className="text-[12px] sm:text-[13px] font-mono text-zinc-700 uppercase tracking-[0.12em] sm:tracking-[0.15em] min-w-[50px] sm:min-w-[65px] group-hover:text-black transition-colors duration-300 font-bold">{label}</span>
+            </div>
 
-            {/* Dotted separator */}
-            <div className="h-px flex-1 bg-zinc-900 group-hover:bg-zinc-800 transition-colors mx-3"></div>
-
-            {/* Value */}
+            {/* Value Section */}
             {isStatus ? (
-                <span className="font-mono text-sm text-zinc-400 group-hover:text-white flex items-center gap-2 transition-colors">
-                    <span className="relative flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-zinc-500 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-zinc-400"></span>
+                <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-md bg-white/[0.03] border border-zinc-300/40 group-hover:border-zinc-400/60 group-hover:bg-white/[0.06] transition-all duration-300">
+                    <span className="relative flex h-1.5 w-1.5 sm:h-1.75 sm:w-1.75">
+                        <span className="animate-pulse absolute inline-flex h-full w-full rounded-full bg-emerald-400/80"></span>
+                        <span className="relative inline-flex rounded-full h-full w-full bg-emerald-500"></span>
                     </span>
-                    {value}
-                </span>
+                    <span className="font-mono text-sm sm:text-base text-zinc-700 group-hover:text-black transition-colors duration-300 font-semibold">{value}</span>
+                </div>
             ) : (
-                <span className="font-mono text-sm text-zinc-400 group-hover:text-white transition-colors">{value}</span>
+                <span className="font-mono text-sm sm:text-base text-zinc-700 group-hover:text-black transition-colors duration-300 font-semibold text-right flex-1 pl-4">{value}</span>
             )}
         </div>
     );
@@ -270,15 +219,15 @@ interface HobbyItemProps {
 
 function HobbyItem({ index, title, desc }: HobbyItemProps) {
     return (
-        <div className="group px-4 py-3 hover:bg-white/[0.02] transition-colors relative">
+        <div className="group px-3 sm:px-4 md:px-5 py-2 sm:py-3 hover:bg-white/[0.02] transition-colors relative">
             {/* Left accent bar on hover */}
-            <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-white/40 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-zinc-400/60 opacity-0 group-hover:opacity-100 transition-opacity"></div>
 
-            <div className="flex items-start gap-4">
-                <span className="font-mono text-[9px] text-zinc-700 mt-0.5 shrink-0">{index}</span>
-                <div className="flex-1">
-                    <h4 className="font-mono text-sm text-zinc-400 group-hover:text-white transition-colors">{title}</h4>
-                    <p className="font-mono text-[11px] text-zinc-500 group-hover:text-zinc-400 mt-0.5 leading-relaxed transition-colors">{desc}</p>
+            <div className="flex items-start gap-2 sm:gap-3">
+                <span className="font-mono text-[8px] sm:text-[9px] text-zinc-600 group-hover:text-zinc-800 transition-colors mt-0.5 shrink-0">{index}</span>
+                <div className="flex-1 min-w-0">
+                    <h4 className="font-mono text-xs sm:text-sm text-black group-hover:text-black transition-colors font-medium">{title}</h4>
+                    <p className="font-mono text-[9px] sm:text-[11px] text-zinc-600 group-hover:text-zinc-800 mt-0.5 leading-relaxed transition-colors">{desc}</p>
                 </div>
             </div>
         </div>

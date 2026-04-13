@@ -32,41 +32,41 @@ const Blog = () => {
     );
 
     return (
-        <div className="flex flex-col gap-8">
-            {/* Header */}
-            <div className="flex items-center justify-between border-b border-dashed border-zinc-800 pb-4">
-                <h2 className="font-mono text-lg text-zinc-200">Blog</h2>
+        <div className="flex flex-col gap-6 sm:gap-8">
+            {/* Header - Responsive layout */}
+            <div className="reveal flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 border-b border-dashed border-zinc-800 pb-3 sm:pb-4">
+                <h2 className="font-mono text-base sm:text-lg text-black">Blog</h2>
                 <a
                     href={`https://${HASHNODE_HOST}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-mono text-[10px] text-zinc-600 hover:text-zinc-400 uppercase tracking-widest flex items-center gap-1 transition-colors"
+                    className="font-mono text-[9px] sm:text-[10px] text-black hover:text-black uppercase tracking-widest flex items-center gap-1 transition-colors w-fit"
                 >
                     View on Hashnode <ExternalLink size={10} />
                 </a>
             </div>
 
-            {/* Blog Posts List */}
-            <div className="flex flex-col gap-4">
+            {/* Blog Posts List - Responsive gap */}
+            <div className="reveal flex flex-col gap-3 sm:gap-4">
                 {isLoading ? (
                     Array.from({ length: 4 }).map((_, i) => (
-                        <div key={i} className="p-5 border border-dashed border-zinc-800 rounded-sm animate-pulse">
-                            <div className="flex flex-col gap-3">
-                                <div className="flex justify-between gap-4">
-                                    <div className="h-4 bg-zinc-800 rounded w-3/4"></div>
-                                    <div className="h-4 w-4 bg-zinc-800 rounded shrink-0 mt-0.5"></div>
+                        <div key={i} className="p-3 sm:p-4 md:p-5 border border-dashed border-zinc-800 rounded-sm animate-pulse">
+                            <div className="flex flex-col gap-2 sm:gap-3">
+                                <div className="flex justify-between gap-2 sm:gap-4">
+                                    <div className="h-3 sm:h-4 bg-zinc-800 rounded w-3/4"></div>
+                                    <div className="h-3 sm:h-4 w-4 bg-zinc-800 rounded shrink-0 mt-0.5"></div>
                                 </div>
-                                <div className="h-3 bg-zinc-800/60 rounded w-full"></div>
-                                <div className="h-3 bg-zinc-800/60 rounded w-2/3"></div>
-                                <div className="flex gap-4 pt-2">
-                                    <div className="h-3 w-20 bg-zinc-800/40 rounded"></div>
-                                    <div className="h-3 w-16 bg-zinc-800/40 rounded"></div>
+                                <div className="h-2 sm:h-3 bg-zinc-800/60 rounded w-full"></div>
+                                <div className="h-2 sm:h-3 bg-zinc-800/60 rounded w-2/3"></div>
+                                <div className="flex gap-2 sm:gap-4 pt-2">
+                                    <div className="h-2 sm:h-3 w-16 sm:w-20 bg-zinc-800/40 rounded"></div>
+                                    <div className="h-2 sm:h-3 w-12 sm:w-16 bg-zinc-800/40 rounded"></div>
                                 </div>
                             </div>
                         </div>
                     ))
                 ) : posts.length === 0 ? (
-                    <p className="font-mono text-zinc-500 text-sm">No posts yet. Check back soon!</p>
+                    <p className="font-mono text-zinc-500 text-xs sm:text-sm">No posts yet. Check back soon!</p>
                 ) : (
                     posts.map((post: HashnodePost) => (
                         <BlogCard
@@ -101,44 +101,44 @@ const BlogCard = memo(({ post, slug, onMouseEnter }: BlogCardProps) => {
         <Link
             to={`/blog/${post.slug}`}
             onMouseEnter={handleMouseEnter}
-            className="group block p-5 border border-dashed border-zinc-800 rounded-sm bg-black/20 hover:border-zinc-700 hover:bg-zinc-900/30 transition-all duration-300"
+            className="group block p-3 sm:p-4 md:p-5 border border-dashed border-zinc-800 rounded-sm bg-black/20 hover:border-zinc-700 hover:bg-zinc-900/30 transition-all duration-300"
         >
-            <div className="flex flex-col gap-3">
-                {/* Title & Arrow */}
-                <div className="flex items-start justify-between gap-4">
-                    <h3 className="font-mono text-base font-semibold text-zinc-200 group-hover:text-blue-400 transition-colors">
+            <div className="flex flex-col gap-2 sm:gap-3">
+                {/* Title & Arrow - Responsive font size */}
+                <div className="flex items-start justify-between gap-2 sm:gap-4">
+                    <h3 className="font-mono text-sm sm:text-base font-semibold text-zinc-200 group-hover:text-blue-400 transition-colors line-clamp-2">
                         {post.title}
                     </h3>
-                    <ArrowRight size={16} className="text-zinc-600 group-hover:text-blue-400 group-hover:translate-x-1 transition-all mt-1 flex-shrink-0" />
+                    <ArrowRight size={14} className="text-zinc-600 group-hover:text-blue-400 group-hover:translate-x-1 transition-all mt-1 flex-shrink-0" />
                 </div>
 
-                {/* Description */}
-                <p className="text-sm text-zinc-500 leading-relaxed line-clamp-2">
+                {/* Description - Responsive text */}
+                <p className="text-xs sm:text-sm text-zinc-500 leading-relaxed line-clamp-2">
                     {post.brief}
                 </p>
 
-                {/* Meta */}
-                <div className="flex flex-wrap items-center gap-4 pt-2">
+                {/* Meta - Responsive layout and font size */}
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3 md:gap-4 pt-1 sm:pt-2">
                     {/* Date */}
-                    <div className="flex items-center gap-1.5 text-zinc-600">
-                        <Calendar size={12} />
-                        <span className="font-mono text-[10px]">{date}</span>
+                    <div className="flex items-center gap-1 text-zinc-600">
+                        <Calendar size={12} className="flex-shrink-0" />
+                        <span className="font-mono text-[8px] sm:text-[10px]">{date}</span>
                     </div>
 
                     {/* Read Time */}
-                    <div className="flex items-center gap-1.5 text-zinc-600">
-                        <Clock size={12} />
-                        <span className="font-mono text-[10px]">{post.readTimeInMinutes} min read</span>
+                    <div className="flex items-center gap-1 text-zinc-600">
+                        <Clock size={12} className="flex-shrink-0" />
+                        <span className="font-mono text-[8px] sm:text-[10px]">{post.readTimeInMinutes} min</span>
                     </div>
 
-                    {/* Tags */}
+                    {/* Tags - Hidden on very small screens */}
                     {post.tags && post.tags.length > 0 && (
-                        <div className="flex items-center gap-2">
-                            <Tag size={12} className="text-zinc-600" />
-                            {post.tags.slice(0, 3).map((tag) => (
+                        <div className="hidden sm:flex items-center gap-1.5">
+                            <Tag size={12} className="text-zinc-600 flex-shrink-0" />
+                            {post.tags.slice(0, 2).map((tag) => (
                                 <span
                                     key={tag.name}
-                                    className="font-mono text-[10px] px-1.5 py-0.5 bg-zinc-900 border border-zinc-800 text-zinc-500 rounded"
+                                    className="font-mono text-[8px] sm:text-[10px] px-1 py-0.5 bg-zinc-900 border border-zinc-800 text-zinc-500 rounded"
                                 >
                                     {tag.name}
                                 </span>

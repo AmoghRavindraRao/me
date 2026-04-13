@@ -2,7 +2,7 @@ import axios from 'axios';
 import { LeetCodeData } from '../types';
 import { cacheUtils, requestDeduplicator, apiRateLimiter } from '../../../utils/cacheUtils';
 
-export const LEETCODE_USERNAME = 'Nishant-iith';
+export const LEETCODE_USERNAME = 'amoghravindrarao';
 const CACHE_KEY = `leetcode_stats_${LEETCODE_USERNAME}`;
 const REQUEST_KEY = 'leetcode_api_request';
 

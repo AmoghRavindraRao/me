@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Eye } from 'lucide-react';
 
-const WORKER_URL = import.meta.env.VITE_VIEW_COUNTER_URL ?? 'https://view-counter.iith-nishant.workers.dev';
+const WORKER_URL = import.meta.env.VITE_VIEW_COUNTER_URL ?? 'https://view-counter.amogh-portfolio.workers.dev';
 
 const DEFAULT_VISITOR_COUNT = '1240'; // fallback when API is unavailable
 
@@ -78,9 +78,9 @@ export default function VisitorCounter() {
   };
 
   return (
-    <div className="inline-flex items-center gap-2 px-3 py-1.5 border border-dashed border-zinc-800 bg-black/10 rounded-sm">
-      <Eye size={14} className="text-zinc-600" />
-      <span className="font-mono text-[11px] text-zinc-500">
+    <div className="inline-flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1 sm:py-1.5 border border-dashed border-zinc-800 bg-black/10 rounded-sm">
+      <Eye size={12} className="text-black sm:size-[14px]" />
+      <span className="font-mono text-[10px] sm:text-[11px] text-black">
         {loading ? (
           <span className="animate-pulse">...</span>
         ) : (

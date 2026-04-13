@@ -23,13 +23,13 @@ class SuspenseErrorBoundary extends Component<{ children: ReactNode }, ErrorBoun
         if (this.state.hasError) {
             return (
                 <div className="flex flex-col items-center justify-center gap-4 py-20">
-                    <h2 className="font-mono text-xl text-zinc-300">Failed to load content</h2>
+                    <h2 className="font-mono text-2xl text-zinc-300">Failed to load content</h2>
                     <p className="text-zinc-500 text-sm max-w-md text-center">
                         {this.state.error?.message || 'Something went wrong while loading this page.'}
                     </p>
                     <button
                         onClick={() => this.setState({ hasError: false, error: undefined })}
-                        className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-lg transition-colors text-zinc-200 text-sm"
+                        className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-lg transition-colors text-zinc-200 text-base"
                     >
                         Try Again
                     </button>

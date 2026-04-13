@@ -1,0 +1,176 @@
+{
+  "full_name": "Amogh Ravindra Rao",
+  "email": "amoghravindrarao@gmail.com",
+  "phone": "4809315674",
+  "location": "Tempe, AZ",
+  "linkedin": "https://www.linkedin.com/in/amoghrrao03/",
+  "github": "https://github.com/AmoghRavindraRao",
+
+  "university": "Arizona State University",
+  "degree": "Masters in Data Science, Analytics and Engineering",
+  "gpa": "3.78",
+  "graduation_date": "May 2026",
+
+  "undergraduate": {
+    "university": "RNS Institute of Technology, VTU Board",
+    "location": "Bangalore, India",
+    "degree": "Bachelor of Engineering in Computer Science",
+    "dates": "September 2020 -- May 2024"
+  },
+
+  "visa_status": "F1-OPT",
+  "requires_sponsorship": true,
+  "work_authorization_note": "Eligible for OPT. Open to sponsorship.",
+
+  "target_roles": ["ML Engineer", "Data Scientist", "AI Engineer"],
+  "target_locations": ["Remote", "Tempe AZ", "San Francisco CA", "Seattle WA"],
+  "salary_expectation": "90000-120000",
+
+  "skills": {
+    "languages": ["Python", "Java", "C", "C++", "SQL (Postgres)", "JavaScript", "HTML/CSS", "R"],
+    "frameworks": ["React", "Node.js", "Flask", "FastAPI", "Material-UI"],
+    "ml_tools": ["PyTorch", "scikit-learn", "YOLOv8", "EasyOCR", "OpenCV", "NeRF", "Monte Carlo Dropout"],
+    "data_tools": ["Power BI", "Apache Spark", "MongoDB", "MySQL"],
+    "developer_tools": ["Git", "Google Cloud Platform", "Docker", "VS Code", "Sol HPC"],
+    "productivity": ["Google Workspace", "Microsoft Office Suite", "Canva", "Zoom", "Slack", "Salesforce"]
+  },
+
+  "certifications": [
+    {
+      "name": "AWS Certified Cloud Practitioner",
+      "verify_url": "https://cp.certmetrics.com/amazon/en/public/verify/credential/736c4d104fb04f98bff4d84d311a5b65"
+    },
+    {
+      "name": "Ethical Hacking Essential",
+      "issuer": "EC-Council"
+    },
+    {
+      "name": "Data Analysis Job Simulation",
+      "issuer": "Forage",
+      "verify_url": "https://www.linkedin.com/posts/amoghrrao03_forage-certificate-activity-7339414769461882880-UA4y"
+    },
+    {
+      "name": "GenAI Powered Data Analytics",
+      "issuer": "Forage",
+      "verify_url": "https://www.linkedin.com/posts/amoghrrao03_forage-certificate-activity-7341273271260127233-3MNd"
+    },
+    {
+      "name": "Quantitative Research Job Simulation",
+      "issuer": "Forage",
+      "verify_url": "https://www.linkedin.com/posts/amoghrrao03_forage-certificate-activity-7348101994152136705-_5TC"
+    }
+  ],
+
+  "work_experience": [
+    {
+      "company": "AKT Web",
+      "title": "Freelance Web Developer",
+      "location": "Bangalore, India",
+      "dates": "January 2024 - February 2024",
+      "bullets": [
+        "Revamped a legacy frontend for a retail client using React.js, delivering a responsive and user-centric interface that enhanced overall user experience and increased client engagement by 35%",
+        "Improved site performance by implementing lazy loading and other optimization techniques, resulting in a 40% reduction in page load time",
+        "Delivered timely maintenance and support, resolving 80% of reported issues within 24 hours to ensure consistent user experience and system stability"
+      ]
+    }
+  ],
+
+  "projects": [
+    {
+      "name": "LLM Council with Similarity Analysis",
+      "tech": ["OpenRouter API", "FastAPI", "Sentence Embeddings", "Cosine Similarity"],
+      "dates": "January 2026 - February 2026",
+      "description": "Multi-LLM council system that queries models in parallel, uses a chairman model to synthesize final responses, and applies semantic similarity to evaluate and rank outputs.",
+      "impact": "Improved response quality through anonymous peer evaluation and redundancy detection across model outputs.",
+      "bullets": [
+        "Built a multi-LLM council system that queried models in parallel, supported anonymous peer evaluation, and used a chairman model to synthesize higher-quality final responses",
+        "Applied sentence embeddings and cosine similarity to evaluate response relevance, detect redundancy, and quantify agreement across model outputs",
+        "Developed a FastAPI and React interface with streaming stages, heatmaps, relevance charts, and persistent conversation storage for transparent LLM decision-making"
+      ]
+    },
+    {
+      "name": "F1 Race Prediction with Feedback Loop",
+      "tech": ["FastF1", "Monte Carlo Dropout", "Experience Replay"],
+      "dates": "December 2025 - January 2026",
+      "description": "End-to-end F1 race outcome prediction pipeline with uncertainty quantification and a post-race incremental retraining loop.",
+      "impact": "Predicted race times with 95% confidence intervals; self-improving model via experience replay buffer.",
+      "bullets": [
+        "Built an F1 race prediction pipeline by integrating FastF1 telemetry timing and results and engineering performance features to model race outcomes",
+        "Trained a deep neural network with uncertainty quantification to predict race times with 95% confidence intervals using Monte Carlo dropout",
+        "Implemented a post-race feedback loop that fetches official results, compares predictions vs actuals, tracks error metrics, and stores outcomes for incremental retraining via an experience replay buffer"
+      ]
+    },
+    {
+      "name": "Hybrid Inpainting Data Analysis for 3D Meshes",
+      "tech": ["NeRF", "PCN", "Poisson Surface Reconstruction"],
+      "dates": "January 2025 - May 2025",
+      "description": "Hybrid 3D mesh inpainting system combining diffusion models with Neural Radiance Fields for high-accuracy mesh restoration.",
+      "impact": "Evaluated over 5,000 corrupted meshes using Mean Surface Error and Hausdorff Distance metrics.",
+      "bullets": [
+        "Developed a hybrid 3D inpainting system integrating diffusion models with Neural Radiance Fields (NeRFs) to enhance mesh restoration accuracy and realism",
+        "Generated a dataset of 5,000 corrupted 3D meshes from Objaverse 1.0 by applying random masks and creating error maps",
+        "Evaluated 3D mesh repair techniques like PCN and Poisson Surface Reconstruction using metrics such as Mean Surface Error and Hausdorff Distance to measure accuracy"
+      ]
+    },
+    {
+      "name": "Modeling the S&P 500 with Linear Regression",
+      "tech": ["R", "Hypothesis Testing", "Regression Analysis"],
+      "dates": "January 2025 - May 2025",
+      "description": "Predictive regression model on macroeconomic indicators to detect financial risk patterns and anomalies in S&P 500 returns.",
+      "impact": "Demonstrated that linear models explained less than 10% of variance, motivating non-linear modeling approaches.",
+      "bullets": [
+        "Built a predictive regression model on macroeconomic indicators (e.g., Treasury yields, oil prices) to detect financial risk patterns and anomalies",
+        "Evaluated model accuracy via R-squared and RMSE to enhance interpretability for audit and risk assessment contexts",
+        "Found that linear models explained less than 10% of variance, indicating limited predictive power and highlighting the need for non-linear modeling approaches"
+      ]
+    },
+    {
+      "name": "Distributed Online Gaming Platform",
+      "tech": ["Flask", "MongoDB", "Docker", "Apache Spark"],
+      "dates": "September 2024 - January 2025",
+      "description": "Dockerized microservices gaming platform with Flask and MongoDB, supporting data science use cases via BSON gameplay datasets.",
+      "impact": "Standardized local-to-prod deployments and improved query readability through optimized schema design.",
+      "bullets": [
+        "Built and deployed a Dockerized service stack using Flask and MongoDB, standardizing local-to-prod environments and simplifying repeatable deployments",
+        "Processed BSON datasets capturing gameplay and user activity to support data science and modeling use cases",
+        "Standardized naming conventions and optimized schema design to improve query readability and future data governance across collections"
+      ]
+    },
+    {
+      "name": "Automatic Number Plate Detection",
+      "tech": ["YOLOv8", "EasyOCR", "OpenCV"],
+      "dates": "September 2023 - March 2024",
+      "description": "Real-time Automatic Number Plate Recognition system using YOLOv8 for detection and EasyOCR for text extraction from license plates.",
+      "impact": "Achieved accurate real-time license plate recognition from live video streams with improved detection accuracy via OpenCV preprocessing.",
+      "bullets": [
+        "Built an Automatic Number Plate Recognition system using YOLOv8 for vehicle and plate detection, and EasyOCR for extracting alphanumeric text from license plates",
+        "Integrated real-time video stream processing with object detection and OCR pipelines to enable accurate and automated license plate recognition",
+        "Applied OpenCV for image preprocessing and visualization, improving detection accuracy and system interpretability"
+      ]
+    },
+    {
+      "name": "Catching Ball Game",
+      "tech": ["OpenCV", "C"],
+      "dates": "March 2023 - June 2023",
+      "description": "Interactive computer vision game with structured data logging and performance-optimized rendering.",
+      "impact": "Improved engagement metrics by 40% and enhanced frame rate by 25% through algorithmic and rendering optimizations.",
+      "bullets": [
+        "Developed an interactive game with structured data logging from more than 100 users, enabling player behavior analysis",
+        "Designed and implemented scoring algorithms, improving engagement metrics by 40%",
+        "Optimized rendering efficiency, enhancing frame rate by 25%, demonstrating performance-driven computation"
+      ]
+    },
+    {
+      "name": "Railway Reservation System",
+      "tech": ["JavaScript", "React.js", "PHP", "MySQL"],
+      "dates": "September 2022 - December 2022",
+      "description": "Full-stack railway booking system with ticket booking, cancellation, admin role-based access, and normalized MySQL schema.",
+      "impact": "Enabled real-time seat tracking and secure admin/user login with efficient normalized database design.",
+      "bullets": [
+        "Built a full-stack railway booking system with features for ticket booking, cancellation, and inquiries",
+        "Added secure admin/user login with role-based access to manage trains, stations, and user data",
+        "Designed a normalized MySQL schema for efficient ticketing and real-time seat tracking"
+      ]
+    }
+  ]
+}

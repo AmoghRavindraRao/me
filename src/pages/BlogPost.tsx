@@ -18,8 +18,8 @@ const BlogPost = () => {
     if (error) {
         return (
             <div className="flex flex-col items-center justify-center gap-4 py-20">
-                <h2 className="font-mono text-xl text-zinc-300">Failed to load post</h2>
-                <p className="text-zinc-500 text-sm">The post may have been removed or is temporarily unavailable.</p>
+                <h2 className="font-mono text-2xl text-zinc-300">Failed to load post</h2>
+                <p className="text-zinc-500 text-base">The post may have been removed or is temporarily unavailable.</p>
                 <Link
                     to="/blog"
                     className="font-mono text-sm text-blue-400 hover:text-blue-300 flex items-center gap-2"
@@ -78,7 +78,7 @@ const BlogPost = () => {
         <div className="flex flex-col gap-6">
             <BlogPostSEO
                 title={post.title}
-                description={post.brief || `Read ${post.title} by Nishant Verma`}
+                description={post.brief || `Read ${post.title} by Amogh Ravindra Rao`}
                 slug={post.slug}
                 publishedAt={post.publishedAt}
                 coverImage={post.coverImage?.url}

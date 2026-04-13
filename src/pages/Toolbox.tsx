@@ -10,19 +10,19 @@ interface ToolItemProps {
 
 function ToolItem({ name, description, icon, tag }: ToolItemProps) {
     return (
-        <div className="group relative border border-zinc-800 bg-zinc-900/40 p-5 rounded-xl hover:border-zinc-700 hover:bg-zinc-900/60 transition-all duration-300">
-            <div className="flex items-start justify-between mb-4">
-                <div className="p-3 bg-zinc-950 rounded-lg border border-zinc-800 text-zinc-100 group-hover:scale-110 transition-transform duration-300">
+        <div className="group relative border border-zinc-800 bg-zinc-900/40 p-3 sm:p-4 md:p-5 rounded-xl hover:border-zinc-700 hover:bg-zinc-900/60 transition-all duration-300">
+            <div className="flex items-start justify-between gap-2 mb-3 sm:mb-4">
+                <div className="p-2 sm:p-3 bg-zinc-950 rounded-lg border border-zinc-800 text-zinc-100 group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
                     {icon}
                 </div>
                 {tag && (
-                    <span className="text-[10px] font-mono border border-zinc-800 bg-zinc-950/50 px-2 py-1 rounded text-zinc-500 uppercase">
+                    <span className="text-[9px] sm:text-[10px] font-mono border border-zinc-800 bg-zinc-950/50 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded text-zinc-500 uppercase whitespace-nowrap">
                         {tag}
                     </span>
                 )}
             </div>
-            <h3 className="font-doto text-lg text-zinc-100 mb-1">{name}</h3>
-            <p className="text-zinc-500 text-sm leading-relaxed">
+            <h3 className="font-doto text-base sm:text-lg text-zinc-100 mb-1 line-clamp-2">{name}</h3>
+            <p className="text-zinc-500 text-xs sm:text-sm leading-relaxed">
                 {description}
             </p>
         </div>
@@ -32,12 +32,12 @@ function ToolItem({ name, description, icon, tag }: ToolItemProps) {
 export default function Toolbox() {
     return (
         <div className="flex flex-col animate-in fade-in duration-500">
-            {/* Header */}
-            <div className="flex flex-col gap-2 pt-4">
-                <h1 className="font-doto text-4xl font-bold tracking-tight text-zinc-100 uppercase">
+            {/* Header - Responsive Typography */}
+            <div className="reveal flex flex-col gap-2 pt-2 sm:pt-4 px-0">
+                <h1 className="font-doto text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-zinc-100 uppercase">
                     MY TOOLBOX
                 </h1>
-                <p className="text-zinc-500 font-mono text-sm max-w-md">
+                <p className="text-zinc-500 font-mono text-xs sm:text-sm max-w-md">
                     The software and hardware that powers my daily workflow.
                     &ldquo;Use what you know, but know what you use.&rdquo;
                 </p>
@@ -46,100 +46,107 @@ export default function Toolbox() {
             <PatternDivider />
 
             {/* Software & SaaS */}
-            <section className="flex flex-col gap-6">
+            <section className="reveal flex flex-col gap-4 sm:gap-6">
                 <SectionTitle title="SOFTWARE & SAAS" />
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                     <ToolItem
-                        name="IntelliJ IDEA"
-                        description="Pro-grade IDE for Java and heavy-duty development. Robust refactoring and deep code analysis."
+                        name="VS Code"
+                        description="Lightweight, powerful editor for web development. Extensions ecosystem makes it my go-to for most coding tasks."
                         icon={<Code size={24} />}
                         tag="Editor"
                     />
                     <ToolItem
-                        name="Antigravity"
-                        description="My primary AI coding assistant. Powerful, agentic, and deeply integrated into my workflow."
-                        icon={<Box size={24} />}
-                        tag="AI Agent"
-                    />
-                    <ToolItem
-                        name="Claudecode"
-                        description="Professional CLI for AI-assisted engineering. Seamless terminal-based code generation."
+                        name="Git"
+                        description="Version control system for tracking code changes and collaborating on projects. Essential for any developer workflow."
                         icon={<Terminal size={24} />}
-                        tag="CLI Tool"
+                        tag="VCS"
                     />
                     <ToolItem
-                        name="Supabase"
-                        description="The open-source Firebase alternative. Handles my authentication and PostgreSQL needs."
-                        icon={<Database size={24} />}
-                        tag="Backend"
+                        name="Docker"
+                        description="Containerization platform for ensuring consistency across environments. Standardizes deployments from dev to production."
+                        icon={<Box size={24} />}
+                        tag="DevOps"
                     />
                     <ToolItem
-                        name="Vercel"
-                        description="Deployment platform for high-performance frontends. Zero-config CI/CD for my projects."
+                        name="Google Cloud Platform"
+                        description="Cloud services for compute, storage, and ML workloads. Integrates seamlessly with my data science pipeline."
                         icon={<Cloud size={24} />}
                         tag="Cloud"
                     />
                     <ToolItem
-                        name="Gemini"
-                        description="Advanced multimodal AI for research, documentation, and brainstorming complex features."
-                        icon={<Cpu size={24} />}
-                        tag="AI Model"
+                        name="Google Workspace"
+                        description="Productivity suite for collaboration. Gmail, Drive, Docs, and Sheets power my daily communication and organization."
+                        icon={<Layout size={24} />}
+                        tag="Productivity"
                     />
                     <ToolItem
-                        name="OpenCode"
-                        description="Open-source collaboration platform for hackathons and community-driven development."
+                        name="Microsoft Office Suite"
+                        description="Professional office applications for advanced document creation, spreadsheets, and presentations."
+                        icon={<Code size={24} />}
+                        tag="Productivity"
+                    />
+                    <ToolItem
+                        name="Slack"
+                        description="Team communication and collaboration platform. Keeps conversations organized and discussions searchable."
+                        icon={<Terminal size={24} />}
+                        tag="Communication"
+                    />
+                    <ToolItem
+                        name="Zoom"
+                        description="Video conferencing tool for remote meetings, presentations, and team synchronization."
+                        icon={<Monitor size={24} />}
+                        tag="Communication"
+                    />
+                    <ToolItem
+                        name="Canva"
+                        description="Design tool for creating visual content. Simplifies graphic design without requiring specialized design skills."
                         icon={<Layout size={24} />}
-                        tag="Platform"
+                        tag="Design"
                     />
                 </div>
             </section>
 
+            <PatternDivider />
+
             {/* Tech Stack */}
-            <section className="flex flex-col gap-6">
+            <section className="reveal flex flex-col gap-4 sm:gap-6">
                 <SectionTitle title="TECH STACK" />
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                     <ToolItem
-                        name="React & Next.js"
-                        description="Building interactive, scalable frontends with server-side rendering and static generation."
+                        name="Languages"
+                        description="Python, Java, C, C++, JavaScript, SQL, HTML/CSS, R - Versatile programming across multiple paradigms."
+                        icon={<Code size={24} />}
+                        tag="Programming"
+                    />
+                    <ToolItem
+                        name="Frontend Frameworks"
+                        description="React and Material-UI for building interactive, responsive user interfaces with component-based architecture."
                         icon={<Layout size={24} />}
                         tag="Frontend"
                     />
                     <ToolItem
-                        name="Node.js & Express"
-                        description="Fast, event-driven backend services with a massive ecosystem of middleware."
+                        name="Backend Frameworks"
+                        description="Node.js with Express, Flask, and FastAPI for building scalable REST APIs and web services."
                         icon={<Cpu size={24} />}
                         tag="Backend"
                     />
                     <ToolItem
-                        name="PostgreSQL"
-                        description="Advanced open-source relational database for complex queries and data integrity."
+                        name="Databases"
+                        description="PostgreSQL for relational data, MongoDB for NoSQL, MySQL for traditional databases. Optimized for different use cases."
                         icon={<Database size={24} />}
                         tag="Database"
                     />
                     <ToolItem
-                        name="Docker"
-                        description="Ensuring environment consistency from local development to production deployment."
-                        icon={<Box size={24} />}
-                        tag="DevOps"
-                    />
-                </div>
-            </section>
-
-            {/* Computers & Hardware */}
-            <section className="flex flex-col gap-6">
-                <SectionTitle title="COMPUTERS & HARDWARE" />
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <ToolItem
-                        name="MacBook Pro M1 Pro"
-                        description="Primary powerhouse for development. Insane efficiency, battery life, and Unix-based stability."
-                        icon={<Monitor size={24} />}
-                        tag="System"
-                    />
-                    <ToolItem
-                        name="HP Laptop (i7 13th Gen)"
-                        description="Secondary workstation for Windows-specific tasks, testing, and multi-threaded processing."
+                        name="Machine Learning"
+                        description="PyTorch, scikit-learn for modeling. YOLOv8, EasyOCR, OpenCV for computer vision. NeRF and Monte Carlo Dropout for advanced techniques."
                         icon={<Cpu size={24} />}
-                        tag="Workstation"
+                        tag="ML/AI"
+                    />
+                    <ToolItem
+                        name="Data & Analytics"
+                        description="Apache Spark for distributed processing, Power BI for visualization. Transform raw data into actionable insights."
+                        icon={<Database size={24} />}
+                        tag="Data"
                     />
                 </div>
             </section>

@@ -158,30 +158,30 @@ function TimelineItem({ data, index }: TimelineItemProps) {
     const isLeft = index % 2 === 0;
 
     return (
-        <div className={`flex flex-col md:flex-row items-center gap-8 md:gap-0 w-full relative ${isLeft ? 'md:flex-row' : 'md:flex-row-reverse'} ${index > 0 ? 'md:-mt-24' : ''}`}>
+        <div className={`flex flex-col md:flex-row items-center gap-4 md:gap-0 w-full relative ${isLeft ? 'md:flex-row' : 'md:flex-row-reverse'} ${index > 0 ? 'md:-mt-24' : ''}`}>
 
-            {/* Content Card */}
+            {/* Content Card - Responsive padding */}
             <div className={`w-full md:w-1/2 flex ${isLeft ? 'md:justify-end md:pr-12' : 'md:justify-start md:pl-12'}`}>
-                <div className="bg-zinc-900/40 border border-dashed border-zinc-800 p-6 rounded-xl hover:bg-zinc-900/60 hover:border-zinc-700 transition-all duration-300 w-full max-w-sm group relative">
+                <div className="bg-zinc-900/40 border border-dashed border-zinc-800 p-4 sm:p-5 md:p-6 rounded-xl hover:bg-zinc-900/60 hover:border-zinc-700 transition-all duration-300 w-full max-w-sm group relative">
 
                     {/* Connector Line (Mobile hidden, Desktop only) */}
                     <div className={`hidden md:block absolute top-1/2 -translate-y-1/2 w-12 border-t border-dashed border-zinc-700 ${isLeft ? '-right-12' : '-left-12'}`}></div>
 
-                    <div className="flex items-center justify-between mb-2">
-                        <span className="font-mono text-zinc-500 text-xs px-2 py-1 bg-zinc-950 rounded border border-zinc-800">
+                    <div className="flex items-start justify-between gap-2 mb-2">
+                        <span className="font-mono text-zinc-500 text-xs px-2 py-1 bg-zinc-950 rounded border border-zinc-800 whitespace-nowrap">
                             {data.date}
                         </span>
-                        <div className="p-1.5 bg-zinc-950 rounded-md border border-zinc-800 text-zinc-400 group-hover:text-blue-400 transition-colors">
+                        <div className="p-1.5 bg-zinc-950 rounded-md border border-zinc-800 text-zinc-400 group-hover:text-blue-400 transition-colors flex-shrink-0">
                             {data.icon}
                         </div>
                     </div>
-                    <h3 className="font-doto text-lg text-zinc-100 mb-2">{data.title}</h3>
-                    <p className="text-zinc-500 text-sm leading-relaxed mb-4">
+                    <h3 className="font-doto text-base sm:text-lg text-zinc-100 mb-2">{data.title}</h3>
+                    <p className="text-zinc-500 text-xs sm:text-sm leading-relaxed mb-4">
                         {data.desc}
                     </p>
                     <div className="flex flex-wrap gap-2">
                         {data.tags.map((tag: string) => (
-                            <span key={tag} className="text-[10px] font-mono text-zinc-600 bg-zinc-950/50 px-1.5 py-0.5 rounded">
+                            <span key={tag} className="text-[9px] sm:text-[10px] font-mono text-zinc-600 bg-zinc-950/50 px-1.5 py-0.5 rounded">
                                 #{tag}
                             </span>
                         ))}
@@ -190,8 +190,8 @@ function TimelineItem({ data, index }: TimelineItemProps) {
             </div>
 
             {/* Center Node */}
-            <div className="absolute left-4 md:left-1/2 md:-translate-x-1/2 w-8 h-8 rounded-full bg-zinc-950 border border-dashed border-zinc-700 flex items-center justify-center z-10 shadow-[0_0_10px_rgba(0,0,0,0.5)]">
-                <div className="w-2 h-2 bg-zinc-600 rounded-full"></div>
+            <div className="absolute left-3 sm:left-4 md:left-1/2 md:-translate-x-1/2 w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-full bg-zinc-950 border border-dashed border-zinc-700 flex items-center justify-center z-10 shadow-[0_0_10px_rgba(0,0,0,0.5)]">
+                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-zinc-600 rounded-full"></div>
             </div>
 
             {/* Empty space for the other side */}
@@ -207,7 +207,7 @@ export default function Timeline() {
     return (
         <div className="flex flex-col animate-in fade-in duration-500">
             {/* Header */}
-            <div className="flex flex-col gap-2">
+            <div className="reveal flex flex-col gap-2">
                 <h1 className="font-doto text-4xl font-bold tracking-tight text-zinc-100 uppercase">
                     LEARNING LOG
                 </h1>
@@ -223,7 +223,9 @@ export default function Timeline() {
                 <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px border-l border-dashed border-zinc-800 -translate-x-1/2 md:-translate-x-px"></div>
 
                 {milestones.map((item: Milestone, index: number) => (
-                    <TimelineItem key={`${item.date}-${item.title}`} data={item} index={index} />
+                    <div key={`${item.date}-${item.title}`} className="reveal">
+                        <TimelineItem data={item} index={index} />
+                    </div>
                 ))}
             </div>
 

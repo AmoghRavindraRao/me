@@ -2,7 +2,7 @@ import axios from 'axios';
 import { GithubContributions } from '../types';
 import { cacheUtils, requestDeduplicator, apiRateLimiter } from '../../../utils/cacheUtils';
 
-export const GITHUB_USERNAME = 'nishant-iith';
+export const GITHUB_USERNAME = 'AmoghRavindraRao';
 const CACHE_KEY = `github_contributions_${GITHUB_USERNAME}`;
 const REQUEST_KEY = 'github_api_request';
 

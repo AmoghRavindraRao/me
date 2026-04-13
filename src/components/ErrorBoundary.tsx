@@ -41,8 +41,8 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
             return this.props.fallback || (
                 <div className="flex flex-col items-center justify-center min-h-screen p-4 text-center bg-[#18181b]">
-                    <h1 className="text-3xl font-bold mb-4 text-zinc-100">Something went wrong</h1>
-                    <p className="text-zinc-400 mb-2">
+                    <h1 className="text-5xl font-bold mb-4 text-black">Something went wrong</h1>
+                    <p className="text-black mb-2">
                         {this.state.error?.message || 'An unexpected error occurred'}
                     </p>
                     <p className="text-zinc-500 text-sm mb-6 max-w-md">
@@ -51,8 +51,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
                     <div className="flex gap-3">
                         <button
                             onClick={this.resetError}
-                            className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-lg transition-colors text-zinc-200"
-                        >
+                            className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-lg transition-colors text-black">
                             Try Again
                         </button>
                         <button
