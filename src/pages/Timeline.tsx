@@ -1,5 +1,5 @@
 import { PatternDivider } from '~components/SharedLayout';
-import { Briefcase, Trophy, Code, GraduationCap, Rocket, Star, Heart } from 'lucide-react';
+import { Briefcase, Trophy, Code, GraduationCap, Rocket, Star} from 'lucide-react';
 
 interface Milestone {
     date: string;
