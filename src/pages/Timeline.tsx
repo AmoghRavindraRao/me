@@ -12,140 +12,116 @@ interface Milestone {
 
 const milestones: Milestone[] = [
     {
-        date: "JULY 2026",
-        title: "Upcoming: SDE @ DP World",
-        desc: "Preparing for the start of my professional journey as a Software Development Engineer at DP World.",
-        icon: <Briefcase size={20} />,
-        tags: ["Career", "Full-time"],
+        date: "MAY 2026",
+        title: "Master's Graduation @ ASU",
+        desc: "Completing my Master's in Data Science, Analytics and Engineering at Arizona State University with a GPA of 3.78. Thesis focus on advanced ML and data engineering.",
+        icon: <GraduationCap size={20} />,
+        tags: ["Education", "ASU", "MSDSAE"],
         align: "right"
     },
     {
         date: "JAN 2026 - PRESENT",
-        title: "Self-Taught CS",
-        desc: "Deep diving into core Computer Science fundamentals. Exploring systems, architecture, and advanced software engineering independently.",
+        title: "LLM Council & Advanced ML Projects",
+        desc: "Built multi-LLM council system with semantic similarity analysis and F1 race prediction with 95% confidence intervals using Monte Carlo dropout. Pushing boundaries of ensemble learning.",
         icon: <Rocket size={20} />,
-        tags: ["Learning", "Growth"],
+        tags: ["ML", "Research", "LLMs"],
         align: "left"
     },
     {
-        date: "JAN 2026",
-        title: "Placed in DP World",
-        desc: "Successfully cleared the re-interview and secured a placement at DP World. Turning rejection into redirection.",
-        icon: <Trophy size={20} />,
-        tags: ["Career", "Success"],
-        align: "right"
-    },
-    {
-        date: "DEC 2025",
-        title: "Placement Setback",
-        desc: "Faced rejections in all placement interviews. A period of heavy reflection, resilience, and persistence.",
-        icon: <Briefcase size={20} />,
-        tags: ["Career", "Hardship"],
-        align: "left"
-    },
-    {
-        date: "NOV 2025",
-        title: "Cleared Placement Exams",
-        desc: "Cleared 7 out of 10 placement assessment tests, qualifying for multiple top-tier company interviews.",
-        icon: <GraduationCap size={20} />,
-        tags: ["Exams", "Education"],
-        align: "right"
-    },
-    {
-        date: "SEPT 2025",
-        title: "Placement Preparation",
-        desc: "Intensive preparation phase for final placements, focusing on system design, OS, and core CS subjects.",
+        date: "SEPT 2024 - JAN 2025",
+        title: "3D Mesh Inpainting & Distributed Gaming",
+        desc: "Hybrid 3D mesh inpainting system combining NeRF with diffusion models. Built distributed gaming platform using Flask, MongoDB, Docker, and Apache Spark for data science use cases.",
         icon: <Code size={20} />,
-        tags: ["Prep", "Career"],
-        align: "left"
-    },
-    {
-        date: "AUG 2025",
-        title: "GS Full-time Rejection",
-        desc: "Did not secure a return offer from Goldman Sachs. A tough moment, but one that paved the way for new opportunities.",
-        icon: <Briefcase size={20} />,
-        tags: ["Career", "Growth"],
-        align: "right"
-    },
-    {
-        date: "MAY 2025",
-        title: "Goldman Sachs Internship",
-        desc: "Joined Goldman Sachs as a Summer Analyst. Learned high-stakes financial engineering and corporate culture at scale.",
-        icon: <Briefcase size={20} />,
-        tags: ["Internship", "Finance"],
-        align: "left"
-    },
-    {
-        date: "JAN 2025",
-        title: "Horizon '25 (FCC)",
-        desc: "Served as Operations Head for Horizon, the flagship annual event of the Finance and Consulting Club (24-25 tenure).",
-        icon: <Star size={20} />,
-        tags: ["Leadership", "FCC"],
+        tags: ["3D Vision", "FullStack", "Distributed Systems"],
         align: "right"
     },
     {
         date: "AUG 2024",
-        title: "Instructor @ 10xScale.ai",
-        desc: "Started teaching DSA and mentoring students. Helping others bridge the gap from theory to code.",
-        icon: <Star size={20} />,
-        tags: ["Teaching", "Leadership"],
-        align: "left"
-    },
-    {
-        date: "AUG 2024",
-        title: "Cracked GS Interview",
-        desc: "Successfully secured a Summer Analyst role at Goldman Sachs after a rigorous and competitive selection process.",
-        icon: <Rocket size={20} />,
-        tags: ["Achievement", "Career"],
-        align: "right"
-    },
-    {
-        date: "JULY 2024",
-        title: "Pentakod Internship",
-        desc: "Interned at Pentakod, focusing on technical implementation and exploring real-world engineering challenges.",
-        icon: <Briefcase size={20} />,
-        tags: ["Internship", "Engineering"],
+        title: "Joined ASU - Master's Program",
+        desc: "Started pursuing Master's in Data Science, Analytics and Engineering at Arizona State University. Focused on machine learning, statistical modeling, and data engineering.",
+        icon: <GraduationCap size={20} />,
+        tags: ["Education", "ASU"],
         align: "left"
     },
     {
         date: "MAY 2024",
-        title: "Internship Prep",
-        desc: "Intensive focus on advanced coding patterns and refining my problem-solving approach for top tier companies.",
-        icon: <Code size={20} />,
-        tags: ["Prep", "Growth"],
+        title: "Bachelor's Graduation @ RNS",
+        desc: "Completed Bachelor of Engineering in Computer Science from RNS Institute of Technology, VTU Board, Bangalore. Strong foundation in algorithms, systems, and software design.",
+        icon: <Trophy size={20} />,
+        tags: ["Education", "RNS", "RNSIT"],
         align: "right"
     },
     {
-        date: "JAN 2024",
-        title: "DSA Mastery",
-        desc: "Mastered complex data structures and performance-critical algorithms, building a solid engineering foundation.",
+        date: "SEPT 2023 - MAR 2024",
+        title: "Automatic Number Plate Detection System",
+        desc: "Built end-to-end ANPR system using YOLOv8 for detection, EasyOCR for text extraction, and OpenCV for preprocessing. Real-time license plate recognition from live video streams.",
         icon: <Code size={20} />,
-        tags: ["DSA", "Coding"],
+        tags: ["CV", "YOLOv8", "OpenCV"],
         align: "left"
     },
     {
-        date: "JULY 2023",
-        title: "Python & ML Basics",
-        desc: "Explored the power of Python and dived into Machine Learning fundamentals to understand data-driven systems.",
-        icon: <Code size={20} />,
-        tags: ["Python", "ML"],
+        date: "JAN 2024 - FEB 2024",
+        title: "Freelance Web Developer @ AKT Web",
+        desc: "Revamped legacy retail frontend with React.js achieving 35% increase in engagement and 40% reduction in page load time with lazy loading optimization. Resolved 80% of issues within 24 hours.",
+        icon: <Briefcase size={20} />,
+        tags: ["React", "Frontend", "Performance"],
         align: "right"
     },
     {
-        date: "NOV 2022",
-        title: "Hello World in C",
-        desc: "My first real program. The point where I fell in love with logic and computer science.",
-        icon: <Heart size={20} />,
-        tags: ["Origin", "C"],
+        date: "SEPT 2022 - DEC 2022",
+        title: "Railway Reservation System",
+        desc: "Full-stack booking system with React, PHP, MySQL. Implemented secure admin/user authentication with role-based access, ticket management, and normalized database design for real-time seat tracking.",
+        icon: <Code size={20} />,
+        tags: ["FullStack", "React", "MySQL"],
         align: "left"
     },
     {
-        date: "OCT 2022",
-        title: "Joined IIT Hyderabad",
-        desc: "Began my engineering journey at IIT-H, embarking on a path of innovation and technical excellence.",
+        date: "MAR 2023 - JUNE 2023",
+        title: "Catching Ball Game @ Vision Lab",
+        desc: "Interactive OpenCV-based game with structured data logging from 100+ users. Improved engagement metrics by 40% and frame rate by 25% through algorithmic and rendering optimizations.",
+        icon: <Code size={20} />,
+        tags: ["OpenCV", "GameDev", "C"],
+        align: "right"
+    },
+    {
+        date: "JAN 2025 - MAY 2025",
+        title: "Modeling S&P 500 with Linear Regression",
+        desc: "Predictive statistical model on macroeconomic indicators (Treasury yields, oil prices) to detect financial risk patterns. Linear regression analysis using R, hypothesis testing, and regression evaluation.",
+        icon: <Code size={20} />,
+        tags: ["Statistics", "Finance", "R"],
+        align: "left"
+    },
+    {
+        date: "DEC 2025 - JAN 2026",
+        title: "F1 Race Prediction with Feedback Loop",
+        desc: "End-to-end fastF1 telemetry pipeline with uncertainty quantification. Monte Carlo dropout for 95% confidence intervals, post-race feedback loop for incremental retraining via experience replay.",
+        icon: <Rocket size={20} />,
+        tags: ["Forecasting", "Uncertainty", "AutoML"],
+        align: "right"
+    },
+    {
+        date: "SEPT 2020",
+        title: "Started Engineering @ RNS Institute",
+        desc: "Began B.E. in Computer Science at RNS Institute of Technology, Bangalore. Foundation in algorithms, programming, and software engineering principles.",
         icon: <GraduationCap size={20} />,
-        tags: ["Education", "IITH"],
+        tags: ["Education", "RNS", "RNSIT"],
+        align: "left"
+    },
+    {
+        date: "ONGOING",
+        title: "Competitive Programming & Open Source",
+        desc: "Active on LeetCode solving advanced DSA problems and contributing to open source projects. Leveraging skills in system design, algorithms, and real-world engineering challenges.",
+        icon: <Star size={20} />,
+        tags: ["LeetCode", "DSA", "OpenSource"],
         align: "right"
+    },
+    {
+        date: "CERTIFICATIONS",
+        title: "AWS, EC-Council & Forage",
+        desc: "AWS Certified Cloud Practitioner, Ethical Hacking Essential (EC-Council), Data Analysis Job Simulation, GenAI Powered Data Analytics, Quantitative Research Job Simulation.",
+        icon: <Trophy size={20} />,
+        tags: ["AWS", "Cloud", "AI"],
+        align: "left"
     }
 ];
 
