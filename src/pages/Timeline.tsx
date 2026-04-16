@@ -28,6 +28,38 @@ const milestones: Milestone[] = [
         align: "left"
     },
     {
+        date: "FEB 2026",
+        title: "AWS Certified Cloud Practitioner",
+        desc: "Achieved AWS Certified Cloud Practitioner certification, demonstrating comprehensive knowledge of AWS cloud services, architecture, and best practices. Proficient in cloud infrastructure and deployment strategies.",
+        icon: <Trophy size={20} />,
+        tags: ["AWS", "Cloud", "Certification"],
+        align: "right"
+    },
+    {
+        date: "DEC 2025 - JAN 2026",
+        title: "F1 Race Prediction with Feedback Loop",
+        desc: "End-to-end fastF1 telemetry pipeline with uncertainty quantification. Monte Carlo dropout for 95% confidence intervals, post-race feedback loop for incremental retraining via experience replay.",
+        icon: <Rocket size={20} />,
+        tags: ["Forecasting", "Uncertainty", "AutoML"],
+        align: "right"
+    },
+    {
+        date: "JAN 2025 - MAY 2025",
+        title: "Modeling S&P 500 with Linear Regression",
+        desc: "Predictive statistical model on macroeconomic indicators (Treasury yields, oil prices) to detect financial risk patterns. Linear regression analysis using R, hypothesis testing, and regression evaluation.",
+        icon: <Code size={20} />,
+        tags: ["Statistics", "Finance", "R"],
+        align: "left"
+    },
+    {
+        date: "MAY 2025",
+        title: "Forage Job Simulations Completed",
+        desc: "Completed multiple Forage job simulations including Data Analysis, GenAI Powered Data Analytics, and Quantitative Research. Gained hands-on experience with industry-standard tools and practices across diverse data science domains.",
+        icon: <Trophy size={20} />,
+        tags: ["Forage", "Data Analysis", "Certification"],
+        align: "right"
+    },
+    {
         date: "SEPT 2024 - JAN 2025",
         title: "3D Mesh Inpainting & Distributed Gaming",
         desc: "Hybrid 3D mesh inpainting system combining NeRF with diffusion models. Built distributed gaming platform using Flask, MongoDB, Docker, and Apache Spark for data science use cases.",
@@ -60,22 +92,6 @@ const milestones: Milestone[] = [
         align: "left"
     },
     {
-        date: "JAN 2024 - FEB 2024",
-        title: "Freelance Web Developer @ AKT Web",
-        desc: "Revamped legacy retail frontend with React.js achieving 35% increase in engagement and 40% reduction in page load time with lazy loading optimization. Resolved 80% of issues within 24 hours.",
-        icon: <Briefcase size={20} />,
-        tags: ["React", "Frontend", "Performance"],
-        align: "right"
-    },
-    {
-        date: "SEPT 2022 - DEC 2022",
-        title: "Railway Reservation System",
-        desc: "Full-stack booking system with React, PHP, MySQL. Implemented secure admin/user authentication with role-based access, ticket management, and normalized database design for real-time seat tracking.",
-        icon: <Code size={20} />,
-        tags: ["FullStack", "React", "MySQL"],
-        align: "left"
-    },
-    {
         date: "MAR 2023 - JUNE 2023",
         title: "Catching Ball Game @ Vision Lab",
         desc: "Interactive OpenCV-based game with structured data logging from 100+ users. Improved engagement metrics by 40% and frame rate by 25% through algorithmic and rendering optimizations.",
@@ -84,19 +100,19 @@ const milestones: Milestone[] = [
         align: "right"
     },
     {
-        date: "JAN 2025 - MAY 2025",
-        title: "Modeling S&P 500 with Linear Regression",
-        desc: "Predictive statistical model on macroeconomic indicators (Treasury yields, oil prices) to detect financial risk patterns. Linear regression analysis using R, hypothesis testing, and regression evaluation.",
-        icon: <Code size={20} />,
-        tags: ["Statistics", "Finance", "R"],
+        date: "JAN 2024 - FEB 2024",
+        title: "Freelance Web Developer @ AKT Web",
+        desc: "Revamped legacy retail frontend with React.js achieving 35% increase in engagement and 40% reduction in page load time with lazy loading optimization. Resolved 80% of issues within 24 hours.",
+        icon: <Briefcase size={20} />,
+        tags: ["React", "Frontend", "Performance"],
         align: "left"
     },
     {
-        date: "DEC 2025 - JAN 2026",
-        title: "F1 Race Prediction with Feedback Loop",
-        desc: "End-to-end fastF1 telemetry pipeline with uncertainty quantification. Monte Carlo dropout for 95% confidence intervals, post-race feedback loop for incremental retraining via experience replay.",
-        icon: <Rocket size={20} />,
-        tags: ["Forecasting", "Uncertainty", "AutoML"],
+        date: "SEPT 2022 - DEC 2022",
+        title: "Railway Reservation System",
+        desc: "Full-stack booking system with React, PHP, MySQL. Implemented secure admin/user authentication with role-based access, ticket management, and normalized database design for real-time seat tracking.",
+        icon: <Code size={20} />,
+        tags: ["FullStack", "React", "MySQL"],
         align: "right"
     },
     {
@@ -117,10 +133,10 @@ const milestones: Milestone[] = [
     },
     {
         date: "CERTIFICATIONS",
-        title: "AWS, EC-Council & Forage",
-        desc: "AWS Certified Cloud Practitioner, Ethical Hacking Essential (EC-Council), Data Analysis Job Simulation, GenAI Powered Data Analytics, Quantitative Research Job Simulation.",
+        title: "EC-Council",
+        desc: "Ethical Hacking Essential (EC-Council), Certified Network Defender (EC-Council), Computer Hacking Forensic Investigator (EC-Council). Comprehensive cybersecurity certifications covering ethical hacking, network defense, and digital forensics.",
         icon: <Trophy size={20} />,
-        tags: ["AWS", "Cloud", "AI"],
+        tags: ["EC-Council", "Cybersecurity", "Certification"],
         align: "left"
     }
 ];

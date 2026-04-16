@@ -144,53 +144,84 @@ interface ProjectCardProps {
     title: string;
     status: string;
     desc: string;
+    technicalSummary: string[];
     tags: string[];
     href: string;
 }
 
-const ProjectCard = ({ title, status, desc, tags, href }: ProjectCardProps) => (
-    <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="group block h-full"
-    >
-        <div className="h-full border border-dashed border-zinc-300 rounded-lg p-1 bg-white/20 hover:bg-black/[0.02] hover:border-zinc-400 transition-all duration-300 flex flex-col">
-            {/* Browser Mockup Header */}
-            <div className="h-5 sm:h-6 border-b border-dashed border-zinc-300 flex items-center px-2 sm:px-3 gap-1 sm:gap-1.5 bg-zinc-100/20 rounded-t-lg">
-                <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-zinc-700 group-hover:bg-red-500/70 transition-colors"></div>
-                <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-zinc-700 group-hover:bg-yellow-500/70 transition-colors"></div>
-                <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-zinc-700 group-hover:bg-green-500/70 transition-colors"></div>
-            </div>
+const ProjectCard = ({ title, status, desc, technicalSummary, tags, href }: ProjectCardProps) => {
+    const [isExpanded, setIsExpanded] = useState(false);
 
-            <div className="p-3 sm:p-4 md:p-5 flex flex-col gap-2 sm:gap-3 md:gap-4 flex-1">
-                <div className="flex justify-between items-start gap-2">
-                    <h4 className="font-geist text-sm sm:text-base font-bold text-black group-hover:text-black transition-colors flex-1 line-clamp-2">
-                        {title}
-                    </h4>
-                    <span className="text-[8px] sm:text-[9px] font-mono tracking-wider text-zinc-500 px-1.5 py-0.5 sm:px-2 sm:py-1 rounded border border-zinc-700/50 flex-shrink-0">
-                        {status}
-                    </span>
+    return (
+        <div className="group block">
+            <div className="border border-dashed border-zinc-300 rounded-lg p-1 bg-white/20 hover:bg-black/[0.02] hover:border-zinc-400 transition-all duration-300 flex flex-col h-auto">
+                {/* Browser Mockup Header */}
+                <div className="h-5 sm:h-6 border-b border-dashed border-zinc-300 flex items-center px-2 sm:px-3 gap-1 sm:gap-1.5 bg-zinc-100/20 rounded-t-lg">
+                    <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-zinc-700 group-hover:bg-red-500/70 transition-colors"></div>
+                    <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-zinc-700 group-hover:bg-yellow-500/70 transition-colors"></div>
+                    <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-zinc-700 group-hover:bg-green-500/70 transition-colors"></div>
                 </div>
 
-                <p className="font-sans text-xs sm:text-sm text-zinc-600 leading-relaxed line-clamp-2 group-hover:text-zinc-800 transition-colors">
-                    {desc}
-                </p>
-
-                <div className="flex items-center justify-between mt-auto pt-1.5 sm:pt-2">
-                    <div className="flex gap-1 sm:gap-2">
-                        {tags.slice(0, 3).map((tag: string, index: number) => (
-                            <span key={`${tag}-${index}`} className="text-[9px] sm:text-[10px] font-mono text-zinc-600 group-hover:text-zinc-500 truncate">
-                                #{tag}
-                            </span>
-                        ))}
+                <div className="p-3 sm:p-4 md:p-5 flex flex-col gap-2 sm:gap-3 md:gap-4 flex-1">
+                    <div className="flex justify-between items-start gap-2">
+                        <h4 className="font-geist text-base sm:text-lg md:text-xl font-bold text-black group-hover:text-black transition-colors flex-1 line-clamp-2">
+                            {title}
+                        </h4>
+                        <span className="text-[10px] sm:text-[12px] font-mono tracking-wider text-zinc-500 px-1.5 py-0.5 sm:px-2 sm:py-1 rounded border border-zinc-700/50 flex-shrink-0">
+                            {status}
+                        </span>
                     </div>
-                    <ExternalLink size={12} className="text-black group-hover:text-black transition-colors flex-shrink-0 sm:size-[14px]" />
+
+                    <p className="font-sans text-sm sm:text-base text-zinc-600 leading-relaxed line-clamp-2 group-hover:text-zinc-800 transition-colors">
+                        {desc}
+                    </p>
+
+                    {/* Technical Summary Section */}
+                    <div className="flex flex-col gap-1.5">
+                        <button
+                            type="button"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setIsExpanded(!isExpanded);
+                            }}
+                            className="flex items-center gap-1 text-[10px] sm:text-[12px] font-mono text-zinc-600 hover:text-zinc-800 transition-colors font-semibold w-fit"
+                        >
+                            <span className={`inline-block transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}>▼</span>
+                            <span>Technical Stack</span>
+                        </button>
+
+                        {isExpanded && (
+                            <div className="flex flex-col gap-1 pl-3 border-l border-dashed border-zinc-300 mt-1">
+                                {technicalSummary.map((item, idx) => (
+                                    <p key={idx} className="text-[10px] sm:text-[12px] text-zinc-600 leading-relaxed font-mono">
+                                        • {item}
+                                    </p>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
+                    <a
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-between mt-auto pt-1.5 sm:pt-2 group/link"
+                    >
+                        <div className="flex gap-1 sm:gap-2">
+                            {tags.slice(0, 3).map((tag: string, index: number) => (
+                                <span key={`${tag}-${index}`} className="text-[11px] sm:text-[12px] font-mono text-zinc-600 group-hover/link:text-zinc-500 truncate">
+                                    #{tag}
+                                </span>
+                            ))}
+                        </div>
+                        <ExternalLink size={14} className="text-black group-hover/link:text-black transition-colors flex-shrink-0 sm:size-[16px]" />
+                    </a>
                 </div>
             </div>
         </div>
-    </a>
-);
+    );
+};
 
 interface CertificationCardProps {
     name: string;
@@ -465,34 +496,78 @@ const Home = () => {
             <section className="reveal flex flex-col gap-4 sm:gap-6 md:gap-8">
                 <SectionTitle title="PROJECTS" />
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
-                    <ProjectCard
-                        title="LLM Council with Similarity Analysis"
-                        status="AI / BACKEND"
-                        desc="Multi-LLM council system with parallel queries, anonymous peer evaluation, and semantic similarity analysis. Features FastAPI + React interface with streaming visualization."
-                        tags={['FastAPI', 'React', 'LLM']}
-                        href="https://github.com/AmoghRavindraRao/LLM-Council"
-                    />
-                    <ProjectCard
-                        title="F1 Race Prediction with Feedback"
-                        status="ML / DATA"
-                        desc="End-to-end race prediction pipeline with uncertainty quantification using Monte Carlo Dropout. Implements post-race feedback loop and experience replay for continuous improvement."
-                        tags={['PyTorch', 'FastF1', 'ML']}
-                        href="https://github.com/AmoghRavindraRao/2024_F1_Prediction"
-                    />
-                    <ProjectCard
-                        title="3D Mesh Inpainting with NeRF"
-                        status="RESEARCH"
-                        desc="Advanced 3D reconstruction using Neural Radiance Fields and diffusion models for intelligent mesh inpainting. Combines state-of-the-art generative AI with computer vision."
-                        tags={['NeRF', 'Diffusion', 'PyTorch']}
-                        href="https://github.com/AmoghRavindraRao/3D-Mesh-Inpainting-with-NerF---Diffusion"
-                    />
-                    <ProjectCard
-                        title="LLM Fundamentals Learning"
-                        status="ML / EDUCATION"
-                        desc="Comprehensive collection of Jupyter notebooks exploring LLM architectures, fine-tuning techniques, and practical implementations. Educational resource for deep learning concepts."
-                        tags={['PyTorch', 'Transformers', 'NLP']}
-                        href="https://github.com/AmoghRavindraRao/LLM_Basics"
-                    />
+                    {[
+                        {
+                            key: "llm-council",
+                            title: "LLM Council with Similarity Analysis",
+                            status: "AI / BACKEND",
+                            desc: "Multi-LLM council system with parallel queries, anonymous peer evaluation, and semantic similarity analysis. Features FastAPI + React interface with streaming visualization.",
+                            technicalSummary: [
+                                "FastAPI backend with async task orchestration for parallel LLM queries",
+                                "Semantic similarity analysis using embeddings (OpenAI/HuggingFace)",
+                                "Streaming responses with WebSocket support for real-time visualization",
+                                "React frontend with interactive evaluation interface",
+                                "Docker containerization for scalable deployment"
+                            ],
+                            tags: ['FastAPI', 'React', 'LLM'],
+                            href: "https://github.com/AmoghRavindraRao/LLM-Council"
+                        },
+                        {
+                            key: "f1-prediction",
+                            title: "F1 Race Prediction with Feedback",
+                            status: "ML / DATA",
+                            desc: "End-to-end race prediction pipeline with uncertainty quantification using Monte Carlo Dropout. Implements post-race feedback loop and experience replay for continuous improvement.",
+                            technicalSummary: [
+                                "PyTorch neural networks with Monte Carlo Dropout for uncertainty estimation",
+                                "FastF1 telemetry data pipeline with real-time preprocessing",
+                                "95% confidence intervals using Bayesian neural networks",
+                                "Experience replay mechanism for incremental model retraining",
+                                "Post-race feedback loop for continuous model improvement"
+                            ],
+                            tags: ['PyTorch', 'FastF1', 'ML'],
+                            href: "https://github.com/AmoghRavindraRao/2024_F1_Prediction"
+                        },
+                        {
+                            key: "3d-inpainting",
+                            title: "3D Mesh Inpainting with NeRF",
+                            status: "RESEARCH",
+                            desc: "Advanced 3D reconstruction using Neural Radiance Fields and diffusion models for intelligent mesh inpainting. Combines state-of-the-art generative AI with computer vision.",
+                            technicalSummary: [
+                                "Neural Radiance Fields (NeRF) for implicit 3D scene representation",
+                                "Diffusion models for generative 3D inpainting",
+                                "PyTorch with custom CUDA kernels for volumetric rendering",
+                                "Multi-view image processing and 3D mesh reconstruction",
+                                "Hybrid approach combining NeRF latent spaces with diffusion for inpainting"
+                            ],
+                            tags: ['NeRF', 'Diffusion', 'PyTorch'],
+                            href: "https://github.com/AmoghRavindraRao/3D-Mesh-Inpainting-with-NerF---Diffusion"
+                        },
+                        {
+                            key: "llm-fundamentals",
+                            title: "LLM Fundamentals Learning",
+                            status: "ML / EDUCATION",
+                            desc: "Comprehensive collection of Jupyter notebooks exploring LLM architectures, fine-tuning techniques, and practical implementations. Educational resource for deep learning concepts.",
+                            technicalSummary: [
+                                "Transformer architecture implementation from scratch using PyTorch",
+                                "Attention mechanisms: self-attention, multi-head attention, cross-attention",
+                                "Fine-tuning techniques: LoRA, QLoRA, and full parameter tuning",
+                                "Tokenization and embedding strategies for NLP tasks",
+                                "Practical examples with HuggingFace Transformers library"
+                            ],
+                            tags: ['PyTorch', 'Transformers', 'NLP'],
+                            href: "https://github.com/AmoghRavindraRao/LLM_Basics"
+                        }
+                    ].map((project) => (
+                        <ProjectCard
+                            key={project.key}
+                            title={project.title}
+                            status={project.status}
+                            desc={project.desc}
+                            technicalSummary={project.technicalSummary}
+                            tags={project.tags}
+                            href={project.href}
+                        />
+                    ))}
                 </div>
             </section>
 

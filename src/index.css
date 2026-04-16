@@ -313,14 +313,17 @@ body::-webkit-scrollbar,
     pointer-events: none;
     z-index: 9999;
     transition: transform 0.15s ease, background 0.2s ease;
-    mix-blend-mode: screen;
-    opacity: 1.00;
+    mix-blend-mode: multiply;
+    opacity: 0.75;
+    background: rgba(10, 10, 10, 0.2);
+    box-shadow: 0 0 4px rgba(10, 10, 10, 0.3);
   }
 
   .custom-cursor.hovering {
     transform: scale(2);
     background: var(--accent);
     border-color: var(--accent);
+    box-shadow: 0 0 8px var(--accent), 0 0 12px rgba(255, 77, 0, 0.5);
   }
 
   /* ===== FORMS ===== */
