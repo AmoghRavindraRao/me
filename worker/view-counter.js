@@ -126,17 +126,17 @@ export default {
         
         if (!isLocalhost) {
           const rateLimitKeys = [
-            `rate_limit:ip:${clientIP}`,           // Per IP: 1 per minute
-            `rate_limit:ip_hourly:${clientIP}`,    // Per IP: 10 per hour
-            `rate_limit:ua:${userAgent}`,          // Per User-Agent: 5 per minute
-            `rate_limit:global`                    // Global: 100 per minute
+            `rate_limit:ip:${clientIP}`,           // Per IP: 5 per minute (increased from 1)
+            `rate_limit:ip_hourly:${clientIP}`,    // Per IP: 20 per hour (increased from 10)
+            `rate_limit:ua:${userAgent}`,          // Per User-Agent: 10 per minute (increased from 5)
+            `rate_limit:global`                    // Global: 200 per minute (increased from 100)
           ];
 
           const limits = [
-            { key: rateLimitKeys[0], maxRequests: 1, windowMs: 60000 },     // 1 per minute per IP
-            { key: rateLimitKeys[1], maxRequests: 10, windowMs: 3600000 },   // 10 per hour per IP
-            { key: rateLimitKeys[2], maxRequests: 5, windowMs: 60000 },      // 5 per minute per UA
-            { key: rateLimitKeys[3], maxRequests: 100, windowMs: 60000 }     // 100 per minute global
+            { key: rateLimitKeys[0], maxRequests: 5, windowMs: 60000 },      // 5 per minute per IP
+            { key: rateLimitKeys[1], maxRequests: 20, windowMs: 3600000 },    // 20 per hour per IP
+            { key: rateLimitKeys[2], maxRequests: 10, windowMs: 60000 },      // 10 per minute per UA
+            { key: rateLimitKeys[3], maxRequests: 200, windowMs: 60000 }      // 200 per minute global
           ];
 
           // W4: Batch all four rate limit KV reads in parallel

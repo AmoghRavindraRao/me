@@ -40,12 +40,17 @@ export default function VisitorCounter() {
           });
           
           console.log('VisitorCounter: Increment response:', incrementRes.status);
-          if (incrementRes.ok) {
+          
+          // Try to get view count from response even if rate limited (429)
+          if (incrementRes.ok || incrementRes.status === 429) {
             const data: ViewResponse = await incrementRes.json();
-            console.log('VisitorCounter: Increment successful, views:', data.views);
+            console.log('VisitorCounter: Increment response data, views:', data.views);
             setCount(data.views);
-            setError(false); // Clear error on success
-            sessionStorage.setItem('view-incremented', 'true');
+            setError(false);
+            // Only mark as incremented if successful, not if rate limited
+            if (incrementRes.ok) {
+              sessionStorage.setItem('view-incremented', 'true');
+            }
           } else {
             throw new Error(`Failed to increment: ${incrementRes.status}`);
           }
@@ -69,6 +74,8 @@ export default function VisitorCounter() {
       } catch (err) {
         if (err instanceof Error && err.name === 'AbortError') {
           console.log('VisitorCounter: Request aborted (likely timeout)');
+        } else if (err instanceof Error && err.message.includes('429')) {
+          console.warn('VisitorCounter: Rate limited (429) - using cached value');
         } else {
           console.error('View counter error:', err);
         }
