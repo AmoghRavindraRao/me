@@ -42,6 +42,8 @@ function App() {
       const cursor = document.createElement('div');
       cursor.id = 'grip-cursor';
       cursor.className = 'custom-cursor';
+      cursor.style.left = '-9999px';
+      cursor.style.top = '-9999px';
       document.body.appendChild(cursor);
     }
 
