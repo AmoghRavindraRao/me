@@ -5,6 +5,7 @@
 const ALLOWED_ORIGINS = [
   'https://amogh-portfolio.pages.dev',
   'https://amogh-portfolio.vercel.app',
+  'https://me-pink-eta.vercel.app',  // Production Vercel domain
   'http://localhost:5173',  // Development
   'http://localhost:5174',  // Development (alternate)
   'http://localhost:3000',  // Alternative dev port
