@@ -6,7 +6,9 @@ const ALLOWED_ORIGINS = [
   'https://amogh-portfolio.pages.dev',
   'https://amogh-portfolio.vercel.app',
   'http://localhost:5173',  // Development
-  'http://localhost:3000'   // Alternative dev port
+  'http://localhost:5174',  // Development (alternate)
+  'http://localhost:3000',  // Alternative dev port
+  'http://localhost:3001'   // Alternative dev port
 ];
 
 export default {
@@ -17,8 +19,21 @@ export default {
     // Get the origin from request
     const requestOrigin = request.headers.get('Origin');
 
+    // Helper function to check if origin is allowed (supports localhost on any port)
+    const isOriginAllowed = (origin) => {
+      if (!origin) return true; // Allow requests without Origin header
+      
+      // Allow specific production origins
+      if (ALLOWED_ORIGINS.includes(origin)) return true;
+      
+      // Allow any localhost origin for development
+      if (origin.startsWith('http://localhost:')) return true;
+      
+      return false;
+    };
+
     // Strict CORS: reject unknown origins entirely
-    if (requestOrigin && !ALLOWED_ORIGINS.includes(requestOrigin)) {
+    if (requestOrigin && !isOriginAllowed(requestOrigin)) {
       return new Response(JSON.stringify({ error: 'Forbidden' }), {
         status: 403,
         headers: { 'Content-Type': 'application/json' }
@@ -105,85 +120,102 @@ export default {
         }
 
         // Layer 4: Enhanced rate limiting with multiple tiers
-        const rateLimitKeys = [
-          `rate_limit:ip:${clientIP}`,           // Per IP: 1 per minute
-          `rate_limit:ip_hourly:${clientIP}`,    // Per IP: 10 per hour
-          `rate_limit:ua:${userAgent}`,          // Per User-Agent: 5 per minute
-          `rate_limit:global`                    // Global: 100 per minute
-        ];
+        // Skip rate limiting for localhost (development)
+        const isLocalhost = requestOrigin && requestOrigin.includes('localhost');
+        
+        if (!isLocalhost) {
+          const rateLimitKeys = [
+            `rate_limit:ip:${clientIP}`,           // Per IP: 1 per minute
+            `rate_limit:ip_hourly:${clientIP}`,    // Per IP: 10 per hour
+            `rate_limit:ua:${userAgent}`,          // Per User-Agent: 5 per minute
+            `rate_limit:global`                    // Global: 100 per minute
+          ];
 
-        const limits = [
-          { key: rateLimitKeys[0], maxRequests: 1, windowMs: 60000 },     // 1 per minute per IP
-          { key: rateLimitKeys[1], maxRequests: 10, windowMs: 3600000 },   // 10 per hour per IP
-          { key: rateLimitKeys[2], maxRequests: 5, windowMs: 60000 },      // 5 per minute per UA
-          { key: rateLimitKeys[3], maxRequests: 100, windowMs: 60000 }     // 100 per minute global
-        ];
+          const limits = [
+            { key: rateLimitKeys[0], maxRequests: 1, windowMs: 60000 },     // 1 per minute per IP
+            { key: rateLimitKeys[1], maxRequests: 10, windowMs: 3600000 },   // 10 per hour per IP
+            { key: rateLimitKeys[2], maxRequests: 5, windowMs: 60000 },      // 5 per minute per UA
+            { key: rateLimitKeys[3], maxRequests: 100, windowMs: 60000 }     // 100 per minute global
+          ];
 
-        // W4: Batch all four rate limit KV reads in parallel
-        const rateLimitCounts = await Promise.all(
-          rateLimitKeys.map(key => env.VIEW_COUNTER.get(key))
-        );
+          // W4: Batch all four rate limit KV reads in parallel
+          const rateLimitCounts = await Promise.all(
+            rateLimitKeys.map(key => env.VIEW_COUNTER.get(key))
+          );
 
-        // Check all rate limits using the batched results
-        for (let i = 0; i < limits.length; i++) {
-          const currentCount = parseInt(rateLimitCounts[i] || '0');
-          if (currentCount >= limits[i].maxRequests) {
-            // W1: Increment the blocked stats counter BEFORE returning 429
-            const blockedCount = parseInt(await env.VIEW_COUNTER.get('stats:blocked') || '0');
-            await env.VIEW_COUNTER.put('stats:blocked', (blockedCount + 1).toString());
-            console.log(`Rate limit exceeded for ${limits[i].key}: ${currentCount}/${limits[i].maxRequests}`);
-            return new Response(JSON.stringify({
-              views: parseInt(totalViewsRaw || '0'),
-              timestamp: now
-            }), {
-              status: 429,
-              headers: {
-                ...corsHeaders,
-                'Retry-After': Math.ceil(limits[i].windowMs / 1000).toString()
-              }
-            });
+          // Check all rate limits using the batched results
+          for (let i = 0; i < limits.length; i++) {
+            const currentCount = parseInt(rateLimitCounts[i] || '0');
+            if (currentCount >= limits[i].maxRequests) {
+              // W1: Increment the blocked stats counter BEFORE returning 429
+              const blockedCount = parseInt(await env.VIEW_COUNTER.get('stats:blocked') || '0');
+              await env.VIEW_COUNTER.put('stats:blocked', (blockedCount + 1).toString());
+              console.log(`Rate limit exceeded for ${limits[i].key}: ${currentCount}/${limits[i].maxRequests}`);
+              return new Response(JSON.stringify({
+                views: parseInt(totalViewsRaw || '0'),
+                timestamp: now
+              }), {
+                status: 429,
+                headers: {
+                  ...corsHeaders,
+                  'Retry-After': Math.ceil(limits[i].windowMs / 1000).toString()
+                }
+              });
+            }
           }
+          
+          // Only increment rate limits if not localhost
+          await Promise.all(
+            rateLimitKeys.map(async (key, i) => {
+              const currentCount = parseInt(await env.VIEW_COUNTER.get(key) || '0');
+              const ttl = limits[i].windowMs / 1000;
+              return env.VIEW_COUNTER.put(key, (currentCount + 1).toString(), { expirationTtl: ttl });
+            })
+          );
         }
 
         // Layer 5: Request fingerprinting (detect rapid-fire requests)
-        const fingerprint = `${clientIP}:${userAgent.substring(0, 50)}`;
-        // Create a simple hash for the fingerprint key
-        let hash = 0;
-        for (let i = 0; i < fingerprint.length; i++) {
-          const char = fingerprint.charCodeAt(i);
-          hash = ((hash << 5) - hash) + char;
-          hash = hash & hash; // Convert to 32-bit integer
-        }
-        const fingerprintKey = `fingerprint:${Math.abs(hash).toString(36)}`;
-        const fingerprintData = await env.VIEW_COUNTER.get(fingerprintKey);
-
-        if (fingerprintData) {
-          const data = JSON.parse(fingerprintData);
-          const timeDiff = now - data.lastRequest;
-          const requestCount = data.count + 1;
-
-          // If more than 3 requests in 10 seconds, suspicious
-          if (requestCount > 3 && timeDiff < 10000) {
-            console.log(`Suspicious fingerprint pattern: ${requestCount} requests in ${timeDiff}ms`);
-            const blockedCount = parseInt(await env.VIEW_COUNTER.get('stats:blocked') || '0');
-            await env.VIEW_COUNTER.put('stats:blocked', (blockedCount + 1).toString());
-            return new Response(JSON.stringify({
-              views: parseInt(totalViewsRaw || '0'),
-              timestamp: now
-            }), { headers: corsHeaders });
+        // Skip fingerprinting for localhost development to speed up responses
+        if (!isLocalhost) {
+          const fingerprint = `${clientIP}:${userAgent.substring(0, 50)}`;
+          // Create a simple hash for the fingerprint key
+          let hash = 0;
+          for (let i = 0; i < fingerprint.length; i++) {
+            const char = fingerprint.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash = hash & hash; // Convert to 32-bit integer
           }
+          const fingerprintKey = `fingerprint:${Math.abs(hash).toString(36)}`;
+          const fingerprintData = await env.VIEW_COUNTER.get(fingerprintKey);
 
-          // Update fingerprint data
-          await env.VIEW_COUNTER.put(fingerprintKey, JSON.stringify({
-            count: requestCount,
-            lastRequest: now
-          }), { expirationTtl: 300 }); // 5 minutes
-        } else {
-          // First request from this fingerprint
-          await env.VIEW_COUNTER.put(fingerprintKey, JSON.stringify({
-            count: 1,
-            lastRequest: now
-          }), { expirationTtl: 300 });
+          if (fingerprintData) {
+            const data = JSON.parse(fingerprintData);
+            const timeDiff = now - data.lastRequest;
+            const requestCount = data.count + 1;
+
+            // If more than 3 requests in 10 seconds, suspicious
+            if (requestCount > 3 && timeDiff < 10000) {
+              console.log(`Suspicious fingerprint pattern: ${requestCount} requests in ${timeDiff}ms`);
+              const blockedCount = parseInt(await env.VIEW_COUNTER.get('stats:blocked') || '0');
+              await env.VIEW_COUNTER.put('stats:blocked', (blockedCount + 1).toString());
+              return new Response(JSON.stringify({
+                views: parseInt(totalViewsRaw || '0'),
+                timestamp: now
+              }), { headers: corsHeaders });
+            }
+
+            // Update fingerprint data
+            await env.VIEW_COUNTER.put(fingerprintKey, JSON.stringify({
+              count: requestCount,
+              lastRequest: now
+            }), { expirationTtl: 300 }); // 5 minutes
+          } else {
+            // First request from this fingerprint
+            await env.VIEW_COUNTER.put(fingerprintKey, JSON.stringify({
+              count: 1,
+              lastRequest: now
+            }), { expirationTtl: 300 });
+          }
         }
 
         // All checks passed - increment view counter
@@ -193,14 +225,35 @@ export default {
         // W1: Increment rate limit counters BEFORE returning the response,
         // so a client that disconnects early still consumes their quota.
         // W4: Fire all rate-limit writes + the view count write in parallel.
-        await Promise.all([
-          env.VIEW_COUNTER.put('total_views', newViews.toString()),
-          ...rateLimitKeys.map((key, i) => {
-            const currentCount = parseInt(rateLimitCounts[i] || '0');
-            const ttl = limits[i].windowMs / 1000;
-            return env.VIEW_COUNTER.put(key, (currentCount + 1).toString(), { expirationTtl: ttl });
-          })
-        ]);
+        const updatePromises = [env.VIEW_COUNTER.put('total_views', newViews.toString())];
+        
+        // Only increment rate limits if NOT localhost
+        if (!isLocalhost) {
+          const rateLimitKeys = [
+            `rate_limit:ip:${clientIP}`,
+            `rate_limit:ip_hourly:${clientIP}`,
+            `rate_limit:ua:${userAgent}`,
+            `rate_limit:global`
+          ];
+          const limits = [
+            { key: rateLimitKeys[0], maxRequests: 1, windowMs: 60000 },
+            { key: rateLimitKeys[1], maxRequests: 10, windowMs: 3600000 },
+            { key: rateLimitKeys[2], maxRequests: 5, windowMs: 60000 },
+            { key: rateLimitKeys[3], maxRequests: 100, windowMs: 60000 }
+          ];
+          const rateLimitCounts = await Promise.all(
+            rateLimitKeys.map(key => env.VIEW_COUNTER.get(key))
+          );
+          updatePromises.push(
+            ...rateLimitKeys.map((key, i) => {
+              const currentCount = parseInt(rateLimitCounts[i] || '0');
+              const ttl = limits[i].windowMs / 1000;
+              return env.VIEW_COUNTER.put(key, (currentCount + 1).toString(), { expirationTtl: ttl });
+            })
+          );
+        }
+        
+        await Promise.all(updatePromises);
 
         // Log successful increment
         console.log(`View incremented: ${newViews} from ${clientIP} (${country})`);

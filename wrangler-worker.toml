@@ -6,4 +6,4 @@ compatibility_date = "2024-01-01"
 # KV Namespace binding
 [[kv_namespaces]]
 binding = "VIEW_COUNTER"
-id = "d04be8d197084b45a9e0693b5fb10415"
+id = "ba5435144f4e4e6ca0d60a500c850a5d"

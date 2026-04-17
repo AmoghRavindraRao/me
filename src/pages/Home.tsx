@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Github, ExternalLink, ChevronDown, Linkedin, Briefcase, GraduationCap } from 'lucide-react';
 import { PatternDivider, SectionTitle } from '~components/SharedLayout';
 import ContributionGraph from '@/features/github/components/ContributionGraph';
+import VisitorCounter from '~components/VisitorCounter';
 import profileData from '../../profile.json';
 
 import logoIITH from '~assets/logos/asu.png';
@@ -362,6 +363,7 @@ const Home = () => {
                                 <Linkedin size={18} className="sm:size-[20px] md:size-[22px]" />
                             </a>
                         </div>
+                        <VisitorCounter />
                     </div>
                 </div>
             </section>

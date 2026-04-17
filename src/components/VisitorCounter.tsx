@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Eye } from 'lucide-react';
 
-const WORKER_URL = import.meta.env.VITE_VIEW_COUNTER_URL ?? 'https://view-counter.amogh-portfolio.workers.dev';
+const WORKER_URL = import.meta.env.VITE_VIEW_COUNTER_URL ?? 'https://view-counter.amoghraor.workers.dev';
 
 const DEFAULT_VISITOR_COUNT = '1240'; // fallback when API is unavailable
 
@@ -22,52 +22,71 @@ export default function VisitorCounter() {
 
   useEffect(() => {
     const controller = new AbortController();
+    // Increase timeout significantly - the worker can be slow on first request
+    // Use 30 seconds for now, will be shorter in production
+    const timeoutId = setTimeout(() => controller.abort(), 30000);
     
     const fetchViews = async () => {
       try {
+        console.log('VisitorCounter: Starting fetch with WORKER_URL:', WORKER_URL);
         const hasIncremented = sessionStorage.getItem('view-incremented');
         
         if (!hasIncremented) {
+          console.log('VisitorCounter: First visit - incrementing view');
           const incrementRes = await fetch(`${WORKER_URL}/api/views/increment`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             signal: controller.signal
           });
           
+          console.log('VisitorCounter: Increment response:', incrementRes.status);
           if (incrementRes.ok) {
             const data: ViewResponse = await incrementRes.json();
+            console.log('VisitorCounter: Increment successful, views:', data.views);
             setCount(data.views);
+            setError(false); // Clear error on success
             sessionStorage.setItem('view-incremented', 'true');
           } else {
-            throw new Error('Failed to increment');
+            throw new Error(`Failed to increment: ${incrementRes.status}`);
           }
         } else {
+          console.log('VisitorCounter: Returning visitor - fetching current view count');
           const getRes = await fetch(`${WORKER_URL}/api/views`, {
             headers: { 'Content-Type': 'application/json' },
             signal: controller.signal
           });
           
+          console.log('VisitorCounter: Get response:', getRes.status);
           if (getRes.ok) {
             const data: ViewResponse = await getRes.json();
+            console.log('VisitorCounter: Fetch successful, views:', data.views);
             setCount(data.views);
+            setError(false); // Clear error on success
           } else {
-            throw new Error('Failed to fetch');
+            throw new Error(`Failed to fetch: ${getRes.status}`);
           }
         }
       } catch (err) {
-        if (err instanceof Error && err.name === 'AbortError') return;
-        console.error('View counter error:', err);
+        if (err instanceof Error && err.name === 'AbortError') {
+          console.log('VisitorCounter: Request aborted (likely timeout)');
+        } else {
+          console.error('View counter error:', err);
+        }
         setError(true);
         const stored = localStorage.getItem('portfolio-visits') || DEFAULT_VISITOR_COUNT;
         setCount(parseInt(stored, 10));
       } finally {
+        clearTimeout(timeoutId);
         setLoading(false);
       }
     };
 
     fetchViews();
     
-    return () => controller.abort();
+    return () => {
+      clearTimeout(timeoutId);
+      controller.abort();
+    };
   }, []);
 
   const formatCount = (num: number | null) => {
