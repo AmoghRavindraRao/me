@@ -171,6 +171,32 @@
         "Added secure admin/user login with role-based access to manage trains, stations, and user data",
         "Designed a normalized MySQL schema for efficient ticketing and real-time seat tracking"
       ]
+    },
+    {
+      "name": "Semiconductor Wafer Defect Detection",
+      "tech": ["PyTorch", "FAISS", "NumPy", "OpenCV", "scikit-learn"],
+      "dates": "January 2026 - May 2026",
+      "description": "Semi-supervised learning pipeline for semiconductor wafer defect classification using a two-stage training approach with contrastive learning, pseudo-labeling, and test-time augmentation.",
+      "impact": "Achieved comprehensive wafer defect classification across 9 defect types with temperature-calibrated uncertainty quantification and 95%+ precision thresholds.",
+      "bullets": [
+        "Implemented a two-stage semi-supervised pipeline combining supervised contrastive loss (Stage 1) with pseudo-labeled fine-tuning (Stage 2) on 638k+ unlabeled wafers",
+        "Engineered a SmallViT model (pixel embeddings, 8×8 patches, 4 transformer blocks) with TTA-averaged embeddings, FAISS-indexed centroids, and threshold tuning for per-class coverage optimization",
+        "Applied Monte Carlo Dropout for uncertainty quantification, temperature calibration via LBFGS, and multi-view agreement checks to ensure 95%+ precision and safe pseudo-label acceptance"
+      ],
+      "repo": "https://github.com/AmoghRavindraRao/Semiconductor-Wafer-Defect-Detection"
+    },
+    {
+      "name": "Comprehensive Healthcare Utilization and Diabetes Outcomes Dashboard",
+      "tech": ["Tableau Public", "Python", "Pandas", "Jupyter Notebook"],
+      "dates": "August 2025 - December 2025",
+      "description": "Interactive Tableau dashboard exploring 101,766 inpatient diabetes care records across 130 U.S. hospitals (1999–2008), designed as a decision-support tool for administrators, clinicians, and researchers.",
+      "impact": "Delivered 15 synchronized visualizations with parameterized filters and calculated fields to identify readmission patterns, medication disparities, and high-risk patient cohorts.",
+      "bullets": [
+        "Analyzed and visualized 101,766 inpatient encounters with 50 demographic, clinical, and medication attributes; identified readmission correlations by age, discharge pathway, and medication adjustments",
+        "Designed 15 interconnected Tableau views (demographic distribution, readmission rates, medication profiles, discharge patterns) with calculated fields for patient-level insights and top-N diagnosis filtering",
+        "Implemented interactive filters (race, gender, age, admission type, readmission status) and dynamic drill-downs to support multi-stakeholder exploration for intervention targeting and policy optimization"
+      ],
+      "repo": "https://github.com/AmoghRavindraRao/diabetes-dashboard-tableau"
     }
   ]
 }
