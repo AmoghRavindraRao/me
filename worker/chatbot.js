@@ -315,9 +315,8 @@ async function handleChat(request, env) {
 			},
 			body: JSON.stringify({
 			model: "nvidia/nemotron-3-super-120b-a12b:free",
-				max_tokens: 1500,
-				stream: true,
-			}),
+			messages,
+			temperature: 0.7,
 		});
 
 		console.log('OpenRouter response status:', response.status);
