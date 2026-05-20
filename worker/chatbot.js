@@ -256,6 +256,23 @@ async function handleChat(request, env) {
 		});
 	}
 
+	// Validate API key format (should start with 'sk-or-' or similar)
+	if (apiKey.length < 20 || /[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]/.test(apiKey)) {
+		console.error('Invalid API key detected - contains control characters or wrong format');
+		console.error('API key length:', apiKey.length);
+		console.error('First chars:', JSON.stringify(apiKey.substring(0, 10)));
+		return new Response(JSON.stringify({ 
+			error: 'Invalid API key configuration - key appears corrupted or incorrectly set',
+			details: 'Please verify OPENROUTER_API_KEY is set correctly in Wrangler secrets'
+		}), {
+			status: 500,
+			headers: {
+				'Content-Type': 'application/json',
+				...corsHeaders,
+			},
+		});
+	}
+
 	// Build system prompt on-demand
 	const systemPrompt = await buildSystemPrompt();
 
@@ -275,11 +292,17 @@ async function handleChat(request, env) {
 	try {
 		// Log request details for debugging (sanitize API key)
 		const sanitizedKey = apiKey.substring(0, 10) + '...' + apiKey.substring(apiKey.length - 5);
-		console.log('OpenRouter request:', {
+		console.log('=== OpenRouter Request ===');
+		console.log('Model: mistralai/mistral-7b-instruct:free');
+		console.log('Messages count:', messages.length);
+		console.log('API Key prefix:', sanitizedKey);
+		console.log('Request body keys:', Object.keys({
 			model: "mistralai/mistral-7b-instruct:free",
-			messagesCount: messages.length,
-			apiKeyPrefix: sanitizedKey,
-		});
+			messages,
+			temperature: 0.7,
+			max_tokens: 1500,
+			stream: true,
+		}));
 
 		// Call OpenRouter API
 		const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
@@ -299,26 +322,41 @@ async function handleChat(request, env) {
 			}),
 		});
 
+		console.log('OpenRouter response status:', response.status);
+		console.log('OpenRouter response ok:', response.ok);
+
 		if (!response.ok) {
 			const errorText = await response.text();
-			let errorDetails = errorText;
+			console.log('=== OpenRouter Error Response ===');
+			console.log('Raw response text:', errorText);
+			console.log('Response text length:', errorText.length);
+			
+			let errorDetails = 'Unknown error';
 			let errorJson = null;
-			try {
-				errorJson = JSON.parse(errorText);
-				errorDetails = errorJson.error?.message || errorJson.message || JSON.stringify(errorJson);
-			} catch (e) {
-				// errorText is not JSON, use as-is
-				console.error('Failed to parse error response as JSON:', e);
+			
+			if (errorText && errorText.length > 0) {
+				try {
+					errorJson = JSON.parse(errorText);
+					console.log('Parsed error JSON:', errorJson);
+					errorDetails = errorJson.error?.message || errorJson.message || errorJson.error || JSON.stringify(errorJson);
+				} catch (parseErr) {
+					// errorText is not JSON, use as-is
+					console.error('Failed to parse error response as JSON:', parseErr.message);
+					errorDetails = errorText;
+				}
+			} else {
+				console.warn('Empty error response from OpenRouter');
+				errorDetails = 'Empty response from OpenRouter';
 			}
 			
-			console.error('OpenRouter API error:', {
-				status: response.status,
-				details: errorDetails,
-				fullResponse: errorJson || errorText,
-			});
+			console.error('=== Final Error Details ===');
+			console.error('Status:', response.status);
+			console.error('Details:', errorDetails);
 			
 			throw new Error(`OpenRouter API error: ${response.status} - ${errorDetails}`);
 		}
+		
+		console.log('OpenRouter response OK, starting stream...');
 
 		// Stream the response
 		const { readable, writable } = new TransformStream();
@@ -462,6 +500,20 @@ async function handleRequest(request, env) {
 	// Health check endpoint
 	if (pathname === '/health') {
 		return new Response(JSON.stringify({ status: 'ok' }), {
+			status: 200,
+			headers: { 'Content-Type': 'application/json' },
+		});
+	}
+
+	// Debug endpoint - check if API key is configured
+	if (pathname === '/debug/config' && request.method === 'GET') {
+		const apiKey = env.OPENROUTER_API_KEY;
+		return new Response(JSON.stringify({
+			apiKeyConfigured: !!apiKey,
+			apiKeyPrefix: apiKey ? apiKey.substring(0, 10) + '...' : 'NOT SET',
+			environment: env.ENVIRONMENT || 'unknown',
+			timestamp: new Date().toISOString(),
+		}), {
 			status: 200,
 			headers: { 'Content-Type': 'application/json' },
 		});

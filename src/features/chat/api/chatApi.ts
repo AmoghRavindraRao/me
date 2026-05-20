@@ -54,7 +54,18 @@ class ChatClient {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({})) as ChatAPIResponse;
-        throw new Error(errorData.error || ERROR_MESSAGES.SERVER_ERROR);
+        const errorMsg = errorData.error || ERROR_MESSAGES.SERVER_ERROR;
+        
+        // Log detailed error information for debugging
+        console.error('Chat API Error:', {
+          status: response.status,
+          errorMessage: errorMsg,
+          fullError: errorData,
+          url: response.url,
+          statusText: response.statusText,
+        });
+        
+        throw new Error(errorMsg);
       }
 
       const reader = response.body?.getReader();
@@ -147,7 +158,18 @@ class ChatClient {
 
       if (!response.ok) {
         const errorData = (await response.json().catch(() => ({}))) as ChatAPIResponse;
-        throw new Error(errorData.error || ERROR_MESSAGES.SERVER_ERROR);
+        const errorMsg = errorData.error || ERROR_MESSAGES.SERVER_ERROR;
+        
+        // Log detailed error information for debugging
+        console.error('Chat API Error (non-streaming fallback):', {
+          status: response.status,
+          errorMessage: errorMsg,
+          fullError: errorData,
+          url: response.url,
+          statusText: response.statusText,
+        });
+        
+        throw new Error(errorMsg);
       }
 
       const data = (await response.json()) as ChatAPIResponse;
