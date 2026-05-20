@@ -6,7 +6,7 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 import tseslint from 'typescript-eslint'
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(['dist', 'worker/**']),
   // JS/JSX files — plain JS rules only
   {
     files: ['**/*.{js,jsx}'],

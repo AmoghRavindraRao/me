@@ -48,12 +48,13 @@ const CustomCursor = () => {
       // Use MutationObserver to add hover effect to dynamically added elements
       const observer = new MutationObserver(() => {
         const newElements = document.querySelectorAll(interactiveSelectors);
-        newElements.forEach(el => {
+        newElements.forEach((el) => {
+          const htmlEl = el as HTMLElement;
           // Only add if not already listening
-          if (!el.dataset.hoverListening) {
+          if (!htmlEl.dataset.hoverListening) {
             el.addEventListener('mouseenter', addHoverEffect);
             el.addEventListener('mouseleave', removeHoverEffect);
-            el.dataset.hoverListening = 'true';
+            htmlEl.dataset.hoverListening = 'true';
           }
         });
       });

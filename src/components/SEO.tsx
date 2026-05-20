@@ -107,7 +107,7 @@ export const HomeSEO = () => (
         "alumniOf": { "@type": "EducationalOrganization", "name": "Arizona State University", "sameAs": "https://www.asu.edu" },
         "sameAs": [
           "https://github.com/AmoghRavindraRao",
-          "https://linkedin.com/in/amoghrrao03"
+          "https://linkedin.com/in/amogh-r-rao03"
         ],
         "knowsAbout": ["Machine Learning", "Data Science", "Python", "PyTorch", "React", "FastAPI", "Data Analysis", "AI", "Deep Learning", "Computer Vision"],
         "description": "ML Engineer and Data Scientist with ASU Master's degree. Experience in machine learning, predictive modeling, and data-driven solutions."

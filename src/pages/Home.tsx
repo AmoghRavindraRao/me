@@ -359,7 +359,7 @@ const Home = () => {
                             <a href="https://github.com/AmoghRavindraRao" target="_blank" rel="noopener noreferrer" className="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-zinc-700 text-black hover:bg-zinc-800 transition-colors">
                                 <Github size={18} className="sm:size-[20px] md:size-[22px]" />
                             </a>
-                            <a href="https://linkedin.com/in/amoghrrao03" target="_blank" rel="noopener noreferrer" className="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-zinc-700 text-black hover:bg-zinc-800 transition-colors">
+                            <a href="https://linkedin.com/in/amogh-r-rao03" target="_blank" rel="noopener noreferrer" className="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-zinc-700 text-black hover:bg-zinc-800 transition-colors">
                                 <Linkedin size={18} className="sm:size-[20px] md:size-[22px]" />
                             </a>
                         </div>
@@ -385,7 +385,7 @@ const Home = () => {
                         school="Arizona State University"
                         degree="Masters in Data Science, Analytics and Engineering"
                         period="2024 - 2026"
-                        grade="GPA: 3.78"
+                        grade="GPA: 3.77"
                         logo={logoIITH}
                         courses={{
                             "Computer Science": [
