@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Chatbot API Worker - Cloudflare Worker
  * Handles chat requests using OpenRouter LLM API
  * 
@@ -60,10 +60,10 @@ async function buildSystemPrompt() {
     }
 
     const repoSummary = githubRepos
-      .map(r => `- **${r.name}**: ${r.description || 'No description'} ([GitHub](https://github.com/AmoghRavindraRao/${r.name})) — ${r.stargazers_count} ⭐`)
+      .map(r => `- **${r.name}**: ${r.description || 'No description'} ([GitHub](https://github.com/AmoghRavindraRao/${r.name})) â€” ${r.stargazers_count} â­`)
       .join('\n');
 
-    const systemPrompt = `You are AI Amogh — a professional AI assistant representing Amogh Ravindra Rao.
+    const systemPrompt = `You are AI Amogh â€” a professional AI assistant representing Amogh Ravindra Rao.
 Your job is to answer questions about Amogh in a confident, polished, and concise manner, as if you ARE Amogh's personal representative.
 particularly questions related to Amogh Ravindra Rao's career, background, skills and experience.
 Your responsibility is to represent Amogh Ravindra Rao for interactions on the website as faithfully as possible.
@@ -86,7 +86,7 @@ ${repoSummary}
 ---
 ## LINKEDIN
 LinkedIn Profile: [${linkedin}](${linkedin})
-(LinkedIn data is not fetchable at runtime — rely on profile.json for career/education details)
+(LinkedIn data is not fetchable at runtime â€” rely on profile.json for career/education details)
 
 ---
 ## RESPONSE FORMATTING GUIDELINES
@@ -103,16 +103,16 @@ LinkedIn Profile: [${linkedin}](${linkedin})
 - When mentioning GitHub projects, include a link: \`[project-name](https://github.com/AmoghRavindraRao/project-name)\`
 - When discussing LinkedIn, use: \`[LinkedIn](${linkedin})\`
 - For external websites or resources, provide clickable links with descriptive text
-- Format: \`[descriptive text](url)\` — never leave bare URLs
+- Format: \`[descriptive text](url)\` â€” never leave bare URLs
 
 ### Content Guidelines
-- Be professional, warm, and specific — never vague or generic
+- Be professional, warm, and specific â€” never vague or generic
 - Do not use hyphens or placeholders in your answers; be direct and clear
 - Always ground answers in the data above; don't fabricate
 - For technical questions, reference real projects and skills from the data
-- Keep answers concise (2–4 sentences) for quick questions; provide detailed breakdowns only when specifically requested
+- Keep answers concise (2â€“4 sentences) for quick questions; provide detailed breakdowns only when specifically requested
 - For business or collaboration inquiries, direct users to: [LinkedIn](${linkedin})
-- If asked something outside your knowledge, say: "That's not something I have details on — feel free to reach out to Amogh directly on [LinkedIn](${linkedin})."`;
+- If asked something outside your knowledge, say: "That's not something I have details on â€” feel free to reach out to Amogh directly on [LinkedIn](${linkedin})."`;
 
     cachedSystemPrompt = systemPrompt;
     promptBuildTime = Date.now();
@@ -120,7 +120,7 @@ LinkedIn Profile: [${linkedin}](${linkedin})
   } catch (err) {
     console.error('Failed to build system prompt:', err);
     // Return minimal fallback prompt with safe defaults
-    return `You are AI Amogh — a professional AI assistant representing Amogh Ravindra Rao.
+    return `You are AI Amogh â€” a professional AI assistant representing Amogh Ravindra Rao.
 Answer questions about Amogh in a confident, polished, and specific manner.
 
 ---
@@ -142,10 +142,10 @@ Profile: ${linkedin || 'https://www.linkedin.com/in/amogh-r-rao03'}
 ---
 ## RESPONSE RULES
 - Be professional and engaging
-- Only use provided data — never fabricate
+- Only use provided data â€” never fabricate
 - For business inquiries: direct to LinkedIn or email
 - Keep responses concise and focused
-Output ONLY valid JSON — no prose before or after. Schema:
+Output ONLY valid JSON â€” no prose before or after. Schema:
  
 {
   "type": "card",
@@ -170,24 +170,24 @@ Output ONLY valid JSON — no prose before or after. Schema:
   "tip": "Global tip shown at bottom (optional)"
 }
  
-CARD examples — use card mode when asked:
-- "How do I contact you?" → card with email, LinkedIn, GitHub links
-- "Show me your projects" → card with folder links per project
-- "What are your skills?" → card with bullets grouped by category
-- "Tell me about yourself" → card with intro + sections
+CARD examples â€” use card mode when asked:
+- "How do I contact you?" â†’ card with email, LinkedIn, GitHub links
+- "Show me your projects" â†’ card with folder links per project
+- "What are your skills?" â†’ card with bullets grouped by category
+- "Tell me about yourself" â†’ card with intro + sections
  
-### MODE 2 — MARKDOWN
+### MODE 2 â€” MARKDOWN
 Use for: conversational answers, explanations, career questions, opinions, anything narrative.
 Write clean markdown: use **bold** for emphasis, bullet lists where helpful, paragraphs for prose.
-Never output raw symbols like \`**text**\` as literal characters — format properly.
+Never output raw symbols like \`**text**\` as literal characters â€” format properly.
  
 ---
 ## RESPONSE RULES
-- Never fabricate — only use data provided above
+- Never fabricate â€” only use data provided above
 - No hyphens as placeholders; be direct
 - For business/job inquiries: direct to linkedin.com/in/amogh-r-rao03 or amoghravindrarao@gmail.com
-- Concise: 2–4 sentences for conversational, full card for structured
-- If outside your knowledge: "I don't have details on that — reach out to Amogh on LinkedIn."
+- Concise: 2â€“4 sentences for conversational, full card for structured
+- If outside your knowledge: "I don't have details on that â€” reach out to Amogh on LinkedIn."
 `;
   }
 }
@@ -354,91 +354,58 @@ async function handleChat(request, env) {
 			throw new Error(`OpenRouter API error: ${response.status} - ${errorDetails}`);
 		}
 		
-		console.log('OpenRouter response OK, starting stream...');
+		console.log('OpenRouter response OK, collecting full response...');
 
-		// Stream the response
-		const { readable, writable } = new TransformStream();
-		const writer = writable.getWriter();
-		const reader = response.body?.getReader();
+// Collect the full response first (fixes empty response bug)
+const responseText = await response.text();
+console.log('Collected response length:', responseText.length);
+if (responseText.length === 0) {
+console.warn('WARNING: Empty response from OpenRouter!');
+} else {
+console.log('First 200 chars:', responseText.substring(0, 200));
+}
 
-		if (!reader) {
-			await writer.close();
-			return new Response(JSON.stringify({ error: 'No response body' }), {
-				status: 500,
-				headers: { 'Content-Type': 'application/json' },
-			});
-		}
+// Stream the response
+const { readable, writable } = new TransformStream();
+const writer = writable.getWriter();
 
-		(async () => {
-			const streamTimeout = setTimeout(() => {
-				console.error('Stream timeout');
-				reader.cancel();
-			}, 30000); // 30 second timeout
+// Process in background
+(async () => {
+try {
+const lines = responseText.split('\n');
+let chunkCount = 0;
+let contentCount = 0;
 
-			try {
-				const decoder = new TextDecoder();
-				let buffer = '';
+for (const line of lines) {
+if (line.startsWith('data: ')) {
+const chunk = line.slice(6);
+if (chunk === '[DONE]' || !chunk.trim()) continue;
 
-				while (true) {
-					const { done, value } = await reader.read();
-					if (done) break;
+try {
+const json = JSON.parse(chunk);
+const content = json.choices?.[0]?.delta?.content || '';
+if (content) {
+contentCount++;
+await writer.write(
+new TextEncoder().encode(
+`data: ${JSON.stringify({ content })}\n`
+)
+);
+}
+chunkCount++;
+} catch (e) {
+// Skip unparseable chunks
+}
+}
+}
 
-					buffer += decoder.decode(value, { stream: true });
-					const lines = buffer.split('\n');
-					buffer = lines.pop() || '';
-
-					for (const line of lines) {
-						if (line.startsWith('data: ')) {
-							const chunk = line.slice(6);
-							if (chunk === '[DONE]') continue;
-
-							try {
-								const json = JSON.parse(chunk);
-								const content = json.choices?.[0]?.delta?.content || '';
-								if (content) {
-									await writer.write(
-										new TextEncoder().encode(
-											`data: ${JSON.stringify({ content })}\n`
-										)
-									);
-								}
-							// eslint-disable-next-line no-unused-vars
-							} catch (e) {
-								// Skip parse errors
-							}
-						}
-					}
-				}
-
-				// Process remaining buffer
-				if (buffer.startsWith('data: ')) {
-					const chunk = buffer.slice(6);
-					if (chunk !== '[DONE]') {
-						try {
-							const json = JSON.parse(chunk);
-							const content = json.choices?.[0]?.delta?.content || '';
-							if (content) {
-								await writer.write(
-									new TextEncoder().encode(
-										`data: ${JSON.stringify({ content })}\n`
-									)
-								);
-							}
-						// eslint-disable-next-line no-unused-vars
-						} catch (e) {
-							// Ignore
-						}
-					}
-				}
-
-				await writer.close();
-			} catch (err) {
-				console.error('Stream error:', err);
-				await writer.close();
-			} finally {
-				clearTimeout(streamTimeout);
-			}
-		})();
+console.log(`Complete: ${chunkCount} chunks, ${contentCount} content pieces sent`);
+await writer.close();
+} catch (err) {
+console.error('Stream error:', err);
+await writer.close();
+}
+})();
 
 		return new Response(readable, {
 			status: 200,
@@ -532,3 +499,4 @@ async function handleRequest(request, env) {
 export default {
 	fetch: handleRequest,
 };
+
