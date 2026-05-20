@@ -17,7 +17,7 @@ async function loadProfileData() {
   if (profileData) return profileData;
   try {
     // Try importing directly if bundled
-    profileData = await import('./profile.json', { assert: { type: 'json' } }).then(m => m.default);
+    profileData = await import('../profile.json', { assert: { type: 'json' } }).then(m => m.default);
   } catch (err) {
     console.warn('Failed to load profile.json:', err);
     profileData = {};
