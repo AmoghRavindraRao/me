@@ -42,7 +42,7 @@ wrangler login
 After successful deployment, you'll see:
 ```
 ✓ Uploaded chatbot-api (x.xx KiB)
-✓ Deployed to https://chatbot-api.amogh-portfolio.workers.dev
+✓ Deployed to https://chatbot-api.amoghraor.workers.dev
 ```
 
 Save this URL! Update your `.env.local` and `.env.production` if different.
@@ -51,12 +51,12 @@ Save this URL! Update your `.env.local` and `.env.production` if different.
 
 Update `/.env.local`:
 ```env
-VITE_CHATBOT_API_URL=https://chatbot-api.amogh-portfolio.workers.dev
+VITE_CHATBOT_API_URL=https://chatbot-api.amoghraor.workers.dev
 ```
 
 If deploying to production, also update `/.env.production`:
 ```env
-VITE_CHATBOT_API_URL=https://chatbot-api.amogh-portfolio.workers.dev
+VITE_CHATBOT_API_URL=https://chatbot-api.amoghraor.workers.dev
 ```
 
 ## Step 4: Test Locally (Development)
@@ -78,12 +78,12 @@ Then visit `http://localhost:5173/chat` and test the chatbot.
 Test the worker endpoint:
 ```bash
 # Health check
-curl https://chatbot-api.amogh-portfolio.workers.dev/health
+curl https://chatbot-api.amoghraor.workers.dev/health
 
 # Should return: {"status":"ok"}
 
 # Test chat (requires valid message)
-curl -X POST https://chatbot-api.amogh-portfolio.workers.dev/chat \
+curl -X POST https://chatbot-api.amoghraor.workers.dev/chat \
   -H "Content-Type: application/json" \
   -d '{"message":"Hello","conversationHistory":[]}'
 ```
@@ -135,5 +135,5 @@ OpenRouter pricing varies by model. Using the "openrouter/auto" setting:
 
 ### Frontend Environment (.env.local)
 - `VITE_CHATBOT_API_URL` - URL to the deployed worker
-  - Production: `https://chatbot-api.amogh-portfolio.workers.dev`
+  - Production: `https://chatbot-api.amoghraor.workers.dev`
   - Development: `http://localhost:8787` (fallback)
