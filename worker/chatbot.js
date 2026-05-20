@@ -416,7 +416,12 @@ async function handleRequest(request, env) {
 	// Handle CORS preflight
 	if (request.method === 'OPTIONS') {
 		const origin = request.headers.get('Origin') || '';
-		const allowedOrigins = ['https://amogh-portfolio.com', 'http://localhost:3000', 'http://localhost:5173'];
+		const allowedOrigins = [
+			'https://amogh-portfolio.com',
+			'https://amogh-portfolio.pages.dev',
+			'http://localhost:3000',
+			'http://localhost:5173'
+		];
 		const corsOrigin = allowedOrigins.includes(origin) ? origin : 'https://amogh-portfolio.com';
 		const corsHeaders = {
 			'Access-Control-Allow-Origin': corsOrigin,
