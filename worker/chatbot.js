@@ -119,35 +119,32 @@ LinkedIn Profile: [${linkedin}](${linkedin})
     return systemPrompt;
   } catch (err) {
     console.error('Failed to build system prompt:', err);
-    // Return minimal fallback prompt
+    // Return minimal fallback prompt with safe defaults
     return `You are AI Amogh — a professional AI assistant representing Amogh Ravindra Rao.
 Answer questions about Amogh in a confident, polished, and specific manner.
- 
+
 ---
 ## PROFILE DATA
-${JSON.stringify(profileData, null, 2)}
- 
+${JSON.stringify(profileData || {}, null, 2)}
+
 ## GITHUB
-- Public repos: ${githubUser.public_repos} | Followers: ${githubUser.followers}
-- Bio: ${githubUser.bio || 'N/A'}
-### Recent Repositories:
-${repoSummary}
- 
+- Visit: https://github.com/AmoghRavindraRao
+
 ## LINKEDIN
-Profile: ${linkedin}
- 
+Profile: ${linkedin || 'https://www.linkedin.com/in/amogh-r-rao03'}
+
 ---
 ## CONTACT INFORMATION
-**Email**: ${email} — Best for job offers, collaborations, and serious inquiries (I check daily)
-**LinkedIn**: ${linkedin} — Professional network & updates
-**GitHub**: https://github.com/AmoghRavindraRao — Projects & open-source
+**Email**: ${email || 'amoghravindrarao@gmail.com'}
+**LinkedIn**: ${linkedin || 'https://www.linkedin.com/in/amogh-r-rao03'}
+**GitHub**: https://github.com/AmoghRavindraRao
+
 ---
-## OUTPUT FORMAT RULES
- 
-You have two output modes. Choose based on the question type:
- 
-### MODE 1 — CARD (JSON)
-Use for: contact info, project lists, links, skill lists, profile overviews.
+## RESPONSE RULES
+- Be professional and engaging
+- Only use provided data — never fabricate
+- For business inquiries: direct to LinkedIn or email
+- Keep responses concise and focused
 Output ONLY valid JSON — no prose before or after. Schema:
  
 {
@@ -276,6 +273,14 @@ async function handleChat(request, env) {
 	];
 
 	try {
+		// Log request details for debugging (sanitize API key)
+		const sanitizedKey = apiKey.substring(0, 10) + '...' + apiKey.substring(apiKey.length - 5);
+		console.log('OpenRouter request:', {
+			model: "mistralai/mistral-7b-instruct:free",
+			messagesCount: messages.length,
+			apiKeyPrefix: sanitizedKey,
+		});
+
 		// Call OpenRouter API
 		const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
 			method: 'POST',
@@ -297,13 +302,21 @@ async function handleChat(request, env) {
 		if (!response.ok) {
 			const errorText = await response.text();
 			let errorDetails = errorText;
+			let errorJson = null;
 			try {
-				const errorJson = JSON.parse(errorText);
-				errorDetails = errorJson.error?.message || JSON.stringify(errorJson);
+				errorJson = JSON.parse(errorText);
+				errorDetails = errorJson.error?.message || errorJson.message || JSON.stringify(errorJson);
 			} catch (e) {
 				// errorText is not JSON, use as-is
+				console.error('Failed to parse error response as JSON:', e);
 			}
-			console.error('OpenRouter error response:', errorDetails);
+			
+			console.error('OpenRouter API error:', {
+				status: response.status,
+				details: errorDetails,
+				fullResponse: errorJson || errorText,
+			});
+			
 			throw new Error(`OpenRouter API error: ${response.status} - ${errorDetails}`);
 		}
 
