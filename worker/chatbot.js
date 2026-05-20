@@ -293,7 +293,7 @@ async function handleChat(request, env) {
 		// Log request details for debugging (sanitize API key)
 		const sanitizedKey = apiKey.substring(0, 10) + '...' + apiKey.substring(apiKey.length - 5);
 		console.log('=== OpenRouter Request ===');
-		console.log('Model: mistralai/mistral-7b-instruct:free');
+		console.log('Model: nvidia/nemotron-3-super-120b-a12b:free');
 		console.log('Messages count:', messages.length);
 		console.log('API Key prefix:', sanitizedKey);
 		console.log('Request body keys:', Object.keys({
@@ -314,9 +314,7 @@ async function handleChat(request, env) {
 				'X-Title': 'Amogh Portfolio Chatbot',
 			},
 			body: JSON.stringify({
-				model: "mistralai/mistral-7b-instruct:free",
-				messages,
-				temperature: 0.7,
+			model: "nvidia/nemotron-3-super-120b-a12b:free",
 				max_tokens: 1500,
 				stream: true,
 			}),
