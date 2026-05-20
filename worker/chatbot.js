@@ -420,6 +420,7 @@ async function handleRequest(request, env) {
 		const allowedOrigins = [
 			'https://amogh-portfolio.com',
 			'https://amogh-portfolio.pages.dev',
+			'https://amoghravindrarao.vercel.app',
 			'http://localhost:3000',
 			'http://localhost:5173'
 		];
