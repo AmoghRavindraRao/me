@@ -11,7 +11,7 @@ node_modules
 dist
 
 # Environment variables
-.env
+# .env is committed for production config
 .env.local
 .env.*.local
 dist-ssr
