@@ -282,7 +282,7 @@ async function handleChat(request, env) {
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: `Bearer ${apiKey}`,
-				'HTTP-Referer': 'https://amogh-portfolio.com',
+				'HTTP-Referer': 'https://amoghravindrarao.vercel.app',
 				'X-Title': 'Amogh Portfolio Chatbot',
 			},
 			body: JSON.stringify({
