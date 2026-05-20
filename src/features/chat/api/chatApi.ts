@@ -6,7 +6,7 @@
 import type { StreamingChatRequest, ChatAPIResponse } from '../types';
 import { CHAT_CONFIG, ERROR_MESSAGES } from '../constants';
 
-const CHAT_API_URL = import.meta.env.VITE_CHATBOT_API_URL ?? 'https://chatbot-api.amogh-portfolio.workers.dev';
+const CHAT_API_URL = import.meta.env.VITE_CHATBOT_API_URL ?? 'https://chatbot-api.amoghraor.workers.dev';
 
 class ChatClient {
   private abortController: AbortController | null = null;

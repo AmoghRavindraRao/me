@@ -15,5 +15,5 @@ vars = { ENVIRONMENT = "development" }
 
 # Routes (optional - uncomment to customize)
 # routes = [
-#   { pattern = "chatbot-api.amogh-portfolio.workers.dev/*", zone_id = "your_zone_id" }
+#   { pattern = "chatbot-api.amoghraor.workers.dev/*", zone_id = "your_zone_id" }
 # ]
