@@ -3,9 +3,9 @@
   "outputDirectory": "dist",
   "framework": "vite",
   "env": {
-    "VITE_CHATBOT_API_URL": "https://chatbot-api.amoghraor.workers.dev",
-    "VITE_BLOG_PROXY_URL": "https://blog-proxy.amoghraor.workers.dev",
-    "VITE_VIEW_COUNTER_URL": "https://view-counter.amoghraor.workers.dev",
+    "VITE_CHATBOT_API_URL": "https://chatbot-api.amogh-portfolio.workers.dev",
+    "VITE_BLOG_PROXY_URL": "https://blog-proxy.amogh-portfolio.workers.dev",
+    "VITE_VIEW_COUNTER_URL": "https://view-counter.amogh-portfolio.workers.dev",
     "VITE_BASE_URL": "https://amoghravindrarao.vercel.app"
   },
   "rewrites": [
