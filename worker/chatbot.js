@@ -297,7 +297,7 @@ async function handleChat(request, env) {
 		console.log('Messages count:', messages.length);
 		console.log('API Key prefix:', sanitizedKey);
 		console.log('Request body keys:', Object.keys({
-			model: "mistralai/mistral-7b-instruct:free",
+			model: "nvidia/nemotron-3-super-120b-a12b:free",
 			messages,
 			temperature: 0.7,
 			max_tokens: 1500,
