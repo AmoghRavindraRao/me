@@ -74,8 +74,15 @@ Format all responses as clean, readable Markdown with proper structure.`;
  * Handle POST /chat endpoint with streaming
  */
 async function handleChat(request, env) {
+	const origin = request.headers.get('Origin') || '';
+	const allowedOrigins = [
+		'https://amoghravindrarao.vercel.app',
+		'https://amoghraor.github.io',
+		'https://amoghravindrarao.vercel.app'
+	];
+	const corsOrigin = allowedOrigins.includes(origin) ? origin : allowedOrigins[0];
 	const corsHeaders = {
-		'Access-Control-Allow-Origin': 'https://amoghravindrarao.vercel.app',
+		'Access-Control-Allow-Origin': corsOrigin,
 		'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
 		'Access-Control-Allow-Headers': 'Content-Type, Authorization',
 	};
@@ -111,27 +118,23 @@ async function handleChat(request, env) {
  * Main request handler
  */
 async function handleRequest(request, env) {
-	// Handle CORS preflight
-	if (request.method === 'OPTIONS') {
-		const origin = request.headers.get('Origin') || '';
-		const allowedOrigins = [
-			'https://amogh-portfolio.com',
-			'https://amogh-portfolio.pages.dev',
-			'https://amoghravindrarao.vercel.app',
-			'http://localhost:3000',
-			'http://localhost:5173'
-		];
-		const corsOrigin = allowedOrigins.includes(origin) ? origin : 'https://amogh-portfolio.com';
-		const corsHeaders = {
-			'Access-Control-Allow-Origin': corsOrigin,
-			'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-			'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-		};
+	// Handle CORS preflight specifically for chat route and generally
+	const origin = request.headers.get('Origin') || '';
+	const allowedOrigins = [
+		'https://amoghravindrarao.vercel.app',
+		'https://amoghraor.workers.dev',
+		'http://localhost:3000',
+		'http://localhost:5173'
+	];
+	const corsOrigin = allowedOrigins.includes(origin) ? origin : 'https://amoghravindrarao.vercel.app';
+	const corsHeaders = {
+		'Access-Control-Allow-Origin': corsOrigin,
+		'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+		'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+	};
 
-		return new Response(null, {
-			status: 200,
-			headers: corsHeaders,
-		});
+	if (request.method === 'OPTIONS') {
+		return new Response(null, { status: 200, headers: corsHeaders });
 	}
 
 	const { pathname } = new URL(request.url);
