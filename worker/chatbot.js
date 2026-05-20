@@ -286,18 +286,25 @@ async function handleChat(request, env) {
 				'X-Title': 'Amogh Portfolio Chatbot',
 			},
 			body: JSON.stringify({
-				model: "nvidia/nemotron-3-super-120b-a12b:free", // Uses most cost-effective available model
+				model: "mistralai/mistral-7b-instruct:free",
 				messages,
-				temperature: 0.1,
-				max_tokens: 2000,
+				temperature: 0.7,
+				max_tokens: 1500,
 				stream: true,
 			}),
 		});
 
 		if (!response.ok) {
-			const error = await response.text();
-			console.error('OpenRouter error:', error);
-			throw new Error(`OpenRouter API error: ${response.status}`);
+			const errorText = await response.text();
+			let errorDetails = errorText;
+			try {
+				const errorJson = JSON.parse(errorText);
+				errorDetails = errorJson.error?.message || JSON.stringify(errorJson);
+			} catch (e) {
+				// errorText is not JSON, use as-is
+			}
+			console.error('OpenRouter error response:', errorDetails);
+			throw new Error(`OpenRouter API error: ${response.status} - ${errorDetails}`);
 		}
 
 		// Stream the response
