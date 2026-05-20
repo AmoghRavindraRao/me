@@ -3,10 +3,10 @@
   "outputDirectory": "dist",
   "framework": "vite",
   "env": {
-    "VITE_CHATBOT_API_URL": "@vite_chatbot_api_url",
-    "VITE_BLOG_PROXY_URL": "@vite_blog_proxy_url",
-    "VITE_VIEW_COUNTER_URL": "@vite_view_counter_url",
-    "VITE_BASE_URL": "@vite_base_url"
+    "VITE_CHATBOT_API_URL": "https://chatbot-api.amoghraor.workers.dev",
+    "VITE_BLOG_PROXY_URL": "https://blog-proxy.amoghraor.workers.dev",
+    "VITE_VIEW_COUNTER_URL": "https://view-counter.amoghraor.workers.dev",
+    "VITE_BASE_URL": "https://amoghravindrarao.vercel.app"
   },
   "rewrites": [
     {
