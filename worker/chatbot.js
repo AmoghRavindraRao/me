@@ -1,14 +1,14 @@
-﻿/**
+/**
  * Chatbot API Worker
  */
 
-const handleChat = async (request, env) => {
-  const corsHeaders = {
-    'Access-Control-Allow-Origin': 'https://amoghravindrarao.vercel.app',
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-  };
+const corsHeaders = {
+  'Access-Control-Allow-Origin': 'https://amoghravindrarao.vercel.app',
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+};
 
+const handleChat = async (request, env) => {
   try {
     const data = await request.json();
     const { message } = data;
@@ -49,11 +49,14 @@ const handleChat = async (request, env) => {
     });
 
     if (!response.ok) {
-      throw new Error(`API error: ${response.status}`);
+      const errText = await response.text();
+      return new Response(JSON.stringify({ error: `API error: ${response.status}`, details: errText }), {
+        status: response.status,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders },
+      });
     }
 
-    const responseText = await response.text();
-    return new Response(responseText, {
+    return new Response(response.body, {
       status: 200,
       headers: {
         'Content-Type': 'text/event-stream',
@@ -74,22 +77,33 @@ export default {
   fetch: (request, env) => {
     const pathname = new URL(request.url).pathname;
 
+    // CORS preflight
     if (request.method === 'OPTIONS') {
-      return new Response(null, { status: 200, headers: { 'Access-Control-Allow-Origin': '*' } });
+      return new Response(null, { status: 200, headers: corsHeaders });
     }
 
+    // Health check
     if (pathname === '/health') {
-      return new Response(JSON.stringify({ status: 'ok' }), { headers: { 'Content-Type': 'application/json' } });
+      return new Response(JSON.stringify({ status: 'ok' }), { 
+        headers: { 'Content-Type': 'application/json', ...corsHeaders } 
+      });
     }
 
+    // Chat endpoint
     if (pathname === '/chat' && request.method === 'POST') {
       return handleChat(request, env);
     }
 
+    // Debug config
     if (pathname === '/debug/config') {
-      return new Response(JSON.stringify({ apiKeyConfigured: !!env.OPENROUTER_API_KEY }), { headers: { 'Content-Type': 'application/json' } });
+      return new Response(JSON.stringify({ apiKeyConfigured: !!env.OPENROUTER_API_KEY }), { 
+        headers: { 'Content-Type': 'application/json', ...corsHeaders } 
+      });
     }
 
-    return new Response(JSON.stringify({ error: 'Not found' }), { status: 404, headers: { 'Content-Type': 'application/json' } });
+    return new Response(JSON.stringify({ error: 'Not found' }), { 
+      status: 404, 
+      headers: { 'Content-Type': 'application/json', ...corsHeaders } 
+    });
   },
 };
