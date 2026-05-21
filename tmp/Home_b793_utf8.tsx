@@ -188,15 +188,15 @@ const ProjectCard = ({ title, status, desc, technicalSummary, tags, href }: Proj
                             }}
                             className="flex items-center gap-1 text-[10px] sm:text-[12px] font-mono text-zinc-600 hover:text-zinc-800 transition-colors font-semibold w-fit"
                         >
-                            <span className={`inline-block transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}>▾</span>
+                            <span className={`inline-block transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}>Γû╝</span>
                             <span>Technical Stack</span>
                         </button>
 
                         {isExpanded && (
                             <div className="flex flex-col gap-1 pl-3 border-l border-dashed border-zinc-300 mt-1">
                                 {technicalSummary.map((item, idx) => (
-                                        <p key={idx} className="text-[10px] sm:text-[12px] text-zinc-600 leading-relaxed font-mono">
-                                        • {item}
+                                    <p key={idx} className="text-[10px] sm:text-[12px] text-zinc-600 leading-relaxed font-mono">
+                                        ΓÇó {item}
                                     </p>
                                 ))}
                             </div>
@@ -343,7 +343,7 @@ const Home = () => {
                 <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 sm:gap-4">
                     <div className="flex flex-col gap-1.5 sm:gap-2">
                         <span className="font-mono text-black text-xs sm:text-sm flex items-center gap-2">
-                            Hi, I'm
+                            Hi, I'm <span className="motion-safe:animate-pulse">≡ƒæï</span>
                         </span>
                         <h1 className="font-doto text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-black uppercase">
                             AMOGH

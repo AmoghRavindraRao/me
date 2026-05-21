@@ -234,15 +234,6 @@ export const SnippetsSEO = () => (
   />
 );
 
-export const ChatSEO = () => (
-  <SEO
-    title="Chat with AI Amogh | Amogh Ravindra Rao"
-    description="Chat with an AI version of me. Ask about my machine learning projects, skills, or just say hi!"
-    pathname="/chat"
-    robots="noindex, nofollow"
-  />
-);
-
 export const NotFoundSEO = () => (
   <SEO
     title="404 - Page Not Found | Amogh Ravindra Rao"

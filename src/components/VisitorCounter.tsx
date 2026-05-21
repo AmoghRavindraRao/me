@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Eye } from 'lucide-react';
 
-const WORKER_URL = import.meta.env.VITE_VIEW_COUNTER_URL ?? 'https://view-counter.amogh-portfolio.workers.dev';
+const WORKER_URL = import.meta.env.VITE_VIEW_COUNTER_URL ?? 'https://view-counter.amoghraor.workers.dev';
 
 const DEFAULT_VISITOR_COUNT = '1240'; // fallback when API is unavailable
 

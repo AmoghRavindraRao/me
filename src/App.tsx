@@ -15,7 +15,6 @@ import {
   TimelineSEO,
   BooksSEO,
   SnippetsSEO,
-  ChatSEO,
   NotFoundSEO
 } from '~components/SEO';
 
@@ -31,7 +30,6 @@ const Toolbox = lazy(() => import('~pages/Toolbox'));
 const Timeline = lazy(() => import('~pages/Timeline'));
 const Books = lazy(() => import('~pages/Books'));
 const Snippets = lazy(() => import('~pages/Snippets'));
-const Chat = lazy(() => import('~pages/Chat'));
 const NotFound = lazy(() => import('~pages/NotFound'));
 
 
@@ -121,7 +119,6 @@ function App() {
                     <Route path="/timeline" element={<><TimelineSEO /><Timeline /></>} />
                     <Route path="/books" element={<><BooksSEO /><Books /></>} />
                     <Route path="/snippets" element={<><SnippetsSEO /><Snippets /></>} />
-                    <Route path="/chat" element={<><ChatSEO /><Chat /></>} />
                     <Route path="*" element={<><NotFoundSEO /><NotFound /></>} />
                   </Routes>
                 </SuspenseLoader>

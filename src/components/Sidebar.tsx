@@ -1,4 +1,4 @@
-import { House, User, Sparkles, MessageSquare } from 'lucide-react';
+import { House, User, Sparkles } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 
 export default function Sidebar() {
@@ -21,7 +21,6 @@ export default function Sidebar() {
                     <NavItem to="/" icon={<House size={20} />} label="Home" />
                     <NavItem to="/about" icon={<User size={20} />} label="About" />
                     <NavItem to="/skill" icon={<Sparkles size={20} />} label="Skills" />
-                    <NavItem to="/chat" icon={<MessageSquare size={20} />} label="Chat" />
                 </nav>
             </aside>
 
@@ -31,7 +30,6 @@ export default function Sidebar() {
                     <MobileNavItem to="/" icon={<House size={20} />} label="Home" />
                     <MobileNavItem to="/about" icon={<User size={20} />} label="About" />
                     <MobileNavItem to="/skill" icon={<Sparkles size={20} />} label="Skills" />
-                    <MobileNavItem to="/chat" icon={<MessageSquare size={20} />} label="Chat" />
                 </div>
             </nav>
         </>

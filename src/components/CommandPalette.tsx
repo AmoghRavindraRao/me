@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, Home, User, Code, FileText, Github, Linkedin, Mail, ExternalLink, History, MessageSquare } from 'lucide-react';
+import { Search, Home, User, Code, FileText, Github, Linkedin, Mail, ExternalLink, History } from 'lucide-react';
 
 interface Action {
     id: string;
@@ -84,12 +84,6 @@ export default function CommandPalette() {
             icon: <History size={16} className="sm:size-[18px]" />,
             shortcut: 'L',
             perform: () => navigate('/timeline')
-        },
-        {
-            id: 'chat',
-            title: 'Chat with Amogh',
-            icon: <MessageSquare size={18} />,
-            perform: () => navigate('/chat')
         },
         ...STATIC_ACTIONS,
     ], [navigate]);
