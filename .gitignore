@@ -11,6 +11,8 @@ node_modules
 dist
 
 # Environment variables
+.profile.json
+profile.json
 # .env is committed for production config
 .env.local
 .env.*.local
@@ -50,3 +52,4 @@ nul
 .dev.vars*
 !.dev.vars.example
 !.env.example
+./profile.json
