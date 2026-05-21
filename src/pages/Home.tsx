@@ -3,7 +3,7 @@ import { Github, ExternalLink, ChevronDown, Linkedin, Briefcase, GraduationCap }
 import { PatternDivider, SectionTitle } from '~components/SharedLayout';
 import ContributionGraph from '@/features/github/components/ContributionGraph';
 import VisitorCounter from '~components/VisitorCounter';
-import profileData from '../../profile.json';
+import profileData from '../data/profileData';
 
 import logoIITH from '~assets/logos/asu.png';
 import logoRNSIT from '~assets/logos/rnsit.png';
