@@ -5,6 +5,7 @@ import CustomCursor from '~components/CustomCursor';
 import CommandPalette from '~components/CommandPalette';
 import SuspenseLoader from '~components/SuspenseLoader';
 import { BackToTop } from './components/BackToTop';
+import ChatbotWidget from './components/ChatbotWidget';
 import { SnackbarProvider } from './providers/SnackbarProvider';
 import {
   HomeSEO,
@@ -101,6 +102,7 @@ function App() {
           <div className="aura-overlay fixed inset-0 pointer-events-none z-50"></div>
           <div className="scanlines fixed inset-0 pointer-events-none z-40"></div>
           <BackToTop />
+          <ChatbotWidget />
 
           {/* Original sidebar + content */}
           <Sidebar />
