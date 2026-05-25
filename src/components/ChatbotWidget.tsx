@@ -35,7 +35,7 @@ export default function ChatbotWidget() {
               <div className="min-w-0">
               <div className="flex items-center gap-2 text-[11px] font-mono uppercase tracking-[0.2em] text-zinc-400">
                 <span className="h-2 w-2 rounded-full bg-emerald-400" />
-                Career Strategy Assistant
+                Chat with Me
                 <span className="ml-3 inline-flex items-center gap-2 rounded-full bg-zinc-800/60 px-2 py-0.5 text-xs text-zinc-300">
                   <span
                     className={`inline-block h-2 w-2 rounded-full ${embedMode === 'gradio' ? 'bg-emerald-400' : 'bg-amber-400'}`}
@@ -45,7 +45,7 @@ export default function ChatbotWidget() {
                 </span>
               </div>
               <h2 className="mt-1 truncate text-sm font-semibold text-black">
-                Career Strategy Assistant
+                Chat with Me
               </h2>
             </div>
 
