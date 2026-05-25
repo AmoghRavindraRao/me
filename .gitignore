@@ -9,6 +9,7 @@ lerna-debug.log*
 
 node_modules
 dist
+.gradio/certificate.pem
 
 # Environment variables
 .profile.json

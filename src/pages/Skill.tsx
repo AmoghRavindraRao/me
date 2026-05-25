@@ -1,5 +1,17 @@
 import { PatternDivider } from '~components/SharedLayout';
 
+function createBadgeIcon(label: string): string {
+    const svg = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <rect width="48" height="48" rx="12" fill="#0A0A0A" />
+            <rect x="1" y="1" width="46" height="46" rx="11" stroke="#2A2A2A" stroke-width="2" stroke-dasharray="4 3" />
+            <text x="24" y="27" fill="#F5F5F5" font-family="Arial, sans-serif" font-size="10" font-weight="700" text-anchor="middle" dominant-baseline="middle">${label}</text>
+        </svg>
+    `;
+
+    return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+}
+
 // Skills data organized by category
 const skillCategories = [
     {
@@ -60,29 +72,29 @@ const skillCategories = [
             { name: "PyTorch", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pytorch/pytorch-original.svg" },
             { name: "scikit-learn", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sklearn/sklearn-original.svg" },
             { name: "OpenCV", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/opencv/opencv-original.svg" },
-            { name: "YOLOv8", icon: "https://via.placeholder.com/48?text=YOLO" },
-            { name: "EasyOCR", icon: "https://via.placeholder.com/48?text=OCR" },
-            { name: "NeRF", icon: "https://via.placeholder.com/48?text=NeRF" },
+            { name: "YOLOv8", icon: createBadgeIcon("YOLO") },
+            { name: "EasyOCR", icon: createBadgeIcon("OCR") },
+            { name: "NeRF", icon: createBadgeIcon("NeRF") },
         ]
     },
     {
         title: "DATA & ANALYTICS",
         skills: [
             { name: "Apache Spark", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apachespark/apachespark-original.svg" },
-            { name: "Power BI", icon: "https://via.placeholder.com/48?text=PowerBI" },
-            { name: "Pandas", icon: "https://via.placeholder.com/48?text=Pandas" },
-            { name: "NumPy", icon: "https://via.placeholder.com/48?text=NumPy" },
+            { name: "Power BI", icon: createBadgeIcon("BI") },
+            { name: "Pandas", icon: createBadgeIcon("Pd") },
+            { name: "NumPy", icon: createBadgeIcon("NP") },
             { name: "Jupyter", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jupyter/jupyter-original.svg" },
         ]
     },
     {
         title: "PRODUCTIVITY",
         skills: [
-            { name: "Google Workspace", icon: "https://via.placeholder.com/48?text=Google" },
-            { name: "Microsoft Office", icon: "https://via.placeholder.com/48?text=Office" },
+            { name: "Google Workspace", icon: createBadgeIcon("G") },
+            { name: "Microsoft Office", icon: createBadgeIcon("MS") },
             { name: "Slack", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/slack/slack-original.svg" },
             { name: "VS Code", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" },
-            { name: "Canva", icon: "https://via.placeholder.com/48?text=Canva" },
+            { name: "Canva", icon: createBadgeIcon("Ca") },
         ]
     }
 ];
