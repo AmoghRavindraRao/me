@@ -7,7 +7,7 @@ export default function ChatbotWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [embedMode, setEmbedMode] = useState<'gradio' | 'iframe'>('gradio');
   const containerRef = useRef<HTMLDivElement | null>(null);
-  
+
   // attempt to load gradio and decide embed mode
   useGradioEmbed(containerRef, CHATBOT_UI_URL, setEmbedMode);
 
@@ -28,7 +28,7 @@ export default function ChatbotWidget() {
     <div className="fixed bottom-8 right-8 z-[110] flex flex-col items-end gap-3">
       {isOpen ? (
         <section
-          className="w-[min(92vw,420px)] h-[min(72vh,640px)] max-h-[calc(100vh-7rem)] overflow-hidden rounded-[28px] border border-zinc-700/80 bg-zinc-950/95 text-zinc-100 shadow-2xl shadow-black/30 backdrop-blur-xl"
+          className="w-[min(92vw,420px)] h-[min(72vh,640px)] max-h-[calc(100vh-7rem)] overflow-hidden rounded-[28px] border border-zinc-200/80 bg-white/95 text-black shadow-2xl shadow-black/10 backdrop-blur-xl"
           aria-label={panelTitle}
         >
           <div className="flex items-center justify-between gap-3 border-b border-zinc-800/80 px-4 py-3">
@@ -44,7 +44,7 @@ export default function ChatbotWidget() {
                   <span>{embedMode === 'gradio' ? 'Gradio embed' : 'iframe'}</span>
                 </span>
               </div>
-              <h2 className="mt-1 truncate text-sm font-semibold text-zinc-50">
+              <h2 className="mt-1 truncate text-sm font-semibold text-black">
                 Career Strategy Assistant
               </h2>
             </div>
@@ -54,7 +54,7 @@ export default function ChatbotWidget() {
                 href={CHATBOT_UI_URL}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-zinc-800 bg-zinc-900/70 text-zinc-300 transition-colors hover:border-zinc-600 hover:text-zinc-50"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-zinc-200 bg-white text-black/70 transition-colors hover:border-zinc-400 hover:text-black"
                 aria-label="Open chatbot in a new tab"
                 title="Open chatbot in a new tab"
               >
@@ -63,7 +63,7 @@ export default function ChatbotWidget() {
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-zinc-800 bg-zinc-900/70 text-zinc-300 transition-colors hover:border-zinc-600 hover:text-zinc-50"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-zinc-200 bg-white text-black/70 transition-colors hover:border-zinc-400 hover:text-black"
                 aria-label="Close chatbot"
                 title="Close chatbot"
               >
@@ -72,15 +72,15 @@ export default function ChatbotWidget() {
             </div>
           </div>
 
-          <div className="relative h-[calc(100%-57px)] bg-zinc-900">
+          <div className="relative h-[calc(100%-57px)] bg-zinc-50">
             {embedMode === 'gradio' ? (
-              <div ref={containerRef} className="h-full w-full bg-zinc-950" />
+              <div ref={containerRef} className="h-full w-full bg-white" />
             ) : (
               <iframe
                 src={CHATBOT_UI_URL}
                 title="Career Strategy Assistant"
-                className="h-full w-full bg-zinc-950"
-                allow="clipboard-read; black; fullscreen"
+                className="h-full w-full bg-white"
+                allow="clipboard-read; clipboard-write; fullscreen"
                 referrerPolicy="strict-origin-when-cross-origin"
               />
             )}
@@ -91,7 +91,7 @@ export default function ChatbotWidget() {
       <button
         type="button"
         onClick={() => setIsOpen((current) => !current)}
-        className="group inline-flex h-12 w-12 items-center justify-center rounded-full border border-dashed border-zinc-700 bg-zinc-950/90 text-zinc-200 shadow-lg shadow-black/30 backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-zinc-500 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50"
+        className="group inline-flex h-12 w-12 items-center justify-center rounded-full border border-dashed border-zinc-300 bg-white/95 text-black shadow-lg shadow-black/10 backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-zinc-500 hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50"
         aria-label={isOpen ? 'Close chatbot' : 'Open chatbot'}
         title={isOpen ? 'Close chatbot' : 'Open chatbot'}
       >
