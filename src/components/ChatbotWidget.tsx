@@ -22,7 +22,7 @@ export default function ChatbotWidget() {
     }
   }, [embedMode]);
 
-  const panelTitle = useMemo(() => 'Career conversation chatbot', []);
+  const panelTitle = useMemo(() => 'Career Strategy Assistant', []);
 
   return (
     <div className="fixed bottom-8 right-8 z-[110] flex flex-col items-end gap-3">
@@ -35,7 +35,7 @@ export default function ChatbotWidget() {
               <div className="min-w-0">
               <div className="flex items-center gap-2 text-[11px] font-mono uppercase tracking-[0.2em] text-zinc-400">
                 <span className="h-2 w-2 rounded-full bg-emerald-400" />
-                Local Gradio App
+                Career Strategy Assistant
                 <span className="ml-3 inline-flex items-center gap-2 rounded-full bg-zinc-800/60 px-2 py-0.5 text-xs text-zinc-300">
                   <span
                     className={`inline-block h-2 w-2 rounded-full ${embedMode === 'gradio' ? 'bg-emerald-400' : 'bg-amber-400'}`}
@@ -45,7 +45,7 @@ export default function ChatbotWidget() {
                 </span>
               </div>
               <h2 className="mt-1 truncate text-sm font-semibold text-zinc-50">
-                Career conversation chatbot
+                Career Strategy Assistant
               </h2>
             </div>
 
@@ -78,9 +78,9 @@ export default function ChatbotWidget() {
             ) : (
               <iframe
                 src={CHATBOT_UI_URL}
-                title="Career conversation chatbot"
+                title="Career Strategy Assistant"
                 className="h-full w-full bg-zinc-950"
-                allow="clipboard-read; clipboard-write; fullscreen"
+                allow="clipboard-read; black; fullscreen"
                 referrerPolicy="strict-origin-when-cross-origin"
               />
             )}
