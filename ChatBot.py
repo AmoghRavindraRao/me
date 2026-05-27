@@ -134,19 +134,26 @@ async def chat(message, history):
     # Normalize Gradio history format → plain OpenAI-style messages
     normalized_history = []
     for item in history:
-        # Gradio can pass dicts with metadata/options, or plain dicts
-        role = item.get("role")
-        content = item.get("content")
+        if isinstance(item, dict):
+            # Gradio can pass dicts with metadata/options, or plain dicts
+            role = item.get("role")
+            content = item.get("content")
 
-        # If content is a list of blocks (e.g. [{"text": "...", "type": "text"}]),
-        # extract the text
-        if isinstance(content, list):
-            content = " ".join(
-                block.get("text", "") for block in content if isinstance(block, dict)
-            )
+            # If content is a list of blocks (e.g. [{"text": "...", "type": "text"}]),
+            # extract the text
+            if isinstance(content, list):
+                content = " ".join(
+                    block.get("text", "") for block in content if isinstance(block, dict)
+                )
 
-        if role and content:
-            normalized_history.append({"role": role, "content": content})
+            if role and content:
+                normalized_history.append({"role": role, "content": content})
+        elif isinstance(item, (list, tuple)) and len(item) == 2:
+            user_message, assistant_message = item
+            if user_message:
+                normalized_history.append({"role": "user", "content": user_message})
+            if assistant_message:
+                normalized_history.append({"role": "assistant", "content": assistant_message})
 
     messages = (
         [{"role": "system", "content": instructions}]
@@ -159,7 +166,63 @@ async def chat(message, history):
 
 
 if __name__ == "__main__":
-    demo = gr.ChatInterface(chat)
+    css = """
+    html, body, .gradio-container {
+        background: rgb(240, 240, 243) !important;
+        color: black !important;
+    }
+
+    .gradio-container * {
+        color: black !important;
+    }
+
+    .gradio-container textarea,
+    .gradio-container input,
+    .gradio-container .wrap,
+    .gradio-container .panel,
+    .gradio-container .message,
+    .gradio-container .prose {
+        background: rgb(240, 240, 243) !important;
+    }
+    """
+
+    async def respond(message, history):
+        response = await chat(message, history)
+        updated_history = history + [
+            {"role": "user", "content": message},
+            {"role": "assistant", "content": response},
+        ]
+        return updated_history, ""
+
+    def clear_chat():
+        return [], ""
+
+    with gr.Blocks(title=f"{name} Portfolio Chat") as demo:
+        gr.Markdown(f"# {name}'s Portfolio Assistant")
+        gr.Markdown("Ask me about my background, projects, or experience.")
+        chatbot = gr.Chatbot(
+            value=[
+                {
+                    "role": "assistant",
+                    "content": f"Hi, I'm {name}'s portfolio assistant. Ask me about my experience, projects, or skills.",
+                }
+            ],
+            height=560,
+        )
+        message = gr.Textbox(
+            placeholder="Ask a question about my work...",
+            show_label=False,
+            lines=2,
+        )
+        with gr.Row():
+            send = gr.Button("Send")
+            clear = gr.Button("Clear")
+
+        message.submit(respond, [message, chatbot], [chatbot, message])
+        send.click(respond, [message, chatbot], [chatbot, message])
+        clear.click(clear_chat, None, [chatbot, message], queue=False)
+
+    demo.queue()
     preferred_port = int(os.getenv("GRADIO_SERVER_PORT", os.getenv("PORT", "7860")))
     for server_port in range(preferred_port, preferred_port + 5):
         try:
@@ -167,6 +230,7 @@ if __name__ == "__main__":
                 server_name="0.0.0.0",
                 server_port=server_port,
                 ssr_mode=False,
+                css=css,
                 share=True,
             )
             break
