@@ -4,7 +4,7 @@ import { Bot, ExternalLink, X } from 'lucide-react';
 const CHATBOT_UI_URL = import.meta.env.VITE_CHATBOT_UI_URL ?? 'http://localhost:7860';
 
 export default function ChatbotWidget() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [embedMode, setEmbedMode] = useState<'gradio' | 'iframe'>('gradio');
   const containerRef = useRef<HTMLDivElement | null>(null);
 

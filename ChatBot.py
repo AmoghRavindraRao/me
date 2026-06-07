@@ -23,7 +23,7 @@ with open(BASE_DIR / profile, "r", encoding="utf-8") as f:
 
 # Make an agent with name, instructions, model
 openrouter_api_key = os.getenv("OPENROUTER_API_KEY")
-model_name = "nvidia/nemotron-3-super-120b-a12b:free"
+model_name = "google/gemma-4-31b-it:free"
 
 set_tracing_disabled(disabled=True)
 
@@ -166,6 +166,17 @@ async def chat(message, history):
 
 
 if __name__ == "__main__":
+    js_func = """
+    function refresh() {
+        const url = new URL(window.location);
+        if (url.searchParams.get('__theme') !== 'light') {
+            url.searchParams.set('__theme', 'light');
+            window.location.href = url.href;
+        }
+    }
+    refresh();
+    """
+
     css = """
     html, body, .gradio-container {
         background: rgb(240, 240, 243) !important;
@@ -230,6 +241,7 @@ if __name__ == "__main__":
                 server_name="0.0.0.0",
                 server_port=server_port,
                 ssr_mode=False,
+                js=js_func,
                 css=css,
                 share=True,
             )
