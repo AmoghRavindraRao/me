@@ -1,47 +1,27 @@
-import { useMemo, useState, useEffect, useRef } from 'react';
+import { useMemo, useState } from 'react';
 import { Bot, ExternalLink, X } from 'lucide-react';
 
 const CHATBOT_UI_URL = import.meta.env.VITE_CHATBOT_UI_URL ?? 'http://localhost:7860';
 
 export default function ChatbotWidget() {
   const [isOpen, setIsOpen] = useState(false);
-  const [embedMode, setEmbedMode] = useState<'iframe' | 'gradio'>('iframe');
-  const containerRef = useRef<HTMLDivElement | null>(null);
-
-  // attempt to load gradio and decide embed mode
-  useGradioEmbed(containerRef, CHATBOT_UI_URL, setEmbedMode);
-
-  // when Gradio becomes available, inject the <gradio-app> element into the container
-  useEffect(() => {
-    if (embedMode !== 'gradio' || !containerRef.current) return;
-    try {
-      containerRef.current.innerHTML = `<gradio-app src="${CHATBOT_UI_URL}" style="height:100%;width:100%;display:block"></gradio-app>`;
-    } catch (_e) {
-      // fallback to iframe if injection fails
-      setTimeout(() => setEmbedMode('iframe'));
-    }
-  }, [embedMode]);
 
   const panelTitle = useMemo(() => 'Career Strategy Assistant', []);
 
   return (
     <div className="fixed bottom-8 right-8 z-[110] flex flex-col items-end gap-3">
-      {/* Always render the chatbot container (hidden until opened) for background preload */}
+      {/* Keep the iframe mounted so the Hugging Face chat starts loading immediately. */}
       <section
         className={`w-[min(92vw,420px)] h-[min(72vh,640px)] max-h-[calc(100vh-7rem)] overflow-hidden rounded-[28px] border border-zinc-200/80 bg-white/95 text-black shadow-2xl shadow-black/10 backdrop-blur-xl ${isOpen ? 'block' : 'hidden'}`}
         aria-label={panelTitle}
       >
         <div className="flex items-center justify-between gap-3 border-b border-zinc-800/80 px-4 py-3">
-            <div className="min-w-0">
+          <div className="min-w-0">
             <div className="flex items-center gap-2 text-[11px] font-mono uppercase tracking-[0.2em] text-zinc-400">
               <span className="h-2 w-2 rounded-full bg-emerald-400" />
               Chat with Me
-              <span className="ml-3 inline-flex items-center gap-2 rounded-full bg-zinc-800/60 px-2 py-0.5 text-xs text-zinc-300">
-                <span
-                  className={`inline-block h-2 w-2 rounded-full ${embedMode === 'gradio' ? 'bg-emerald-400' : 'bg-amber-400'}`}
-                  aria-hidden={true}
-                />
-                <span>{embedMode === 'gradio' ? 'Gradio embed' : 'iframe'}</span>
+              <span className="ml-3 inline-flex items-center rounded-full bg-zinc-800/60 px-2 py-0.5 text-xs text-zinc-300">
+                Hugging Face iframe
               </span>
             </div>
             <h2 className="mt-1 truncate text-sm font-semibold text-black">
@@ -73,17 +53,14 @@ export default function ChatbotWidget() {
         </div>
 
         <div className="relative h-[calc(100%-57px)] bg-zinc-50">
-          {embedMode === 'gradio' ? (
-            <div ref={containerRef} className="h-full w-full bg-white" />
-          ) : (
-            <iframe
-              src={CHATBOT_UI_URL}
-              title="Career Strategy Assistant"
-              className="h-full w-full bg-white"
-              allow="clipboard-read; clipboard-write; fullscreen"
-              referrerPolicy="strict-origin-when-cross-origin"
-            />
-          )}
+          <iframe
+            src={CHATBOT_UI_URL}
+            title="Career Strategy Assistant"
+            className="h-full w-full bg-white"
+            loading="eager"
+            allow="clipboard-read; clipboard-write; fullscreen"
+            referrerPolicy="strict-origin-when-cross-origin"
+          />
         </div>
       </section>
 
@@ -99,65 +76,3 @@ export default function ChatbotWidget() {
     </div>
   );
 }
-
-// Try to load Gradio's web component and fall back to iframe when unavailable.
-// This runs client-side only.
-function useGradioEmbed(
-  containerRef: React.RefObject<HTMLDivElement | null>,
-  src: string,
-  setEmbed: React.Dispatch<React.SetStateAction<'gradio' | 'iframe'>>,
-) {
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    const trySetMode = () => {
-      try {
-        if (window.customElements && window.customElements.get('gradio-app')) {
-          setEmbed('gradio');
-          return true;
-        }
-      } catch (_e) {
-        // ignore
-      }
-      return false;
-    };
-
-    if (trySetMode()) return;
-
-    const existing = document.querySelector('script[data-gradio-embed]');
-    if (!existing) {
-      const s = document.createElement('script');
-      s.type = 'module';
-      s.src = 'https://gradio.s3-us-west-2.amazonaws.com/6.14.0/gradio.js';
-      s.setAttribute('data-gradio-embed', '1');
-      s.onload = () => {
-        // small delay to let customElements register
-        setTimeout(() => {
-          if (!trySetMode()) setEmbed('iframe');
-        }, 50);
-      };
-      s.onerror = () => setEmbed('iframe');
-      document.head.appendChild(s);
-    } else {
-      // already present; wait briefly
-      setTimeout(() => {
-        if (!trySetMode()) setEmbed('iframe');
-      }, 50);
-    }
-
-    // when gradio becomes available, inject the element into container
-    const observer = new MutationObserver(() => {
-      if (window.customElements && window.customElements.get('gradio-app')) {
-        setEmbed('gradio');
-      }
-    });
-    observer.observe(document.head || document.documentElement, { childList: true, subtree: true });
-
-    return () => observer.disconnect();
-  }, [containerRef, src, setEmbed]);
-}
-
-// Hook usage inside module scope to avoid lint complaints; exported component will call it.
-// Wire it up by calling inside the component via a separate effect.
-// We add a small effect to inject the `<gradio-app>` when embedMode changes to 'gradio'.
-// (Note: kept outside main component to keep file structure clear.)
