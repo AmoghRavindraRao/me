@@ -385,7 +385,7 @@ const Home = () => {
                         school="Arizona State University"
                         degree="Masters in Data Science, Analytics and Engineering"
                         period="2024 - 2026"
-                        grade="GPA: 3.78"
+                        grade="GPA: 3.77"
                         logo={logoIITH}
                         courses={{
                             "Computer Science": [
