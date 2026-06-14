@@ -1,7 +1,6 @@
 ﻿import { useState, useEffect } from 'react';
 import type { CSSProperties, PointerEvent as ReactPointerEvent } from 'react';
-import { Link } from 'react-router-dom';
-import { Github, ExternalLink, ChevronDown, Linkedin, Briefcase, GraduationCap, BookOpen, GitBranch, Target, FileText } from 'lucide-react';
+import { Github, ExternalLink, ChevronDown, Linkedin, Briefcase, GraduationCap } from 'lucide-react';
 import { PatternDivider, SectionTitle } from '~components/SharedLayout';
 import ContributionGraph from '@/features/github/components/ContributionGraph';
 import VisitorCounter from '~components/VisitorCounter';
@@ -167,7 +166,7 @@ const PROJECTS: ProjectItem[] = [
             "DeBERTa-v3-large NLI classifier scoring premise-claim pairs across entailment, neutral, and contradiction",
             "Multi-dataset interleaving strategy across FEVER, MultiNLI, ANLI, HaluEval, and TruthfulQA with configurable sampling weights",
             "spaCy + FAISS fact verifier for atomic claim decomposition and knowledge base retrieval",
-            "Stress-test harness tracking hallucination rate, mean NLI confidence, pairwise BLEU diversity, and worst-case pairs per domain; rendered to JSON and Markdown reports"
+            "Stress-test harness tracking hallucination rate, mean NLI confidence, pairwise BLEU diversity, and worst-case pairs per domain"
         ],
         tags: ['Python', 'PyTorch', 'Transformers', 'PEFT', 'DeBERTa', 'FLAN-T5', 'FAISS', 'FastAPI'],
         href: "https://github.com/AmoghRavindraRao/hallucination-stress-test-bench"
@@ -576,8 +575,8 @@ const Home = () => {
                         />
                     </div>
 
-                    {/* Social Links + Resume + Visitor Counter - Stacked */}
-                    <div className="flex flex-col items-center gap-1.5 sm:gap-2 self-start sm:self-auto">
+                    {/* Social Links + Visitor Counter - Stacked */}
+                    <div className="flex flex-col gap-1.5 sm:gap-2 self-start sm:self-auto">
                         <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
                             <a href="https://github.com/AmoghRavindraRao" target="_blank" rel="noopener noreferrer" className="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-zinc-700 text-black hover:bg-zinc-800 transition-colors">
                                 <Github size={18} className="sm:size-[20px] md:size-[22px]" />
@@ -586,14 +585,6 @@ const Home = () => {
                                 <Linkedin size={18} className="sm:size-[20px] md:size-[22px]" />
                             </a>
                         </div>
-                        <Link
-                            to="/resume"
-                            aria-label="View resume"
-                            className="inline-flex items-center justify-center gap-1.5 rounded-sm border border-dashed border-zinc-800 bg-black/10 px-2.5 py-1.5 font-mono text-[10px] sm:text-[11px] font-bold text-black transition-colors hover:bg-black/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-700"
-                        >
-                            <FileText size={12} className="text-black sm:size-[14px]" />
-                            Resume
-                        </Link>
                         <VisitorCounter />
                     </div>
                 </div>
@@ -725,115 +716,107 @@ const Home = () => {
             {/* PATTERN DIVIDER - After Certifications */}
             <PatternDivider />
 
-            {/* INDIVIDUAL LEARNING SECTION */}
+            {/* CURRENTLY WORKING ON SECTION */}
             <section className="reveal flex flex-col gap-4 sm:gap-6 md:gap-8">
-                <SectionTitle title="INDIVIDUAL LEARNING" />
-                <div className="flex flex-col gap-4">
-                    <div className="group relative overflow-hidden rounded-lg border border-dashed border-zinc-300 bg-white/50 p-5 transition-all duration-300 hover:border-zinc-500 hover:bg-white/70 sm:p-7">
-                        <div className="mb-5 flex flex-wrap items-center gap-2">
-                            <span className="inline-flex items-center gap-1.5 rounded border border-dashed border-zinc-300 bg-white/70 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-widest text-black">
-                                <BookOpen size={13} />
-                                Currently Working On
+                <SectionTitle title="CURRENTLY WORKING ON" />
+                <div className="border border-dashed border-zinc-300 rounded-lg bg-white/30 hover:bg-white/40 hover:border-zinc-400 transition-all duration-300">
+                    <div className="p-6 sm:p-8">
+                        {/* Status Badge */}
+                        <div className="flex flex-wrap items-center gap-3 mb-4">
+                            <span className="inline-block px-3 py-1 text-xs font-mono font-bold uppercase tracking-widest text-black bg-white/30 border border-dashed border-zinc-300 rounded">
+                                Active Development
                             </span>
-                            <span className="inline-flex items-center gap-1.5 rounded border border-dashed border-zinc-300 bg-white/70 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-widest text-black">
-                                <Target size={13} />
-                                Agentic AI
+                            <span className="inline-block px-3 py-1 text-xs font-mono font-bold uppercase tracking-widest text-black bg-white/30 border border-dashed border-zinc-300 rounded">
+                                Phase 3
                             </span>
                         </div>
 
-                        <h3 className="mb-3 text-2xl font-bold text-black sm:text-3xl">
-                            Agentic AI Engineering
+                        {/* Title */}
+                        <h3 className="text-2xl sm:text-3xl font-bold text-black mb-2">
+                            LLM Fundamentals Learning Journey
                         </h3>
-
-                        <p className="mb-5 text-sm leading-relaxed text-zinc-700 sm:text-base">
-                            I am currently learning how to design, evaluate, and ship agentic AI systems through the Udemy course "The Complete Agentic AI Engineering Course." I am translating the course into hands-on notes, experiments, and implementation logs in my AgenticAI repository.
-                        </p>
-
-                        <div className="mb-6 grid gap-2 sm:grid-cols-2">
-                            {[
-                                "Agent workflows",
-                                "Tool use",
-                                "Planning loops",
-                                "Memory patterns",
-                                "Multi-agent systems",
-                                "Evaluation",
-                                "Guardrails",
-                                "Production orchestration"
-                            ].map((topic) => (
-                                <span
-                                    key={topic}
-                                    className="rounded border border-dashed border-zinc-300 bg-white/60 px-3 py-2 font-mono text-[11px] text-black transition-colors group-hover:border-zinc-400"
-                                >
-                                    {topic}
-                                </span>
-                            ))}
-                        </div>
-
-                        <div className="flex flex-col gap-3 sm:flex-row">
-                            <a
-                                href="https://www.udemy.com/course/the-complete-agentic-ai-engineering-course/learn/lecture/49770893?start=165#overview"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex flex-1 items-center justify-center gap-2 rounded border border-dashed border-zinc-300 bg-white/70 px-4 py-3 font-mono text-xs font-bold uppercase tracking-wider text-black transition-all hover:border-zinc-500 hover:bg-white"
-                            >
-                                <BookOpen size={15} />
-                                Udemy Course
-                                <ExternalLink size={13} />
-                            </a>
-                            <a
-                                href="https://github.com/AmoghRavindraRao/AgenticAI"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex flex-1 items-center justify-center gap-2 rounded border border-dashed border-zinc-300 bg-white/70 px-4 py-3 font-mono text-xs font-bold uppercase tracking-wider text-black transition-all hover:border-zinc-500 hover:bg-white"
-                            >
-                                <GitBranch size={15} />
-                                Learning Repo
-                                <ExternalLink size={13} />
-                            </a>
-                        </div>
-                    </div>
-
-                    <div className="group relative overflow-hidden rounded-lg border border-dashed border-zinc-300 bg-white/35 p-5 transition-all duration-300 hover:border-zinc-500 hover:bg-white/55 sm:p-7">
-                        <div className="mb-5 flex flex-wrap items-center gap-2">
-                            <span className="inline-flex items-center gap-1.5 rounded border border-dashed border-zinc-300 bg-white/70 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-widest text-black">
-                                <Target size={13} />
-                                Completed
-                            </span>
-                            <span className="inline-flex items-center gap-1.5 rounded border border-dashed border-zinc-300 bg-white/70 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-widest text-black">
-                                LLM Fundamentals
-                            </span>
-                        </div>
-
-                        <h3 className="mb-3 text-xl font-bold text-black sm:text-2xl">
-                            From Learning Track to Evaluation Project
-                        </h3>
-
-                        <p className="mb-5 text-sm leading-relaxed text-zinc-700 sm:text-base">
-                            The LLM fundamentals learning journey is complete. I converted the study work into the LLM Hallucination Stress-Test Bench, an adversarial evaluation toolkit for surfacing hallucinations with prompt generation, NLI scoring, and retrieval-backed fact checks.
-                        </p>
-
-                        <div className="mb-6 border-l border-dashed border-zinc-300 pl-4">
-                            <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-600">
-                                Resulting Project
-                            </p>
-                            <p className="mt-2 text-sm font-bold text-black">
-                                LLM Hallucination Stress-Test Bench
-                            </p>
-                            <p className="mt-1 text-sm leading-relaxed text-zinc-700">
-                                Now listed as the final project in the project section below.
-                            </p>
-                        </div>
-
-                        <a
-                            href="https://github.com/AmoghRavindraRao/hallucination-stress-test-bench"
+                        
+                        {/* Project Link */}
+                        <a 
+                            href="https://github.com/AmoghRavindraRao/LLM_Basics"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex w-full items-center justify-center gap-2 rounded border border-dashed border-zinc-300 bg-white/70 px-4 py-3 font-mono text-xs font-bold uppercase tracking-wider text-black transition-all hover:border-zinc-500 hover:bg-white"
+                            className="inline-flex items-center gap-2 text-black hover:text-black text-sm font-mono font-medium mb-4 transition-colors"
                         >
-                            <GitBranch size={15} />
-                            View Completed Project
-                            <ExternalLink size={13} />
+                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v 3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                            github.com/AmoghRavindraRao/LLM_Basics
                         </a>
+
+                        {/* Description */}
+                        <p className="text-black mb-6 leading-relaxed">
+                            A comprehensive, structured learning resource for understanding Large Language Model fundamentals, from transformer architecture to advanced fine-tuning techniques. Organized in progressive phases with hands-on Jupyter notebooks covering theoretical concepts and practical implementations.
+                        </p>
+
+                        {/* Phase Progress */}
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                            <div className="border border-dashed border-zinc-300 rounded-lg p-4 bg-white/30 hover:bg-white/40 transition">
+                                <div className="text-black font-mono font-bold text-xs uppercase tracking-wider mb-2">Phase 1 & 2</div>
+                                <p className="text-black text-sm">Foundational concepts and basic implementations completed</p>
+                            </div>
+                            <div className="border border-dashed border-zinc-300 rounded-lg p-4 bg-white/30 hover:bg-white/40 transition">
+                                <div className="text-black font-mono font-bold text-xs uppercase tracking-wider mb-2">Phase 3</div>
+                                <p className="text-black text-sm">Currently expanding with advanced techniques and applications</p>
+                            </div>
+                            <div className="border border-dashed border-zinc-300 rounded-lg p-4 bg-white/30 hover:bg-white/40 transition">
+                                <div className="text-black font-mono font-bold text-xs uppercase tracking-wider mb-2">Ongoing</div>
+                                <p className="text-black text-sm">Continuous updates with latest LLM research findings</p>
+                            </div>
+                        </div>
+
+                        {/* Technical Topics */}
+                        <div className="mb-6">
+                            <h4 className="text-black font-mono font-bold text-xs uppercase tracking-wider mb-3">Key Topics Covered</h4>
+                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+                                {[
+                                    "Transformer Architecture",
+                                    "Attention Mechanisms",
+                                    "Self-Attention & MHA",
+                                    "Cross-Attention",
+                                    "Positional Encoding",
+                                    "Feed-Forward Networks",
+                                    "Layer Normalization",
+                                    "Fine-tuning Techniques",
+                                    "LoRA & QLoRA",
+                                    "Tokenization",
+                                    "Embeddings",
+                                    "Inference Optimization"
+                                ].map((topic, idx) => (
+                                    <div key={idx} className="border border-dashed border-zinc-300 rounded px-3 py-2 text-xs font-mono text-black bg-white/30 hover:bg-white/40 hover:border-zinc-400 transition">
+                                        {topic}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* CTA */}
+                        <div className="flex flex-col sm:flex-row gap-3">
+                            <a 
+                                href="https://github.com/AmoghRavindraRao/LLM_Basics"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex-1 bg-white/40 hover:bg-white/50 text-black font-mono font-bold py-3 px-6 rounded border border-dashed border-zinc-300 hover:border-zinc-400 transition-all duration-300 text-center flex items-center justify-center gap-2"
+                            >
+                                <span>Explore on GitHub</span>
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                            </a>
+                            <a 
+                                href="https://github.com/AmoghRavindraRao/LLM_Basics"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex-1 border border-dashed border-zinc-300 hover:border-zinc-400 text-black hover:text-black font-mono font-bold py-3 px-6 rounded bg-white/30 hover:bg-white/40 transition-all duration-300 text-center"
+                            >
+                                Star on GitHub
+                            </a>
+                        </div>
                     </div>
                 </div>
             </section>
