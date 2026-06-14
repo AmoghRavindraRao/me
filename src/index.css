@@ -249,6 +249,59 @@ body::-webkit-scrollbar,
     transform: translateY(0);
   }
 
+  .project-reveal {
+    perspective: 1000px;
+    transform: translateY(56px);
+  }
+
+  .project-reveal.visible {
+    transform: translateY(0);
+  }
+
+  .project-tilt-card {
+    transform: perspective(1000px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translateZ(0);
+    transform-style: preserve-3d;
+    transition:
+      transform 0.24s ease-out,
+      border-color 0.28s ease,
+      background 0.28s ease,
+      box-shadow 0.28s ease;
+    will-change: transform;
+  }
+
+  .project-tilt-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.5), transparent 38%, rgba(10, 10, 10, 0.08));
+    opacity: 0;
+    transition: opacity 0.28s ease;
+  }
+
+  .project-tilt-card:hover {
+    border-color: rgba(10, 10, 10, 0.8);
+    background: rgba(255, 255, 255, 0.86);
+    box-shadow: 0 24px 70px rgba(10, 10, 10, 0.14);
+  }
+
+  .project-tilt-card:hover::after {
+    opacity: 1;
+  }
+
+  .project-card-content {
+    transform: translateZ(18px);
+  }
+
+  .project-card-content {
+    transition: transform 0.35s ease;
+  }
+
+  .project-tilt-card:hover .project-card-content {
+    transform: translateZ(28px);
+  }
+
   .hero-dot {
     animation: pulse 2s ease-in-out infinite;
   }

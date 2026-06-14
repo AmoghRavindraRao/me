@@ -234,6 +234,14 @@ export const SnippetsSEO = () => (
   />
 );
 
+export const ResumeSEO = () => (
+  <SEO
+    title="Resume | Amogh Ravindra Rao"
+    description="View and download the resume of Amogh Ravindra Rao."
+    pathname="/resume"
+  />
+);
+
 export const NotFoundSEO = () => (
   <SEO
     title="404 - Page Not Found | Amogh Ravindra Rao"

@@ -14,12 +14,6 @@ interface Action {
 // Created once at module load time, never recreated.
 const STATIC_ACTIONS: Action[] = [
     {
-        id: 'resume',
-        title: 'Download Resume',
-        icon: <FileText size={16} className="sm:size-[18px]" />,
-        perform: () => window.open('/Amogh_Rao_Resume.pdf', '_blank', 'noopener,noreferrer')
-    },
-    {
         id: 'github',
         title: 'GitHub',
         icon: <Github size={16} className="sm:size-[18px]" />,
@@ -84,6 +78,12 @@ export default function CommandPalette() {
             icon: <History size={16} className="sm:size-[18px]" />,
             shortcut: 'L',
             perform: () => navigate('/timeline')
+        },
+        {
+            id: 'resume',
+            title: 'View Resume',
+            icon: <FileText size={16} className="sm:size-[18px]" />,
+            perform: () => navigate('/resume')
         },
         ...STATIC_ACTIONS,
     ], [navigate]);

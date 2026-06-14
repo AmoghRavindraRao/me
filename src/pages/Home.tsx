@@ -1,5 +1,7 @@
 ﻿import { useState, useEffect } from 'react';
-import { Github, ExternalLink, ChevronDown, Linkedin, Briefcase, GraduationCap } from 'lucide-react';
+import type { CSSProperties, PointerEvent as ReactPointerEvent } from 'react';
+import { Link } from 'react-router-dom';
+import { Github, ExternalLink, ChevronDown, Linkedin, Briefcase, GraduationCap, BookOpen, GitBranch, Target, FileText } from 'lucide-react';
 import { PatternDivider, SectionTitle } from '~components/SharedLayout';
 import ContributionGraph from '@/features/github/components/ContributionGraph';
 import VisitorCounter from '~components/VisitorCounter';
@@ -119,9 +121,12 @@ const TypewriterEffect = ({ words }: TypewriterEffectProps) => {
         }
 
         if (subIndex === 0 && reverse) {
-            setReverse(false);
-            setIndex((prev) => (prev + 1) % words.length);
-            return;
+            const timeout = setTimeout(() => {
+                setReverse(false);
+                setIndex((prev) => (prev + 1) % words.length);
+            }, 0);
+
+            return () => clearTimeout(timeout);
         }
 
         const timeout = setTimeout(() => {
@@ -141,7 +146,8 @@ const TypewriterEffect = ({ words }: TypewriterEffectProps) => {
     );
 };
 
-interface ProjectCardProps {
+interface ProjectItem {
+    key: string;
     title: string;
     status: string;
     desc: string;
@@ -150,34 +156,237 @@ interface ProjectCardProps {
     href: string;
 }
 
-const ProjectCard = ({ title, status, desc, technicalSummary, tags, href }: ProjectCardProps) => {
+const PROJECTS: ProjectItem[] = [
+    {
+        key: "hallucination-stress-test",
+        title: "LLM Hallucination Stress-Test Bench",
+        status: "ML RESEARCH & EVALUATION",
+        desc: "End-to-end adversarial stress-testing toolkit for LLMs, combining a FLAN-T5 prompt generator, DeBERTa-v3 NLI-based hallucination detector, and FAISS-backed fact verifier to systematically surface and measure model hallucinations.",
+        technicalSummary: [
+            "FLAN-T5 adversarial prompt generator fine-tuned with LoRA (PEFT) and optional PPO reward loop via TRL",
+            "DeBERTa-v3-large NLI classifier scoring premise-claim pairs across entailment, neutral, and contradiction",
+            "Multi-dataset interleaving strategy across FEVER, MultiNLI, ANLI, HaluEval, and TruthfulQA with configurable sampling weights",
+            "spaCy + FAISS fact verifier for atomic claim decomposition and knowledge base retrieval",
+            "Stress-test harness tracking hallucination rate, mean NLI confidence, pairwise BLEU diversity, and worst-case pairs per domain; rendered to JSON and Markdown reports"
+        ],
+        tags: ['Python', 'PyTorch', 'Transformers', 'PEFT', 'DeBERTa', 'FLAN-T5', 'FAISS', 'FastAPI'],
+        href: "https://github.com/AmoghRavindraRao/hallucination-stress-test-bench"
+    },
+    {
+        key: "wafer-defect-semi-supervised",
+        title: "Semiconductor Wafer Defect Detection",
+        status: "INDUSTRIAL ML",
+        desc: "Semi-supervised learning pipeline for semiconductor wafer defect classification using contrastive learning, pseudo-labeling, and test-time augmentation.",
+        technicalSummary: [
+            "Two-stage semi-supervised pipeline with contrastive loss and pseudo-labeling",
+            "SmallViT model with TTA-averaged embeddings and FAISS indexing",
+            "Monte Carlo Dropout for uncertainty quantification",
+            "Temperature calibration via LBFGS for reliable confidence scores",
+            "95%+ precision thresholds with multi-view agreement checks"
+        ],
+        tags: ['PyTorch', 'FAISS', 'Semi-supervised Learning'],
+        href: "https://github.com/AmoghRavindraRao/Semiconductor-Wafer-Defect-Detection"
+    },
+    {
+        key: "llm-council",
+        title: "LLM Council with Similarity Analysis",
+        status: "AI / BACKEND",
+        desc: "Multi-LLM council system with parallel queries, anonymous peer evaluation, and semantic similarity analysis. Features FastAPI + React interface with streaming visualization.",
+        technicalSummary: [
+            "FastAPI backend with async task orchestration for parallel LLM queries",
+            "Semantic similarity analysis using embeddings (OpenAI/HuggingFace)",
+            "Streaming responses with WebSocket support for real-time visualization",
+            "React frontend with interactive evaluation interface",
+            "Docker containerization for scalable deployment"
+        ],
+        tags: ['FastAPI', 'React', 'LLM'],
+        href: "https://github.com/AmoghRavindraRao/LLM-Council"
+    },
+    {
+        key: "f1-prediction",
+        title: "F1 Race Prediction with Feedback Loop",
+        status: "ML / DATA",
+        desc: "End-to-end F1 race outcome prediction pipeline with uncertainty quantification and a post-race incremental retraining loop.",
+        technicalSummary: [
+            "PyTorch neural networks with Monte Carlo Dropout for uncertainty estimation",
+            "FastF1 telemetry data pipeline with real-time preprocessing",
+            "95% confidence intervals using Bayesian neural networks",
+            "Experience replay mechanism for incremental model retraining",
+            "Post-race feedback loop for continuous model improvement"
+        ],
+        tags: ['PyTorch', 'FastF1', 'ML'],
+        href: "https://github.com/AmoghRavindraRao/2024_F1_Prediction"
+    },
+    {
+        key: "diabetes-dashboard",
+        title: "Healthcare Utilization and Diabetes Outcomes Dashboard",
+        status: "DATA VISUALIZATION",
+        desc: "Interactive Tableau dashboard exploring 101,766 inpatient diabetes care records across 130 U.S. hospitals, designed as a decision-support tool for administrators, clinicians, and researchers.",
+        technicalSummary: [
+            "Analysis of 101,766 inpatient encounters with 50 demographic and clinical attributes",
+            "15 interconnected Tableau visualizations with calculated fields",
+            "Interactive filters for race, gender, age, admission type, and readmission status",
+            "Dynamic drill-downs for patient-level insights and top-N diagnosis filtering",
+            "Readmission pattern identification and medication disparity analysis"
+        ],
+        tags: ['Tableau', 'Python', 'Data Analysis'],
+        href: "https://github.com/AmoghRavindraRao/diabetes-dashboard-tableau"
+    },
+    {
+        key: "3d-inpainting",
+        title: "Hybrid Inpainting Data Analysis for 3D Meshes",
+        status: "RESEARCH",
+        desc: "Hybrid 3D mesh inpainting system combining diffusion models with Neural Radiance Fields for high-accuracy mesh restoration.",
+        technicalSummary: [
+            "Neural Radiance Fields (NeRF) for implicit 3D scene representation",
+            "Diffusion models for generative 3D inpainting",
+            "PyTorch with custom CUDA kernels for volumetric rendering",
+            "Multi-view image processing and 3D mesh reconstruction",
+            "Hybrid approach combining NeRF latent spaces with diffusion for inpainting"
+        ],
+        tags: ['NeRF', 'Diffusion', 'PyTorch'],
+        href: "https://github.com/AmoghRavindraRao/3D-Mesh-Inpainting-with-NerF---Diffusion"
+    },
+    {
+        key: "sp500-regression",
+        title: "Modeling the S&P 500 with Linear Regression",
+        status: "DATA SCIENCE",
+        desc: "Predictive regression model on macroeconomic indicators to detect financial risk patterns and anomalies in S&P 500 returns.",
+        technicalSummary: [
+            "Linear regression models on macroeconomic features (Treasury yields, oil prices)",
+            "Statistical hypothesis testing and feature significance analysis",
+            "Model evaluation via R-squared, RMSE, and residual diagnostics",
+            "Risk pattern detection and anomaly identification",
+            "Insights into model limitations for non-linear dynamics in financial markets"
+        ],
+        tags: ['R', 'Statistics', 'Finance'],
+        href: "#"
+    },
+    {
+        key: "gaming-platform",
+        title: "Distributed Online Gaming Platform",
+        status: "FULL-STACK",
+        desc: "Dockerized microservices gaming platform with Flask and MongoDB, supporting data science use cases via BSON gameplay datasets.",
+        technicalSummary: [
+            "Microservices architecture with Flask APIs",
+            "MongoDB for scalable gameplay data storage",
+            "Docker containerization for reproducible deployments",
+            "BSON dataset processing for data science pipelines",
+            "Optimized schema design for query performance"
+        ],
+        tags: ['Flask', 'MongoDB', 'Docker'],
+        href: "#"
+    },
+    {
+        key: "anpr-system",
+        title: "Automatic Number Plate Detection",
+        status: "COMPUTER VISION",
+        desc: "Real-time Automatic Number Plate Recognition system using YOLOv8 for detection and EasyOCR for text extraction from license plates.",
+        technicalSummary: [
+            "YOLOv8 for vehicle and license plate detection",
+            "EasyOCR for multi-script text recognition",
+            "Real-time video stream processing pipeline",
+            "OpenCV preprocessing for enhanced detection accuracy",
+            "End-to-end integration of detection and OCR components"
+        ],
+        tags: ['YOLOv8', 'OCR', 'OpenCV'],
+        href: "#"
+    },
+    {
+        key: "catching-ball-game",
+        title: "Catching Ball Game",
+        status: "COMPUTER VISION",
+        desc: "Interactive computer vision game with structured data logging and performance-optimized rendering.",
+        technicalSummary: [
+            "OpenCV for real-time video capture and object detection",
+            "Structured data logging from 100+ users for behavior analysis",
+            "Scoring algorithms with engagement optimization (40% improvement)",
+            "Rendering efficiency enhancements (25% frame rate boost)",
+            "Performance-driven computation and optimization"
+        ],
+        tags: ['OpenCV', 'C', 'Computer Vision'],
+        href: "https://github.com/AmoghRavindraRao/Catch-the-ball"
+    },
+    {
+        key: "railway-system",
+        title: "Railway Reservation System",
+        status: "FULL-STACK",
+        desc: "Full-stack railway booking system with ticket booking, cancellation, admin role-based access, and normalized MySQL schema.",
+        technicalSummary: [
+            "React frontend with intuitive booking interface",
+            "PHP backend with secure authentication",
+            "MySQL relational database with normalized schema",
+            "Real-time seat tracking and availability management",
+            "Role-based access control for admin/user operations"
+        ],
+        tags: ['React', 'PHP', 'MySQL'],
+        href: "https://github.com/AmoghRavindraRao/Railway-Reservation"
+    }
+];
+
+interface ProjectCardProps extends Omit<ProjectItem, 'key'> {
+    index: number;
+}
+
+const ProjectCard = ({ title, status, desc, technicalSummary, tags, href, index }: ProjectCardProps) => {
     const [isExpanded, setIsExpanded] = useState(false);
+    const [tilt, setTilt] = useState({ x: 0, y: 0 });
+
+    const revealStyle = {
+        transitionDelay: `${Math.min(index * 90, 720)}ms`
+    } as CSSProperties;
+
+    const tiltStyle = {
+        '--tilt-x': `${tilt.x}deg`,
+        '--tilt-y': `${tilt.y}deg`
+    } as CSSProperties;
+
+    const handlePointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
+        if (event.pointerType === 'touch' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            return;
+        }
+
+        const rect = event.currentTarget.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+        setTilt({
+            x: Number((-y * 8).toFixed(2)),
+            y: Number((x * 8).toFixed(2))
+        });
+    };
+
+    const handlePointerLeave = () => {
+        setTilt({ x: 0, y: 0 });
+    };
+
+    const hasProjectLink = href !== '#';
 
     return (
-        <div className="group block">
-            <div className="border border-dashed border-zinc-300 rounded-lg p-1 bg-white/20 hover:bg-black/[0.02] hover:border-zinc-400 transition-all duration-300 flex flex-col h-auto">
-                {/* Browser Mockup Header */}
-                <div className="h-5 sm:h-6 border-b border-dashed border-zinc-300 flex items-center px-2 sm:px-3 gap-1 sm:gap-1.5 bg-zinc-100/20 rounded-t-lg">
-                    <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-zinc-700 group-hover:bg-red-500/70 transition-colors"></div>
-                    <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-zinc-700 group-hover:bg-yellow-500/70 transition-colors"></div>
-                    <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-zinc-700 group-hover:bg-green-500/70 transition-colors"></div>
-                </div>
-
-                <div className="p-3 sm:p-4 md:p-5 flex flex-col gap-2 sm:gap-3 md:gap-4 flex-1">
-                    <div className="flex justify-between items-start gap-2">
+        <div
+            className={`project-reveal reveal block ${index % 2 === 1 ? 'sm:mt-8' : ''}`}
+            style={revealStyle}
+        >
+            <article
+                className="project-tilt-card group relative flex h-full flex-col overflow-hidden rounded-lg border border-dashed border-zinc-300 bg-white/70 shadow-sm shadow-black/5 backdrop-blur-sm"
+                onPointerMove={handlePointerMove}
+                onPointerLeave={handlePointerLeave}
+                style={tiltStyle}
+            >
+                <div className="project-card-content p-4 sm:p-5 md:p-6 flex flex-col gap-2 sm:gap-3 md:gap-4 flex-1">
+                    <div className="flex flex-col gap-2">
+                        <span className="w-fit rounded border border-dashed border-zinc-300 bg-white/60 px-2 py-1 font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-zinc-600">
+                            {status}
+                        </span>
                         <h4 className="font-geist text-base sm:text-lg md:text-xl font-bold text-black group-hover:text-black transition-colors flex-1 line-clamp-2">
                             {title}
                         </h4>
-                        <span className="text-[10px] sm:text-[12px] font-mono tracking-wider text-zinc-500 px-1.5 py-0.5 sm:px-2 sm:py-1 rounded border border-zinc-700/50 flex-shrink-0">
-                            {status}
-                        </span>
                     </div>
 
-                    <p className="font-sans text-sm sm:text-base text-zinc-600 leading-relaxed line-clamp-2 group-hover:text-zinc-800 transition-colors">
+                    <p className="font-sans text-sm sm:text-base text-zinc-600 leading-relaxed group-hover:text-zinc-800 transition-colors">
                         {desc}
                     </p>
 
-                    {/* Technical Summary Section */}
                     <div className="flex flex-col gap-1.5">
                         <button
                             type="button"
@@ -186,40 +395,54 @@ const ProjectCard = ({ title, status, desc, technicalSummary, tags, href }: Proj
                                 e.stopPropagation();
                                 setIsExpanded(!isExpanded);
                             }}
-                            className="flex items-center gap-1 text-[10px] sm:text-[12px] font-mono text-zinc-600 hover:text-zinc-800 transition-colors font-semibold w-fit"
+                            className="flex w-fit items-center gap-1 text-[10px] sm:text-[12px] font-mono text-zinc-600 hover:text-zinc-800 transition-colors font-semibold"
+                            aria-expanded={isExpanded}
                         >
-                            <span className={`inline-block transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}>▾</span>
+                            <ChevronDown size={14} className={`transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} />
                             <span>Technical Stack</span>
                         </button>
 
-                        {isExpanded && (
-                            <div className="flex flex-col gap-1 pl-3 border-l border-dashed border-zinc-300 mt-1">
-                                {technicalSummary.map((item, idx) => (
-                                        <p key={idx} className="text-[10px] sm:text-[12px] text-zinc-600 leading-relaxed font-mono">
-                                        • {item}
-                                    </p>
-                                ))}
+                        <div className={`grid transition-[grid-template-rows,opacity,margin] duration-300 ease-out ${isExpanded ? 'grid-rows-[1fr] opacity-100 mt-1' : 'grid-rows-[0fr] opacity-0 mt-0'}`}>
+                            <div className="overflow-hidden">
+                                <div className="flex flex-col gap-1 pl-3 border-l border-dashed border-zinc-300">
+                                    {technicalSummary.map((item, idx) => (
+                                        <p key={idx} className="flex gap-2 text-[10px] sm:text-[12px] text-zinc-600 leading-relaxed font-mono">
+                                            <span className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-zinc-500" />
+                                            <span>{item}</span>
+                                        </p>
+                                    ))}
+                                </div>
                             </div>
-                        )}
+                        </div>
                     </div>
 
-                    <a
-                        href={href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-between mt-auto pt-1.5 sm:pt-2 group/link"
-                    >
-                        <div className="flex gap-1 sm:gap-2">
+                    <div className="mt-auto flex items-center justify-between gap-3 pt-1.5 sm:pt-2">
+                        <div className="flex min-w-0 flex-wrap gap-1 sm:gap-2">
                             {tags.slice(0, 3).map((tag: string, index: number) => (
-                                <span key={`${tag}-${index}`} className="text-[11px] sm:text-[12px] font-mono text-zinc-600 group-hover/link:text-zinc-500 truncate">
+                                <span key={`${tag}-${index}`} className="text-[11px] sm:text-[12px] font-mono text-zinc-600 truncate">
                                     #{tag}
                                 </span>
                             ))}
                         </div>
-                        <ExternalLink size={14} className="text-black group-hover/link:text-black transition-colors flex-shrink-0 sm:size-[16px]" />
-                    </a>
+
+                        {hasProjectLink ? (
+                            <a
+                                href={href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group/link inline-flex flex-shrink-0 items-center gap-1 rounded border border-dashed border-zinc-300 px-2 py-1 font-mono text-[10px] font-bold uppercase tracking-wider text-black transition-colors hover:border-zinc-500 hover:bg-zinc-100"
+                            >
+                                Open
+                                <ExternalLink size={13} className="transition-transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5" />
+                            </a>
+                        ) : (
+                            <span className="flex-shrink-0 rounded border border-dashed border-zinc-300 px-2 py-1 font-mono text-[10px] font-bold uppercase tracking-wider text-zinc-500">
+                                Soon
+                            </span>
+                        )}
+                    </div>
                 </div>
-            </div>
+            </article>
         </div>
     );
 };
@@ -353,8 +576,8 @@ const Home = () => {
                         />
                     </div>
 
-                    {/* Social Links + Visitor Counter - Stacked */}
-                    <div className="flex flex-col gap-1.5 sm:gap-2 self-start sm:self-auto">
+                    {/* Social Links + Resume + Visitor Counter - Stacked */}
+                    <div className="flex flex-col items-center gap-1.5 sm:gap-2 self-start sm:self-auto">
                         <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
                             <a href="https://github.com/AmoghRavindraRao" target="_blank" rel="noopener noreferrer" className="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-zinc-700 text-black hover:bg-zinc-800 transition-colors">
                                 <Github size={18} className="sm:size-[20px] md:size-[22px]" />
@@ -363,6 +586,14 @@ const Home = () => {
                                 <Linkedin size={18} className="sm:size-[20px] md:size-[22px]" />
                             </a>
                         </div>
+                        <Link
+                            to="/resume"
+                            aria-label="View resume"
+                            className="inline-flex items-center justify-center gap-1.5 rounded-sm border border-dashed border-zinc-800 bg-black/10 px-2.5 py-1.5 font-mono text-[10px] sm:text-[11px] font-bold text-black transition-colors hover:bg-black/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-700"
+                        >
+                            <FileText size={12} className="text-black sm:size-[14px]" />
+                            Resume
+                        </Link>
                         <VisitorCounter />
                     </div>
                 </div>
@@ -494,107 +725,115 @@ const Home = () => {
             {/* PATTERN DIVIDER - After Certifications */}
             <PatternDivider />
 
-            {/* CURRENTLY WORKING ON SECTION */}
+            {/* INDIVIDUAL LEARNING SECTION */}
             <section className="reveal flex flex-col gap-4 sm:gap-6 md:gap-8">
-                <SectionTitle title="CURRENTLY WORKING ON" />
-                <div className="border border-dashed border-zinc-300 rounded-lg bg-white/30 hover:bg-white/40 hover:border-zinc-400 transition-all duration-300">
-                    <div className="p-6 sm:p-8">
-                        {/* Status Badge */}
-                        <div className="flex flex-wrap items-center gap-3 mb-4">
-                            <span className="inline-block px-3 py-1 text-xs font-mono font-bold uppercase tracking-widest text-black bg-white/30 border border-dashed border-zinc-300 rounded">
-                                Active Development
+                <SectionTitle title="INDIVIDUAL LEARNING" />
+                <div className="flex flex-col gap-4">
+                    <div className="group relative overflow-hidden rounded-lg border border-dashed border-zinc-300 bg-white/50 p-5 transition-all duration-300 hover:border-zinc-500 hover:bg-white/70 sm:p-7">
+                        <div className="mb-5 flex flex-wrap items-center gap-2">
+                            <span className="inline-flex items-center gap-1.5 rounded border border-dashed border-zinc-300 bg-white/70 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-widest text-black">
+                                <BookOpen size={13} />
+                                Currently Working On
                             </span>
-                            <span className="inline-block px-3 py-1 text-xs font-mono font-bold uppercase tracking-widest text-black bg-white/30 border border-dashed border-zinc-300 rounded">
-                                Phase 3
+                            <span className="inline-flex items-center gap-1.5 rounded border border-dashed border-zinc-300 bg-white/70 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-widest text-black">
+                                <Target size={13} />
+                                Agentic AI
                             </span>
                         </div>
 
-                        {/* Title */}
-                        <h3 className="text-2xl sm:text-3xl font-bold text-black mb-2">
-                            LLM Fundamentals Learning Journey
+                        <h3 className="mb-3 text-2xl font-bold text-black sm:text-3xl">
+                            Agentic AI Engineering
                         </h3>
-                        
-                        {/* Project Link */}
-                        <a 
-                            href="https://github.com/AmoghRavindraRao/LLM_Basics"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 text-black hover:text-black text-sm font-mono font-medium mb-4 transition-colors"
-                        >
-                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v 3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                            </svg>
-                            github.com/AmoghRavindraRao/LLM_Basics
-                        </a>
 
-                        {/* Description */}
-                        <p className="text-black mb-6 leading-relaxed">
-                            A comprehensive, structured learning resource for understanding Large Language Model fundamentals, from transformer architecture to advanced fine-tuning techniques. Organized in progressive phases with hands-on Jupyter notebooks covering theoretical concepts and practical implementations.
+                        <p className="mb-5 text-sm leading-relaxed text-zinc-700 sm:text-base">
+                            I am currently learning how to design, evaluate, and ship agentic AI systems through the Udemy course "The Complete Agentic AI Engineering Course." I am translating the course into hands-on notes, experiments, and implementation logs in my AgenticAI repository.
                         </p>
 
-                        {/* Phase Progress */}
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-                            <div className="border border-dashed border-zinc-300 rounded-lg p-4 bg-white/30 hover:bg-white/40 transition">
-                                <div className="text-black font-mono font-bold text-xs uppercase tracking-wider mb-2">Phase 1 & 2</div>
-                                <p className="text-black text-sm">Foundational concepts and basic implementations completed</p>
-                            </div>
-                            <div className="border border-dashed border-zinc-300 rounded-lg p-4 bg-white/30 hover:bg-white/40 transition">
-                                <div className="text-black font-mono font-bold text-xs uppercase tracking-wider mb-2">Phase 3</div>
-                                <p className="text-black text-sm">Currently expanding with advanced techniques and applications</p>
-                            </div>
-                            <div className="border border-dashed border-zinc-300 rounded-lg p-4 bg-white/30 hover:bg-white/40 transition">
-                                <div className="text-black font-mono font-bold text-xs uppercase tracking-wider mb-2">Ongoing</div>
-                                <p className="text-black text-sm">Continuous updates with latest LLM research findings</p>
-                            </div>
+                        <div className="mb-6 grid gap-2 sm:grid-cols-2">
+                            {[
+                                "Agent workflows",
+                                "Tool use",
+                                "Planning loops",
+                                "Memory patterns",
+                                "Multi-agent systems",
+                                "Evaluation",
+                                "Guardrails",
+                                "Production orchestration"
+                            ].map((topic) => (
+                                <span
+                                    key={topic}
+                                    className="rounded border border-dashed border-zinc-300 bg-white/60 px-3 py-2 font-mono text-[11px] text-black transition-colors group-hover:border-zinc-400"
+                                >
+                                    {topic}
+                                </span>
+                            ))}
                         </div>
 
-                        {/* Technical Topics */}
-                        <div className="mb-6">
-                            <h4 className="text-black font-mono font-bold text-xs uppercase tracking-wider mb-3">Key Topics Covered</h4>
-                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-                                {[
-                                    "Transformer Architecture",
-                                    "Attention Mechanisms",
-                                    "Self-Attention & MHA",
-                                    "Cross-Attention",
-                                    "Positional Encoding",
-                                    "Feed-Forward Networks",
-                                    "Layer Normalization",
-                                    "Fine-tuning Techniques",
-                                    "LoRA & QLoRA",
-                                    "Tokenization",
-                                    "Embeddings",
-                                    "Inference Optimization"
-                                ].map((topic, idx) => (
-                                    <div key={idx} className="border border-dashed border-zinc-300 rounded px-3 py-2 text-xs font-mono text-black bg-white/30 hover:bg-white/40 hover:border-zinc-400 transition">
-                                        {topic}
-                                    </div>
-                                ))}
-                            </div>
+                        <div className="flex flex-col gap-3 sm:flex-row">
+                            <a
+                                href="https://www.udemy.com/course/the-complete-agentic-ai-engineering-course/learn/lecture/49770893?start=165#overview"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex flex-1 items-center justify-center gap-2 rounded border border-dashed border-zinc-300 bg-white/70 px-4 py-3 font-mono text-xs font-bold uppercase tracking-wider text-black transition-all hover:border-zinc-500 hover:bg-white"
+                            >
+                                <BookOpen size={15} />
+                                Udemy Course
+                                <ExternalLink size={13} />
+                            </a>
+                            <a
+                                href="https://github.com/AmoghRavindraRao/AgenticAI"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex flex-1 items-center justify-center gap-2 rounded border border-dashed border-zinc-300 bg-white/70 px-4 py-3 font-mono text-xs font-bold uppercase tracking-wider text-black transition-all hover:border-zinc-500 hover:bg-white"
+                            >
+                                <GitBranch size={15} />
+                                Learning Repo
+                                <ExternalLink size={13} />
+                            </a>
+                        </div>
+                    </div>
+
+                    <div className="group relative overflow-hidden rounded-lg border border-dashed border-zinc-300 bg-white/35 p-5 transition-all duration-300 hover:border-zinc-500 hover:bg-white/55 sm:p-7">
+                        <div className="mb-5 flex flex-wrap items-center gap-2">
+                            <span className="inline-flex items-center gap-1.5 rounded border border-dashed border-zinc-300 bg-white/70 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-widest text-black">
+                                <Target size={13} />
+                                Completed
+                            </span>
+                            <span className="inline-flex items-center gap-1.5 rounded border border-dashed border-zinc-300 bg-white/70 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-widest text-black">
+                                LLM Fundamentals
+                            </span>
                         </div>
 
-                        {/* CTA */}
-                        <div className="flex flex-col sm:flex-row gap-3">
-                            <a 
-                                href="https://github.com/AmoghRavindraRao/LLM_Basics"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex-1 bg-white/40 hover:bg-white/50 text-black font-mono font-bold py-3 px-6 rounded border border-dashed border-zinc-300 hover:border-zinc-400 transition-all duration-300 text-center flex items-center justify-center gap-2"
-                            >
-                                <span>Explore on GitHub</span>
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                                </svg>
-                            </a>
-                            <a 
-                                href="https://github.com/AmoghRavindraRao/LLM_Basics"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex-1 border border-dashed border-zinc-300 hover:border-zinc-400 text-black hover:text-black font-mono font-bold py-3 px-6 rounded bg-white/30 hover:bg-white/40 transition-all duration-300 text-center"
-                            >
-                                Star on GitHub
-                            </a>
+                        <h3 className="mb-3 text-xl font-bold text-black sm:text-2xl">
+                            From Learning Track to Evaluation Project
+                        </h3>
+
+                        <p className="mb-5 text-sm leading-relaxed text-zinc-700 sm:text-base">
+                            The LLM fundamentals learning journey is complete. I converted the study work into the LLM Hallucination Stress-Test Bench, an adversarial evaluation toolkit for surfacing hallucinations with prompt generation, NLI scoring, and retrieval-backed fact checks.
+                        </p>
+
+                        <div className="mb-6 border-l border-dashed border-zinc-300 pl-4">
+                            <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-600">
+                                Resulting Project
+                            </p>
+                            <p className="mt-2 text-sm font-bold text-black">
+                                LLM Hallucination Stress-Test Bench
+                            </p>
+                            <p className="mt-1 text-sm leading-relaxed text-zinc-700">
+                                Now listed as the final project in the project section below.
+                            </p>
                         </div>
+
+                        <a
+                            href="https://github.com/AmoghRavindraRao/hallucination-stress-test-bench"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex w-full items-center justify-center gap-2 rounded border border-dashed border-zinc-300 bg-white/70 px-4 py-3 font-mono text-xs font-bold uppercase tracking-wider text-black transition-all hover:border-zinc-500 hover:bg-white"
+                        >
+                            <GitBranch size={15} />
+                            View Completed Project
+                            <ExternalLink size={13} />
+                        </a>
                     </div>
                 </div>
             </section>
@@ -602,170 +841,20 @@ const Home = () => {
             {/* PATTERN DIVIDER - Before Projects */}
             <PatternDivider />
 
-            {/* PROJECTS SECTION - Grid 2 columns */}
+            {/* PROJECTS SECTION - staggered, tilt-enabled cards */}
             <section className="reveal flex flex-col gap-4 sm:gap-6 md:gap-8">
-                <SectionTitle title="PROJECTS" />
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
-                    {[
-                        {
-                            key: "wafer-defect-semi-supervised",
-                            title: "Semiconductor Wafer Defect Detection",
-                            status: "INDUSTRIAL ML",
-                            desc: "Semi-supervised learning pipeline for semiconductor wafer defect classification using contrastive learning, pseudo-labeling, and test-time augmentation.",
-                            technicalSummary: [
-                                "Two-stage semi-supervised pipeline with contrastive loss and pseudo-labeling",
-                                "SmallViT model with TTA-averaged embeddings and FAISS indexing",
-                                "Monte Carlo Dropout for uncertainty quantification",
-                                "Temperature calibration via LBFGS for reliable confidence scores",
-                                "95%+ precision thresholds with multi-view agreement checks"
-                            ],
-                            tags: ['PyTorch', 'FAISS', 'Semi-supervised Learning'],
-                            href: "https://github.com/AmoghRavindraRao/Semiconductor-Wafer-Defect-Detection"
-                        },
-                        {
-                            key: "llm-council",
-                            title: "LLM Council with Similarity Analysis",
-                            status: "AI / BACKEND",
-                            desc: "Multi-LLM council system with parallel queries, anonymous peer evaluation, and semantic similarity analysis. Features FastAPI + React interface with streaming visualization.",
-                            technicalSummary: [
-                                "FastAPI backend with async task orchestration for parallel LLM queries",
-                                "Semantic similarity analysis using embeddings (OpenAI/HuggingFace)",
-                                "Streaming responses with WebSocket support for real-time visualization",
-                                "React frontend with interactive evaluation interface",
-                                "Docker containerization for scalable deployment"
-                            ],
-                            tags: ['FastAPI', 'React', 'LLM'],
-                            href: "https://github.com/AmoghRavindraRao/LLM-Council"
-                        },
-                        {
-                            key: "f1-prediction",
-                            title: "F1 Race Prediction with Feedback Loop",
-                            status: "ML / DATA",
-                            desc: "End-to-end F1 race outcome prediction pipeline with uncertainty quantification and a post-race incremental retraining loop.",
-                            technicalSummary: [
-                                "PyTorch neural networks with Monte Carlo Dropout for uncertainty estimation",
-                                "FastF1 telemetry data pipeline with real-time preprocessing",
-                                "95% confidence intervals using Bayesian neural networks",
-                                "Experience replay mechanism for incremental model retraining",
-                                "Post-race feedback loop for continuous model improvement"
-                            ],
-                            tags: ['PyTorch', 'FastF1', 'ML'],
-                            href: "https://github.com/AmoghRavindraRao/2024_F1_Prediction"
-                        },
-                        {
-                            key: "diabetes-dashboard",
-                            title: "Healthcare Utilization and Diabetes Outcomes Dashboard",
-                            status: "DATA VISUALIZATION",
-                            desc: "Interactive Tableau dashboard exploring 101,766 inpatient diabetes care records across 130 U.S. hospitals, designed as a decision-support tool for administrators, clinicians, and researchers.",
-                            technicalSummary: [
-                                "Analysis of 101,766 inpatient encounters with 50 demographic and clinical attributes",
-                                "15 interconnected Tableau visualizations with calculated fields",
-                                "Interactive filters for race, gender, age, admission type, and readmission status",
-                                "Dynamic drill-downs for patient-level insights and top-N diagnosis filtering",
-                                "Readmission pattern identification and medication disparity analysis"
-                            ],
-                            tags: ['Tableau', 'Python', 'Data Analysis'],
-                            href: "https://github.com/AmoghRavindraRao/diabetes-dashboard-tableau"
-                        },
-                        {
-                            key: "3d-inpainting",
-                            title: "Hybrid Inpainting Data Analysis for 3D Meshes",
-                            status: "RESEARCH",
-                            desc: "Hybrid 3D mesh inpainting system combining diffusion models with Neural Radiance Fields for high-accuracy mesh restoration.",
-                            technicalSummary: [
-                                "Neural Radiance Fields (NeRF) for implicit 3D scene representation",
-                                "Diffusion models for generative 3D inpainting",
-                                "PyTorch with custom CUDA kernels for volumetric rendering",
-                                "Multi-view image processing and 3D mesh reconstruction",
-                                "Hybrid approach combining NeRF latent spaces with diffusion for inpainting"
-                            ],
-                            tags: ['NeRF', 'Diffusion', 'PyTorch'],
-                            href: "https://github.com/AmoghRavindraRao/3D-Mesh-Inpainting-with-NerF---Diffusion"
-                        },
-                        {
-                            key: "sp500-regression",
-                            title: "Modeling the S&P 500 with Linear Regression",
-                            status: "DATA SCIENCE",
-                            desc: "Predictive regression model on macroeconomic indicators to detect financial risk patterns and anomalies in S&P 500 returns.",
-                            technicalSummary: [
-                                "Linear regression models on macroeconomic features (Treasury yields, oil prices)",
-                                "Statistical hypothesis testing and feature significance analysis",
-                                "Model evaluation via R-squared, RMSE, and residual diagnostics",
-                                "Risk pattern detection and anomaly identification",
-                                "Insights into model limitations for non-linear dynamics in financial markets"
-                            ],
-                            tags: ['R', 'Statistics', 'Finance'],
-                            href: "#"
-                        },
-                        {
-                            key: "gaming-platform",
-                            title: "Distributed Online Gaming Platform",
-                            status: "FULL-STACK",
-                            desc: "Dockerized microservices gaming platform with Flask and MongoDB, supporting data science use cases via BSON gameplay datasets.",
-                            technicalSummary: [
-                                "Microservices architecture with Flask APIs",
-                                "MongoDB for scalable gameplay data storage",
-                                "Docker containerization for reproducible deployments",
-                                "BSON dataset processing for data science pipelines",
-                                "Optimized schema design for query performance"
-                            ],
-                            tags: ['Flask', 'MongoDB', 'Docker'],
-                            href: "#"
-                        },
-                        {
-                            key: "anpr-system",
-                            title: "Automatic Number Plate Detection",
-                            status: "COMPUTER VISION",
-                            desc: "Real-time Automatic Number Plate Recognition system using YOLOv8 for detection and EasyOCR for text extraction from license plates.",
-                            technicalSummary: [
-                                "YOLOv8 for vehicle and license plate detection",
-                                "EasyOCR for multi-script text recognition",
-                                "Real-time video stream processing pipeline",
-                                "OpenCV preprocessing for enhanced detection accuracy",
-                                "End-to-end integration of detection and OCR components"
-                            ],
-                            tags: ['YOLOv8', 'OCR', 'OpenCV'],
-                            href: "#"
-                        },
-                        {
-                            key: "catching-ball-game",
-                            title: "Catching Ball Game",
-                            status: "COMPUTER VISION",
-                            desc: "Interactive computer vision game with structured data logging and performance-optimized rendering.",
-                            technicalSummary: [
-                                "OpenCV for real-time video capture and object detection",
-                                "Structured data logging from 100+ users for behavior analysis",
-                                "Scoring algorithms with engagement optimization (40% improvement)",
-                                "Rendering efficiency enhancements (25% frame rate boost)",
-                                "Performance-driven computation and optimization"
-                            ],
-                            tags: ['OpenCV', 'C', 'Computer Vision'],
-                            href: "#"
-                        },
-                        {
-                            key: "railway-system",
-                            title: "Railway Reservation System",
-                            status: "FULL-STACK",
-                            desc: "Full-stack railway booking system with ticket booking, cancellation, admin role-based access, and normalized MySQL schema.",
-                            technicalSummary: [
-                                "React frontend with intuitive booking interface",
-                                "PHP backend with secure authentication",
-                                "MySQL relational database with normalized schema",
-                                "Real-time seat tracking and availability management",
-                                "Role-based access control for admin/user operations"
-                            ],
-                            tags: ['React', 'PHP', 'MySQL'],
-                            href: "#"
-                        }
-                    ].map((project) => (
+                <div className="flex items-center justify-between gap-3">
+                    <SectionTitle title="PROJECTS" />
+                    <span className="font-mono text-[10px] sm:text-xs uppercase tracking-wider text-zinc-600">
+                        {PROJECTS.length} selected
+                    </span>
+                </div>
+                <div className="grid grid-cols-1 items-start gap-4 sm:grid-cols-2 sm:gap-5 md:gap-6">
+                    {PROJECTS.map(({ key, ...project }, index) => (
                         <ProjectCard
-                            key={project.key}
-                            title={project.title}
-                            status={project.status}
-                            desc={project.desc}
-                            technicalSummary={project.technicalSummary}
-                            tags={project.tags}
-                            href={project.href}
+                            key={key}
+                            {...project}
+                            index={index}
                         />
                     ))}
                 </div>

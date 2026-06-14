@@ -16,6 +16,7 @@ import {
   TimelineSEO,
   BooksSEO,
   SnippetsSEO,
+  ResumeSEO,
   NotFoundSEO
 } from '~components/SEO';
 
@@ -31,6 +32,7 @@ const Toolbox = lazy(() => import('~pages/Toolbox'));
 const Timeline = lazy(() => import('~pages/Timeline'));
 const Books = lazy(() => import('~pages/Books'));
 const Snippets = lazy(() => import('~pages/Snippets'));
+const Resume = lazy(() => import('~pages/Resume'));
 const NotFound = lazy(() => import('~pages/NotFound'));
 
 
@@ -62,20 +64,48 @@ function App() {
       });
     }, observerOptions);
 
+    const observedElements = new Set<Element>();
+
+    const observeReveal = (element: Element) => {
+      if (observedElements.has(element)) return;
+
+      element.classList.remove('visible');
+      observer.observe(element);
+      observedElements.add(element);
+    };
+
+    const observeRevealsIn = (root: ParentNode) => {
+      root.querySelectorAll('.reveal').forEach(observeReveal);
+    };
+
     // Give DOM time to update with new page content
     const timer = setTimeout(() => {
-      const reveals = document.querySelectorAll('.reveal');
-      reveals.forEach(el => {
-        // Reset visibility for new page
-        el.classList.remove('visible');
-        observer.observe(el);
-      });
+      observeRevealsIn(document);
     }, 50);
+
+    const mutationObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          if (!(node instanceof Element)) return;
+
+          if (node.matches('.reveal')) {
+            observeReveal(node);
+          }
+
+          observeRevealsIn(node);
+        });
+      });
+    });
+
+    mutationObserver.observe(document.getElementById('main-content') ?? document.body, {
+      childList: true,
+      subtree: true
+    });
 
     return () => {
       clearTimeout(timer);
-      const reveals = document.querySelectorAll('.reveal');
-      reveals.forEach(el => observer.unobserve(el));
+      mutationObserver.disconnect();
+      observedElements.forEach(el => observer.unobserve(el));
     };
   }, [location]);
 
@@ -121,6 +151,7 @@ function App() {
                     <Route path="/timeline" element={<><TimelineSEO /><Timeline /></>} />
                     <Route path="/books" element={<><BooksSEO /><Books /></>} />
                     <Route path="/snippets" element={<><SnippetsSEO /><Snippets /></>} />
+                    <Route path="/resume" element={<><ResumeSEO /><Resume /></>} />
                     <Route path="*" element={<><NotFoundSEO /><NotFound /></>} />
                   </Routes>
                 </SuspenseLoader>
